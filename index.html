@@ -15,3 +15,5 @@
     <script>        function launchGame(path) {            const user = "chistorrita";            const repo = "page";                        // Usamos GitHub Pages para que el juego se ejecute correctamente            const fullUrl = `https://${user}.github.io/${repo}/${path}`;                        document.getElementById('game-frame').src = fullUrl;            document.getElementById('game-view').style.display = 'block';            document.body.style.overflow = 'hidden';         }
         function closeGame() {            document.getElementById('game-view').style.display = 'none';            document.getElementById('game-frame').src = '';            document.body.style.overflow = 'auto';         }
         function filterGames() {            let input = document.getElementById('search').value.toLowerCase();            let cards = document.getElementsByClassName('game-card');            for (let i = 0; i < cards.length; i++) {                let name = cards[i].getElementsByTagName('span')[0].innerText.toLowerCase();                cards[i].style.display = name.includes(input) ? "block" : "none";            }        }    </script></body></html>
+
+ 
