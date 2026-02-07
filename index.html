@@ -2,35 +2,143 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Mi Portal de Juegos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miku Portal - Acceso Privado</title>
     <style>
-        body { background-color: #1a1a1a; color: white; font-family: sans-serif; text-align: center; }
-        .grid { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; padding: 20px; }
-        .game-card { border: 2px solid #333; padding: 10px; border-radius: 10px; cursor: pointer; transition: 0.3s; width: 200px; }
-        .game-card:hover { transform: scale(1.05); border-color: #00ff00; }
-        img { width: 100%; border-radius: 5px; }
+        /* Paleta de Colores Miku: Cian (#39C5BB), Rosa (#E12885), Negro (#1A1A1A) */
+        :root {
+            --miku-cyan: #39C5BB;
+            --miku-pink: #E12885;
+            --miku-dark: #1A1A1A;
+            --miku-grey: #333333;
+        }
+
+        body { 
+            background-color: var(--miku-dark); 
+            color: white; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            text-align: center;
+        }
+
+        /* Cabecera Estilo Vocaloid */
+        header { 
+            padding: 50px 20px; 
+            background: linear-gradient(180deg, #222 0%, var(--miku-dark) 100%);
+            border-bottom: 4px solid var(--miku-cyan);
+        }
+        
+        h1 { 
+            color: var(--miku-cyan);
+            text-shadow: 2px 2px 0px var(--miku-pink), 0 0 15px rgba(57, 197, 187, 0.5);
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            margin: 0;
+        }
+
+        .search-container { margin-top: 30px; }
+        .search-bar { 
+            padding: 12px 20px; width: 80%; max-width: 450px;
+            border-radius: 25px; border: 2px solid var(--miku-cyan); 
+            background: rgba(255, 255, 255, 0.1); color: white; 
+            outline: none; transition: 0.3s;
+            font-size: 1rem;
+        }
+        .search-bar:focus { 
+            border-color: var(--miku-pink);
+            box-shadow: 0 0 15px rgba(225, 40, 133, 0.4);
+        }
+
+        /* Grid de Juegos */
+        .container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); 
+            gap: 30px; padding: 40px 20px; max-width: 1200px; margin: 0 auto; 
+        }
+
+        .game-card { 
+            background: var(--miku-grey); 
+            border: 2px solid transparent;
+            border-radius: 15px; 
+            padding: 10px; cursor: pointer; transition: 0.4s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .game-card:hover { 
+            border-color: var(--miku-cyan); 
+            transform: scale(1.05) rotate(1deg);
+            box-shadow: 0 0 20px rgba(57, 197, 187, 0.3);
+        }
+
+        .game-card img { 
+            width: 100%; height: 130px; border-radius: 10px; 
+            object-fit: cover; margin-bottom: 10px;
+        }
+
+        .game-card span { 
+            font-weight: bold; color: var(--miku-cyan);
+            display: block; font-size: 1.1rem;
+        }
+
+        /* Visor de Juegos */
+        #game-view { 
+            display: none; position: fixed; top: 0; left: 0; 
+            width: 100%; height: 100%; background: #000; z-index: 9999; 
+        }
+        #game-view iframe { width: 100%; height: 100%; border: none; }
+        
+        .back-btn { 
+            position: absolute; top: 20px; left: 20px; padding: 12px 25px; 
+            background: var(--miku-pink); color: white; border: none; 
+            border-radius: 50px; cursor: pointer; font-weight: bold;
+            z-index: 10000; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
     </style>
 </head>
 <body>
-    <h1>Bienvenido a Mi Espacio Secreto</h1>
-    <p>Selecciona un juego:</p>
 
-    <div class="grid">
-        <div class="game-card" onclick="openGame('https://chromedino.com/')">
-            <img src="https://via.placeholder.com/150x100?text=Dino+Game" alt="Dino">
-            <h3>Dino Run</h3>
+    <header>
+        <h1>01 PROJECT MIKU</h1>
+        <div class="search-container">
+            <input type="text" id="search" class="search-bar" placeholder="Buscar software musical o juegos..." onkeyup="filterGames()">
+        </div>
+    </header>
+
+    <div class="container" id="game-list">
+        
+        <div class="game-card" onclick="launchGame('juegos/fnf/fnf3.html')">
+            <img src="https://img.itch.zone/aW1nLzQ0ODUwMjcucG5n/original/unmYmY.png" alt="FNF 3">
+            <span>FNF vs Miku Mod</span>
         </div>
 
-        <div class="game-card" onclick="openGame('https://play2048.co/')">
-            <img src="https://via.placeholder.com/150x100?text=2048" alt="2048">
-            <h3>2048 Classic</h3>
         </div>
+
+    <div id="game-view">
+        <button class="back-btn" onclick="closeGame()">← VOLVER AL PORTAL</button>
+        <iframe id="game-frame" src=""></iframe>
     </div>
 
     <script>
-        function openGame(url) {
-            // Esto permite que el juego se abra en pantalla completa dentro de la misma ventana about:blank
-            document.body.innerHTML = `<iframe src="${url}" style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;"></iframe>`;
+        function launchGame(path) {
+            const user = "chistorrita";
+            const repo = "page";
+            const fullUrl = `https://cdn.jsdelivr.net/gh/${user}/${repo}@main/${path}`;
+            document.getElementById('game-frame').src = fullUrl;
+            document.getElementById('game-view').style.display = 'block';
+        }
+
+        function closeGame() {
+            document.getElementById('game-view').style.display = 'none';
+            document.getElementById('game-frame').src = '';
+        }
+
+        function filterGames() {
+            let input = document.getElementById('search').value.toLowerCase();
+            let cards = document.getElementsByClassName('game-card');
+            for (let i = 0; i < cards.length; i++) {
+                let name = cards[i].getElementsByTagName('span')[0].innerText.toLowerCase();
+                cards[i].style.display = name.includes(input) ? "block" : "none";
+            }
         }
     </script>
 </body>
