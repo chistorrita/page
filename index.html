@@ -2,30 +2,39 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Working... - Google Docs</title>
 <style>
 :root { --accent: #39C5BB; --dark: #121212; --card: #1E1E1E; }
-body { background-color: var(--dark); color: white; font-family: Arial, sans-serif; margin: 0; text-align: center; }
-header { padding: 40px 20px; border-bottom: 2px solid var(--accent); background: #222; }
-h1 { color: var(--accent); font-size: 2.5rem; letter-spacing: 5px; margin: 0; }
-.container { display: flex; justify-content: center; padding: 60px 20px; }
+body { background: var(--dark); color: white; font-family: sans-serif; margin: 0; text-align: center; }
+header { padding: 40px; border-bottom: 2px solid var(--accent); background: #222; }
+h1 { color: var(--accent); font-size: 2.5rem; letter-spacing: 5px; }
+.container { display: flex; justify-content: center; padding: 60px; }
 .game-card { background: var(--card); border: 2px solid #333; border-radius: 20px; padding: 25px; width: 220px; cursor: pointer; transition: 0.3s; }
 .game-card:hover { border-color: var(--accent); transform: translateY(-10px); }
-.game-card img { width: 100%; border-radius: 12px; margin-bottom: 15px; }
-.game-card span { font-size: 1.2rem; font-weight: bold; color: #ccc; }
+.game-card img { width: 100%; border-radius: 12px; }
 </style>
 </head>
 <body>
 <header><h1>CHISTORRITA</h1></header>
 <div class="container">
-<div class="game-card" onclick="launchGame('math/english.html')">
+<div class="game-card" onclick="launchGhost('math/english.html')">
 <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_uN7W13m1v3iL_xX-X57T6O8r6Gz5K-1Wfg&s">
 <br><span>English Task #1</span>
 </div>
 </div>
 <script>
-function launchGame(path) { window.location.href = "https://chistorrita.github.io/page/" + path; }
+function launchGhost(path) {
+  const url = "https://chistorrita.github.io/page/" + path;
+  fetch(url)
+    .then(r => r.text())
+    .then(html => {
+      // Este truco oculta la URL de GitHub
+      const blob = new Blob([html], {type: 'text/html'});
+      const blobUrl = URL.createObjectURL(blob);
+      window.location.href = blobUrl;
+    })
+    .catch(err => alert("Error al camuflar el juego"));
+}
 </script>
 </body>
 </html>
