@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>English Homework - Unit 1</title>
     <style>
-        /* Estilos del Portal */
         :root {
-            --accent: #39C5BB; /* El color turquesa */
+            --accent: #39C5BB;
             --dark: #121212;
             --card: #1E1E1E;
         }
@@ -15,87 +14,48 @@
         body { 
             background-color: var(--dark); 
             color: white; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            font-family: 'Segoe UI', sans-serif; 
             margin: 0; 
-            overflow-x: hidden;
+            text-align: center;
         }
 
         header { 
-            padding: 50px 20px; 
-            text-align: center;
+            padding: 40px 20px; 
             border-bottom: 2px solid var(--accent);
             background: linear-gradient(0deg, var(--dark) 0%, #252525 100%);
         }
         
-        h1 { 
-            color: var(--accent);
-            font-size: 3rem;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            text-shadow: 0 0 20px rgba(57, 197, 187, 0.4);
-        }
+        h1 { color: var(--accent); font-size: 2.5rem; letter-spacing: 5px; }
 
-        .container { 
-            display: flex;
-            justify-content: center;
-            padding: 50px 20px;
-        }
+        .container { display: flex; justify-content: center; padding: 50px; }
 
-        /* La tarjeta del juego */
         .game-card { 
             background: var(--card); 
             border: 1px solid #333;
             border-radius: 20px; 
             padding: 20px; 
-            width: 250px;
+            width: 220px;
             cursor: pointer; 
-            transition: all 0.3s ease;
-            text-align: center;
+            transition: 0.3s;
         }
 
-        .game-card:hover { 
-            border-color: var(--accent); 
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
+        .game-card:hover { border-color: var(--accent); transform: translateY(-10px); }
 
-        .game-card img { 
-            width: 100%; 
-            border-radius: 12px; 
-            margin-bottom: 15px;
-        }
+        .game-card img { width: 100%; border-radius: 10px; }
 
-        .game-card span {
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: #ddd;
-        }
-
-        /* El visor del juego */
+        /* VISOR DEL JUEGO */
         #game-view { 
             display: none; 
             position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: #000; 
-            z-index: 9999; 
+            top: 0; left: 0; width: 100%; height: 100%; 
+            background: #000; z-index: 9999; 
         }
         
         .back-btn { 
-            position: absolute; 
-            top: 15px; 
-            left: 15px; 
-            padding: 10px 20px; 
-            background: #ff2d55; 
-            color: white; 
-            border: none; 
-            border-radius: 5px; 
-            cursor: pointer; 
-            z-index: 10000; 
-            font-weight: bold;
+            position: absolute; top: 15px; left: 15px; 
+            padding: 10px 20px; background: #ff2d55; 
+            color: white; border: none; border-radius: 5px; 
+            cursor: pointer; z-index: 10000; font-weight: bold;
         }
     </style>
 </head>
@@ -108,7 +68,7 @@
     <div class="container">
         <div class="game-card" onclick="launchGame('math/english.html')">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_uN7W13m1v3iL_xX-X57T6O8r6Gz5K-1Wfg&s" alt="Homework">
-            <span>English Task #1</span>
+            <p>English Task #1</p>
         </div>
     </div>
 
@@ -119,11 +79,12 @@
 
     <script>
         function launchGame(path) {
-            // Construye la URL dinámicamente
+            // Esta línea une tu link con la nueva carpeta math/english.html
             const fullUrl = window.location.origin + "/page/" + path;
+            
             document.getElementById('game-frame').src = fullUrl;
             document.getElementById('game-view').style.display = 'block';
-            document.title = "Working... - Google Docs"; // Cambia el título de la pestaña para ocultarlo
+            document.title = "Working... - Google Docs"; 
         }
 
         function closeGame() {
