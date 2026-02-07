@@ -3,85 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chistorrita Portal</title>
+    <title>English Homework - Unit 1</title>
     <style>
+        /* Estilos del Portal */
         :root {
-            --miku-cyan: #39C5BB;
-            --miku-pink: #E12885;
-            --miku-dark: #1A1A1A;
-            --miku-grey: #2a2a2a;
+            --accent: #39C5BB; /* El color turquesa */
+            --dark: #121212;
+            --card: #1E1E1E;
         }
 
         body { 
-            background-color: var(--miku-dark); 
+            background-color: var(--dark); 
             color: white; 
-            font-family: 'Segoe UI', Arial, sans-serif; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             margin: 0; 
-            text-align: center;
+            overflow-x: hidden;
         }
 
         header { 
-            padding: 45px 20px; 
-            background: linear-gradient(180deg, #222 0%, var(--miku-dark) 100%);
-            border-bottom: 4px solid var(--miku-cyan);
+            padding: 50px 20px; 
+            text-align: center;
+            border-bottom: 2px solid var(--accent);
+            background: linear-gradient(0deg, var(--dark) 0%, #252525 100%);
         }
         
         h1 { 
-            color: var(--miku-cyan);
-            text-shadow: 2px 2px 0px var(--miku-pink), 0 0 15px rgba(57, 197, 187, 0.5);
-            font-size: 2.8rem;
+            color: var(--accent);
+            font-size: 3rem;
             margin: 0;
-            letter-spacing: 3px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 0 0 20px rgba(57, 197, 187, 0.4);
         }
 
         .container { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
-            gap: 25px; padding: 40px 20px; max-width: 1100px; margin: 0 auto; 
+            display: flex;
+            justify-content: center;
+            padding: 50px 20px;
         }
 
+        /* La tarjeta del juego */
         .game-card { 
-            background: var(--miku-grey); 
-            border: 2px solid transparent;
-            border-radius: 15px; 
-            padding: 15px; cursor: pointer; transition: 0.3s ease;
+            background: var(--card); 
+            border: 1px solid #333;
+            border-radius: 20px; 
+            padding: 20px; 
+            width: 250px;
+            cursor: pointer; 
+            transition: all 0.3s ease;
+            text-align: center;
         }
 
-        .game-card:hover { border-color: var(--miku-cyan); transform: translateY(-5px); }
+        .game-card:hover { 
+            border-color: var(--accent); 
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
 
-        .game-card img { width: 100%; height: 120px; border-radius: 10px; object-fit: cover; }
+        .game-card img { 
+            width: 100%; 
+            border-radius: 12px; 
+            margin-bottom: 15px;
+        }
 
-        #game-view { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; }
+        .game-card span {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #ddd;
+        }
+
+        /* El visor del juego */
+        #game-view { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: #000; 
+            z-index: 9999; 
+        }
         
-        .back-btn { position: absolute; top: 20px; left: 20px; padding: 12px 25px; background: var(--miku-pink); color: white; border: none; border-radius: 50px; cursor: pointer; z-index: 10000; }
+        .back-btn { 
+            position: absolute; 
+            top: 15px; 
+            left: 15px; 
+            padding: 10px 20px; 
+            background: #ff2d55; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            z-index: 10000; 
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
+
     <header>
         <h1>CHISTORRITA</h1>
     </header>
 
     <div class="container">
-        <div class="game-card" onclick="launchGame('juegos/fnf/fnf3.html')">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_uN7W13m1v3iL_xX-X57T6O8r6Gz5K-1Wfg&s" alt="FNF">
-            <span>Friday Night Funkin 3</span>
+        <div class="game-card" onclick="launchGame('math/english.html')">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_uN7W13m1v3iL_xX-X57T6O8r6Gz5K-1Wfg&s" alt="Homework">
+            <span>English Task #1</span>
         </div>
     </div>
 
     <div id="game-view">
-        <button class="back-btn" onclick="closeGame()">← VOLVER AL PORTAL</button>
+        <button class="back-btn" onclick="closeGame()">← EXIT TASK</button>
         <iframe id="game-frame" src="" style="width:100%; height:100%; border:none;"></iframe>
     </div>
 
     <script>
         function launchGame(path) {
-            const url = `https://chistorrita.github.io/page/${path}`;
-            document.getElementById('game-frame').src = url;
+            // Construye la URL dinámicamente
+            const fullUrl = window.location.origin + "/page/" + path;
+            document.getElementById('game-frame').src = fullUrl;
             document.getElementById('game-view').style.display = 'block';
+            document.title = "Working... - Google Docs"; // Cambia el título de la pestaña para ocultarlo
         }
+
         function closeGame() {
             document.getElementById('game-view').style.display = 'none';
             document.getElementById('game-frame').src = '';
+            document.title = "English Homework - Unit 1";
         }
     </script>
 </body>
