@@ -1,19 +1,156 @@
-<!DOCTYPE html><html lang="es"><head>    <meta charset="UTF-8">    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Chistorrita Portal</title>    <style>        /* Paleta de Colores: Cian (#39C5BB), Rosa (#E12885), Negro (#1A1A1A) */        :root {            --miku-cyan: #39C5BB;            --miku-pink: #E12885;            --miku-dark: #1A1A1A;            --miku-grey: #2a2a2a;        }
-        body {             background-color: var(--miku-dark);             color: white;             font-family: 'Segoe UI', Arial, sans-serif;             margin: 0;             text-align: center;            overflow-x: hidden;        }
-        /* Cabecera personalizada */        header {             padding: 45px 20px;             background: linear-gradient(180deg, #222 0%, var(--miku-dark) 100%);            border-bottom: 4px solid var(--miku-cyan);        }                h1 {             color: var(--miku-cyan);            text-shadow: 2px 2px 0px var(--miku-pink), 0 0 15px rgba(57, 197, 187, 0.5);            font-size: 2.8rem;            margin: 0;            letter-spacing: 3px;            text-transform: uppercase;        }
-        /* Buscador */        .search-container { margin-top: 25px; }        .search-bar {             padding: 12px 25px; width: 70%; max-width: 500px;            border-radius: 50px; border: 2px solid var(--miku-cyan);             background: rgba(0, 0, 0, 0.5); color: white;             outline: none; transition: 0.3s;            font-size: 1rem;        }        .search-bar:focus {             border-color: var(--miku-pink);            box-shadow: 0 0 15px rgba(225, 40, 133, 0.4);        }
-        /* Grid de Juegos */        .container {             display: grid;             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));             gap: 25px; padding: 40px 20px; max-width: 1100px; margin: 0 auto;         }
-        .game-card {             background: var(--miku-grey);             border: 2px solid transparent;            border-radius: 15px;             padding: 15px; cursor: pointer; transition: 0.3s ease;            box-shadow: 0 5px 15px rgba(0,0,0,0.5);        }
-        .game-card:hover {             border-color: var(--miku-cyan);             transform: translateY(-5px);            box-shadow: 0 0 20px rgba(57, 197, 187, 0.3);        }
-        .game-card img {             width: 100%; height: 120px; border-radius: 10px;             object-fit: cover; margin-bottom: 12px;            border: 1px solid #444;        }
-        .game-card span {             font-weight: bold; color: var(--miku-cyan);            display: block; font-size: 1.1rem;        }
-        /* Visor de Juegos (Iframe) */        #game-view {             display: none; position: fixed; top: 0; left: 0;             width: 100%; height: 100%; background: #000; z-index: 9999;         }        #game-view iframe { width: 100%; height: 100%; border: none; }                .back-btn {             position: absolute; top: 20px; left: 20px; padding: 12px 25px;             background: var(--miku-pink); color: white; border: none;             border-radius: 50px; cursor: pointer; font-weight: bold;            z-index: 10000; box-shadow: 0 4px 10px rgba(0,0,0,0.5);        }        .back-btn:hover { background: #b3206a; transform: scale(1.05); }    </style></head><body>
-    <header>        <h1>CHISTORRITA</h1>        <div class="search-container">            <input type="text" id="search" class="search-bar" placeholder="Buscar en el portal de Chistorrita..." onkeyup="filterGames()">        </div>    </header>
-    <div class="container" id="game-list">                <div class="game-card" onclick="launchGame('juegos/fnf/fnf3.html')">            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_uN7W13m1v3iL_xX-X57T6O8r6Gz5K-1Wfg&s" alt="FNF">            <span>Friday Night Funkin 3</span>        </div>
-    </div>
-    <div id="game-view">        <button class="back-btn" onclick="closeGame()">← VOLVER AL PORTAL</button>        <iframe id="game-frame" src=""></iframe>    </div>
-    <script>        function launchGame(path) {            const user = "chistorrita";            const repo = "page";                        // Usamos GitHub Pages para que el juego se ejecute correctamente            const fullUrl = `https://${user}.github.io/${repo}/${path}`;                        document.getElementById('game-frame').src = fullUrl;            document.getElementById('game-view').style.display = 'block';            document.body.style.overflow = 'hidden';         }
-        function closeGame() {            document.getElementById('game-view').style.display = 'none';            document.getElementById('game-frame').src = '';            document.body.style.overflow = 'auto';         }
-        function filterGames() {            let input = document.getElementById('search').value.toLowerCase();            let cards = document.getElementsByClassName('game-card');            for (let i = 0; i < cards.length; i++) {                let name = cards[i].getElementsByTagName('span')[0].innerText.toLowerCase();                cards[i].style.display = name.includes(input) ? "block" : "none";            }        }    </script></body></html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chistorrita Portal</title>
+    <style>
+        /* Paleta de Colores: Cian (#39C5BB), Rosa (#E12885), Negro (#1A1A1A) */
+        :root {
+            --miku-cyan: #39C5BB;
+            --miku-pink: #E12885;
+            --miku-dark: #1A1A1A;
+            --miku-grey: #2a2a2a;
+        }
 
- 
+        body { 
+            background-color: var(--miku-dark); 
+            color: white; 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            margin: 0; 
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        /* Cabecera personalizada */
+        header { 
+            padding: 45px 20px; 
+            background: linear-gradient(180deg, #222 0%, var(--miku-dark) 100%);
+            border-bottom: 4px solid var(--miku-cyan);
+        }
+        
+        h1 { 
+            color: var(--miku-cyan);
+            text-shadow: 2px 2px 0px var(--miku-pink), 0 0 15px rgba(57, 197, 187, 0.5);
+            font-size: 2.8rem;
+            margin: 0;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* Buscador */
+        .search-container { margin-top: 25px; }
+        .search-bar { 
+            padding: 12px 25px; width: 70%; max-width: 500px;
+            border-radius: 50px; border: 2px solid var(--miku-cyan); 
+            background: rgba(0, 0, 0, 0.5); color: white; 
+            outline: none; transition: 0.3s;
+            font-size: 1rem;
+        }
+        .search-bar:focus { 
+            border-color: var(--miku-pink);
+            box-shadow: 0 0 15px rgba(225, 40, 133, 0.4);
+        }
+
+        /* Grid de Juegos */
+        .container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+            gap: 25px; padding: 40px 20px; max-width: 1100px; margin: 0 auto; 
+        }
+
+        .game-card { 
+            background: var(--miku-grey); 
+            border: 2px solid transparent;
+            border-radius: 15px; 
+            padding: 15px; cursor: pointer; transition: 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .game-card:hover { 
+            border-color: var(--miku-cyan); 
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(57, 197, 187, 0.3);
+        }
+
+        .game-card img { 
+            width: 100%; height: 120px; border-radius: 10px; 
+            object-fit: cover; margin-bottom: 12px;
+            border: 1px solid #444;
+        }
+
+        .game-card span { 
+            font-weight: bold; color: var(--miku-cyan);
+            display: block; font-size: 1.1rem;
+        }
+
+        /* Visor de Juegos (Iframe) */
+        #game-view { 
+            display: none; position: fixed; top: 0; left: 0; 
+            width: 100%; height: 100%; background: #000; z-index: 9999; 
+        }
+        #game-view iframe { width: 100%; height: 100%; border: none; }
+        
+        .back-btn { 
+            position: absolute; top: 20px; left: 20px; padding: 12px 25px; 
+            background: var(--miku-pink); color: white; border: none; 
+            border-radius: 50px; cursor: pointer; font-weight: bold;
+            z-index: 10000; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+        .back-btn:hover { background: #b3206a; transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>CHISTORRITA</h1>
+        <div class="search-container">
+            <input type="text" id="search" class="search-bar" placeholder="Buscar en el portal de Chistorrita..." onkeyup="filterGames()">
+        </div>
+    </header>
+
+    <div class="container" id="game-list">
+        
+        <div class="game-card" onclick="launchGame('juegos/fnf/fnf3.html')">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_uN7W13m1v3iL_xX-X57T6O8r6Gz5K-1Wfg&s" alt="FNF">
+            <span>Friday Night Funkin 3</span>
+        </div>
+
+    </div>
+
+    <div id="game-view">
+        <button class="back-btn" onclick="closeGame()">← VOLVER AL PORTAL</button>
+        <iframe id="game-frame" src=""></iframe>
+    </div>
+
+    <script>
+        function launchGame(path) {
+            const user = "chistorrita";
+            const repo = "page";
+            
+            // Usamos GitHub Pages para que el juego se ejecute correctamente
+            const fullUrl = `https://${user}.github.io/${repo}/${path}`;
+            
+            document.getElementById('game-frame').src = fullUrl;
+            document.getElementById('game-view').style.display = 'block';
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeGame() {
+            document.getElementById('game-view').style.display = 'none';
+            document.getElementById('game-frame').src = '';
+            document.body.style.overflow = 'auto'; 
+        }
+
+        function filterGames() {
+            let input = document.getElementById('search').value.toLowerCase();
+            let cards = document.getElementsByClassName('game-card');
+            for (let i = 0; i < cards.length; i++) {
+                let name = cards[i].getElementsByTagName('span')[0].innerText.toLowerCase();
+                cards[i].style.display = name.includes(input) ? "block" : "none";
+            }
+        }
+    </script>
+</body>
+</html>
+
