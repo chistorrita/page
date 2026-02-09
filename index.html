@@ -8,40 +8,49 @@
 body { background: var(--dark); color: white; font-family: sans-serif; margin: 0; text-align: center; }
 header { padding: 40px; border-bottom: 2px solid var(--accent); background: #222; }
 h1 { color: var(--accent); font-size: 2.5rem; letter-spacing: 5px; margin: 0; }
-.container { display: flex; justify-content: center; padding: 60px; }
-.game-card { background: var(--card); border: 2px solid #333; border-radius: 20px; padding: 25px; width: 220px; cursor: pointer; transition: 0.3s; }
-.game-card:hover { border-color: var(--accent); transform: translateY(-10px); }
-.game-card img { width: 100%; border-radius: 12px; }
-span { display: block; margin-top: 15px; font-weight: bold; color: #ccc; }
+.container { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; padding: 40px; max-width: 1100px; margin: auto; }
+.game-card { background: var(--card); border: 2px solid #333; border-radius: 20px; padding: 15px; cursor: pointer; transition: 0.3s; }
+.game-card:hover { border-color: var(--accent); transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+.game-card img { width: 100%; height: 150px; border-radius: 12px; object-fit: cover; background: #333; }
+span { display: block; margin-top: 15px; font-weight: bold; color: #ccc; font-size: 0.95rem; }
 </style>
 </head>
 <body>
 <header><h1>CHISTORRITA</h1></header>
+
 <div class="container">
-<div class="game-card" onclick="launchGhost('math/english.html')">
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_uN7W13m1v3iL_xX-X57T6O8r6Gz5K-1Wfg&s">
-<span>English Task #1</span>
+  <div class="game-card" onclick="launchGhost('math/english.html')">
+    <img src="https://images.gamebanana.com/img/ss/mods/65cb87a015247.jpg">
+    <span>English Task #1: FNF vs FNAF 3</span>
+  </div>
+
+  <div class="game-card" onclick="launchGhost('math/cuartos.html')">
+    <img src="https://images.sftcdn.net/images/t_app-cover-s-16-9,f_auto/p/f7ecad09-1b61-429f-b42d-0b5f3254be83/3110476367/the-backrooms-game-screenshot">
+    <span>Math Quiz: Backrooms</span>
+  </div>
+
+  <div class="game-card" onclick="launchGhost('math/doki.html')">
+    <img src="https://image.api.playstation.com/vulcan/img/rnd/202107/1418/3xIQlFWEBEUNrbSOpbUxu7Pd.png">
+    <span>Literature Task: Doki Doki Club</span>
+  </div>
+
+  <div class="game-card" onclick="launchGhost('math/vampiro.html')">
+    <img src="https://assets-prd.ignimgs.com/2020/09/04/castlevania-aria-of-sorrow-button-crop-1599254632265.jpg">
+    <span>History Unit: Aria of Sorrow</span>
+  </div>
 </div>
-</div>
+
 <script>
 function launchGhost(path) {
-  // Cambiado a JSDelivr para evitar bloqueos de seguridad (CORS)
   const url = "https://cdn.jsdelivr.net/gh/chistorrita/page@main/" + path + "?t=" + Date.now();
-  
   fetch(url)
-    .then(r => {
-      if (!r.ok) throw new Error();
-      return r.text();
-    })
+    .then(r => { if (!r.ok) throw new Error(); return r.text(); })
     .then(html => {
       const blob = new Blob([html], {type: 'text/html'});
       const blobUrl = URL.createObjectURL(blob);
       window.location.href = blobUrl;
     })
-    .catch(err => {
-      console.error(err);
-      alert("Error de conexión escolar (CORS/Network)");
-    });
+    .catch(err => alert("Error de conexión escolar"));
 }
 </script>
 </body>
