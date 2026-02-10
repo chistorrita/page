@@ -15,11 +15,9 @@ h1 { color: var(--accent); font-size: 2.5rem; letter-spacing: 5px; margin: 0; }
 .game-card img { width: 100%; height: 140px; border-radius: 12px; object-fit: cover; background: #333; }
 span { display: block; margin-top: 15px; font-weight: bold; color: #ccc; font-size: 0.9rem; }
 
-/* Capas Superpuestas */
 #overlay-layer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; }
 .close-btn { position: absolute; top: 15px; right: 25px; padding: 10px 20px; background: #ff4444; color: white; border: none; border-radius: 8px; cursor: pointer; z-index: 10000; font-weight: bold; }
 
-/* Menú YouTube */
 .yt-menu { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1e1e1e; padding: 25px; border-radius: 20px; border: 2px solid var(--accent); z-index: 10001; width: 320px; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
 .yt-menu input { width: 90%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #444; background: #000; color: white; font-size: 1rem; }
 .yt-menu button { width: 100%; padding: 12px; margin: 5px 0; border: none; border-radius: 8px; cursor: pointer; background: #333; color: white; font-weight: bold; }
@@ -29,8 +27,8 @@ span { display: block; margin-top: 15px; font-weight: bold; color: #ccc; font-si
 <body>
 
 <div id="yt-selector" class="yt-menu">
-    <h3 style="margin-top:0; color:var(--accent)">YouTube Explorer</h3>
-    <input type="text" id="yt-search-input" placeholder="Canal o Video...">
+    <h3 style="margin-top:0; color:var(--accent)">YouTube Explorer (Mirror)</h3>
+    <input type="text" id="yt-search-input" placeholder="Nombre de canal o video...">
     <button onclick="ytSearchCustom()" style="background:var(--accent); color:black">BUSCAR</button>
     <button onclick="closeYTMenu()" style="background:#ff4444; margin-top:10px">CANCELAR</button>
 </div>
@@ -81,10 +79,9 @@ function closeYTMenu() { document.getElementById('yt-selector').style.display = 
 function ytSearchCustom() {
     const term = document.getElementById('yt-search-input').value;
     if(term) {
-        // CAMBIO AQUÍ: Usamos un modo que YouTube acepta mejor para "embeber"
-        const url = "https://www.youtube.com/embed?listType=search&list=" + encodeURIComponent(term) + "&origin=" + window.location.origin;
-        
-        // Si el de arriba falla, este es el plan B (Abre una versión de búsqueda limpia)
+        // USAMOS UN ESPEJO (INVIDIOUS) PARA EVITAR EL ERROR DE ID
+        // Este link busca directamente y muestra resultados sin bloqueos
+        const url = "https://inv.tux.pizza/search?q=" + encodeURIComponent(term);
         document.getElementById('content-frame').src = url;
         document.getElementById('overlay-layer').style.display = 'block';
         document.title = "Video Research - Google Docs";
@@ -124,6 +121,7 @@ function launchAI() {
   const blob = new Blob([aiHTML], {type: 'text/html'});
   document.getElementById('content-frame').src = URL.createObjectURL(blob);
   document.getElementById('overlay-layer').style.display = 'block';
+  document.title = "AI Assistant - Google Docs";
 }
 
 function launchGhost(path) {
@@ -140,9 +138,7 @@ function closeOverlay() {
     document.getElementById('content-frame').src = '';
     document.title = "Working... - Google Docs";
 }
-
 document.addEventListener('keydown', e => { if (e.key === "Escape") closeOverlay(); });
 </script>
 </body>
 </html>
-
