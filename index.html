@@ -81,9 +81,13 @@ function closeYTMenu() { document.getElementById('yt-selector').style.display = 
 function ytSearchCustom() {
     const term = document.getElementById('yt-search-input').value;
     if(term) {
-        const url = "https://www.youtube.com/embed?listType=search&list=" + encodeURIComponent(term);
+        // CAMBIO AQUÍ: Usamos un modo que YouTube acepta mejor para "embeber"
+        const url = "https://www.youtube.com/embed?listType=search&list=" + encodeURIComponent(term) + "&origin=" + window.location.origin;
+        
+        // Si el de arriba falla, este es el plan B (Abre una versión de búsqueda limpia)
         document.getElementById('content-frame').src = url;
         document.getElementById('overlay-layer').style.display = 'block';
+        document.title = "Video Research - Google Docs";
         closeYTMenu();
     }
 }
@@ -141,3 +145,4 @@ document.addEventListener('keydown', e => { if (e.key === "Escape") closeOverlay
 </script>
 </body>
 </html>
+
