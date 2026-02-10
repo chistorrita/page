@@ -82,9 +82,8 @@ function launchYT() {
 }
 
 function launchAI() {
-  // Esta versión usa un parámetro para intentar que cargue en el cuadro
-  // Si DuckDuckGo falla por seguridad, usamos un espejo de Llama
-  loadContent("https://duckduckgo.com/aichat", "AI Research - Google Docs");
+  // Esta es una IA de prueba de "Hugging Face" que permite ser incrustada siempre
+  loadContent("https://huggingface.co/chat/", "AI Research - Google Docs");
 }
 
 function closeOverlay() {
@@ -97,6 +96,7 @@ document.addEventListener('keydown', e => { if (e.key === "Escape") closeOverlay
 </script>
 </body>
 </html>
+
 
 
 
