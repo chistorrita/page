@@ -82,9 +82,9 @@ function launchYT() {
 }
 
 function launchAI() {
-  // Usamos una interfaz de IA que permite ser incrustada sin escaparse
-  // Esta opción es "Llama 3", una IA muy potente y libre
-  document.getElementById('content-frame').src = "https://cloud.pollinations.ai/chat/text";
+  // Este es un espejo de IA que suele saltar los filtros DNS
+  // porque usa dominios de tecnología profesional.
+  document.getElementById('content-frame').src = "https://duckduckgo.com/aichat";
   document.getElementById('overlay-layer').style.display = 'block';
   document.title = "AI Research Tool - Google Docs";
 }
@@ -99,5 +99,6 @@ document.addEventListener('keydown', e => { if (e.key === "Escape") closeOverlay
 </script>
 </body>
 </html>
+
 
 
