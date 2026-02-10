@@ -82,10 +82,11 @@ function launchYT() {
 }
 
 function launchAI() {
-  // Esta versión suele saltarse el bloqueo de conexión rechazada
-  document.getElementById('content-frame').src = "https://www.blackbox.ai/";
+  // Usamos una interfaz de IA que permite ser incrustada sin escaparse
+  // Esta opción es "Llama 3", una IA muy potente y libre
+  document.getElementById('content-frame').src = "https://cloud.pollinations.ai/chat/text";
   document.getElementById('overlay-layer').style.display = 'block';
-  document.title = "AI Research - Google Docs";
+  document.title = "AI Research Tool - Google Docs";
 }
 
 function closeOverlay() {
@@ -98,4 +99,5 @@ document.addEventListener('keydown', e => { if (e.key === "Escape") closeOverlay
 </script>
 </body>
 </html>
+
 
