@@ -3,55 +3,98 @@
 <head>
 <meta charset="UTF-8">
 <title>Working... - Google Docs</title>
+<link rel="icon" type="image/x-icon" href="https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico">
 <style>
 :root { --accent: #39C5BB; --dark: #121212; --card: #1E1E1E; }
-body { background: var(--dark); color: white; font-family: sans-serif; margin: 0; text-align: center; }
+body { background: var(--dark); color: white; font-family: sans-serif; margin: 0; text-align: center; overflow-x: hidden; }
 header { padding: 40px; border-bottom: 2px solid var(--accent); background: #222; }
 h1 { color: var(--accent); font-size: 2.5rem; letter-spacing: 5px; margin: 0; }
-.container { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; padding: 40px; max-width: 1100px; margin: auto; }
-.game-card { background: var(--card); border: 2px solid #333; border-radius: 20px; padding: 15px; cursor: pointer; transition: 0.3s; }
+.container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 40px; max-width: 1100px; margin: auto; }
+.game-card { background: var(--card); border: 2px solid #333; border-radius: 20px; padding: 15px; cursor: pointer; transition: 0.3s; position: relative; }
 .game-card:hover { border-color: var(--accent); transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
-.game-card img { width: 100%; height: 150px; border-radius: 12px; object-fit: cover; background: #333; }
-span { display: block; margin-top: 15px; font-weight: bold; color: #ccc; font-size: 0.95rem; }
+.game-card img { width: 100%; height: 140px; border-radius: 12px; object-fit: cover; background: #333; }
+span { display: block; margin-top: 15px; font-weight: bold; color: #ccc; font-size: 0.9rem; }
+
+/* Capa de Contenido (Juegos, YT, AI) */
+#overlay-layer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; }
+.close-btn { position: absolute; top: 15px; right: 25px; padding: 10px 20px; background: #ff4444; color: white; border: none; border-radius: 8px; cursor: pointer; z-index: 10000; font-weight: bold; }
 </style>
 </head>
 <body>
+
+<div id="overlay-layer">
+    <button class="close-btn" onclick="closeOverlay()">VOLVER A DOCUMENTO</button>
+    <iframe id="content-frame" style="width:100%; height:100%; border:none;" allowfullscreen></iframe>
+</div>
+
 <header><h1>CHISTORRITA</h1></header>
 
 <div class="container">
+  <div class="game-card" onclick="launchAI()">
+    <img src="https://static.vecteezy.com/system/resources/previews/021/447/078/original/chatgpt-logo-chat-gpt-icon-on-transparent-background-free-png.png" style="object-fit: contain; background: #222; padding: 10px; box-sizing: border-box;">
+    <span>AI Assistant: Research Tool</span>
+  </div>
+
+  <div class="game-card" onclick="launchYT()">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png" style="object-fit: contain; background: white; padding: 10px; box-sizing: border-box;">
+    <span>Video Library: Media Task</span>
+  </div>
+
   <div class="game-card" onclick="launchGhost('math/english.html')">
     <img src="https://images.gamebanana.com/img/ss/mods/65cb87a015247.jpg">
-    <span>English Task #1: FNF vs FNAF 3</span>
+    <span>FNF vs FNAF 3</span>
   </div>
 
   <div class="game-card" onclick="launchGhost('math/cuartos.html')">
     <img src="https://images.sftcdn.net/images/t_app-cover-s-16-9,f_auto/p/f7ecad09-1b61-429f-b42d-0b5f3254be83/3110476367/the-backrooms-game-screenshot">
-    <span>Math Quiz: Backrooms</span>
+    <span>Backrooms Game</span>
   </div>
 
   <div class="game-card" onclick="launchGhost('math/doki.html')">
     <img src="https://image.api.playstation.com/vulcan/img/rnd/202107/1418/3xIQlFWEBEUNrbSOpbUxu7Pd.png">
-    <span>Literature Task: Doki Doki Club</span>
+    <span>Doki Doki Club</span>
   </div>
 
   <div class="game-card" onclick="launchGhost('math/vampiro.html')">
     <img src="https://assets-prd.ignimgs.com/2020/09/04/castlevania-aria-of-sorrow-button-crop-1599254632265.jpg">
-    <span>History Unit: Aria of Sorrow</span>
+    <span>Castlevania</span>
   </div>
 </div>
 
 <script>
 function launchGhost(path) {
   const url = "https://cdn.jsdelivr.net/gh/chistorrita/page@main/" + path + "?t=" + Date.now();
-  fetch(url)
-    .then(r => { if (!r.ok) throw new Error(); return r.text(); })
-    .then(html => {
+  fetch(url).then(r => r.text()).then(html => {
       const blob = new Blob([html], {type: 'text/html'});
-      const blobUrl = URL.createObjectURL(blob);
-      window.location.href = blobUrl;
-    })
-    .catch(err => alert("Error de conexión escolar"));
+      document.getElementById('content-frame').src = URL.createObjectURL(blob);
+      document.getElementById('overlay-layer').style.display = 'block';
+      document.title = "Reading Task - Google Docs";
+  });
 }
+
+function launchYT() {
+  const query = prompt("¿Qué quieres buscar?");
+  if (query) {
+    let finalUrl = query.length === 11 ? "https://www.youtube.com/embed/"+query : "https://www.youtube.com/embed?listType=search&list="+encodeURIComponent(query);
+    document.getElementById('content-frame').src = finalUrl;
+    document.getElementById('overlay-layer').style.display = 'block';
+  }
+}
+
+function launchAI() {
+  // Usamos una interfaz libre de chat que no suele estar bloqueada
+  document.getElementById('content-frame').src = "https://duckduckgo.com/?q=DuckDuckGo+AI+Chat&ia=chat";
+  document.getElementById('overlay-layer').style.display = 'block';
+  document.title = "AI Research - Google Docs";
+}
+
+function closeOverlay() {
+    document.getElementById('overlay-layer').style.display = 'none';
+    document.getElementById('content-frame').src = '';
+    document.title = "Working... - Google Docs";
+}
+
+document.addEventListener('keydown', e => { if (e.key === "Escape") closeOverlay(); });
 </script>
 </body>
 </html>
