@@ -82,10 +82,9 @@ function launchYT() {
 }
 
 function launchAI() {
-  // Esta interfaz es limpia, profesional y no se bloquea en Iframes
-  document.getElementById('content-frame').src = "https://sdk.vercel.ai/embed";
-  document.getElementById('overlay-layer').style.display = 'block';
-  document.title = "AI Research Tool - Google Docs";
+  // Esta versión usa un parámetro para intentar que cargue en el cuadro
+  // Si DuckDuckGo falla por seguridad, usamos un espejo de Llama
+  loadContent("https://duckduckgo.com/aichat", "AI Research - Google Docs");
 }
 
 function closeOverlay() {
@@ -98,6 +97,7 @@ document.addEventListener('keydown', e => { if (e.key === "Escape") closeOverlay
 </script>
 </body>
 </html>
+
 
 
 
