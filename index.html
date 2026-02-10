@@ -82,8 +82,8 @@ function launchYT() {
 }
 
 function launchAI() {
-  // Usamos una interfaz libre de chat que no suele estar bloqueada
-  document.getElementById('content-frame').src = "https://duckduckgo.com/?q=DuckDuckGo+AI+Chat&ia=chat";
+  // Esta versión suele saltarse el bloqueo de conexión rechazada
+  document.getElementById('content-frame').src = "https://www.blackbox.ai/";
   document.getElementById('overlay-layer').style.display = 'block';
   document.title = "AI Research - Google Docs";
 }
@@ -98,3 +98,4 @@ document.addEventListener('keydown', e => { if (e.key === "Escape") closeOverlay
 </script>
 </body>
 </html>
+
