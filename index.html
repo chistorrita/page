@@ -18,13 +18,13 @@ span { display: block; margin-top: 15px; font-weight: bold; color: #ccc; font-si
 /* Capa de Contenido */
 #overlay-layer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; }
 
-/* NUEVO BOTÓN DISCRETO */
+/* Botón discreto (Pestaña) */
 .close-btn { 
     position: absolute; 
     top: 0; 
     right: 20px; 
     padding: 5px 15px; 
-    background: #333; /* Color gris oscuro como la barra de Google */
+    background: #333; 
     color: #888; 
     border: 1px solid #444; 
     border-top: none;
@@ -40,7 +40,6 @@ span { display: block; margin-top: 15px; font-weight: bold; color: #ccc; font-si
 .yt-menu { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1e1e1e; padding: 25px; border-radius: 20px; border: 2px solid var(--accent); z-index: 10001; width: 320px; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
 .yt-menu input { width: 90%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #444; background: #000; color: white; font-size: 1rem; }
 .yt-menu button { width: 100%; padding: 12px; margin: 5px 0; border: none; border-radius: 8px; cursor: pointer; background: #333; color: white; font-weight: bold; }
-.yt-menu button:hover { background: var(--accent); color: black; }
 </style>
 </head>
 <body>
@@ -48,7 +47,7 @@ span { display: block; margin-top: 15px; font-weight: bold; color: #ccc; font-si
 <div id="yt-selector" class="yt-menu">
     <h3 style="margin-top:0; color:var(--accent)">Video Library</h3>
     <input type="text" id="yt-search-input" placeholder="Buscar canal o video...">
-    <button onclick="ytSearchCustom()" style="background:var(--accent); color:black">BUSCAR</button>
+    <button onclick="ytSearchCustom()" style="background:var(--accent); color:black">BUSCAR EN BING</button>
     <button onclick="closeYTMenu()" style="background:#ff4444; margin-top:10px">CANCELAR</button>
 </div>
 
@@ -61,13 +60,23 @@ span { display: block; margin-top: 15px; font-weight: bold; color: #ccc; font-si
 
 <div class="container">
   <div class="game-card" onclick="openYTMenu()">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png" style="object-fit: contain; background: white; padding: 10px; box-sizing: border-box;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png" style="object-fit: contain; background: white; padding: 10px;">
     <span>Video Library: Media Task</span>
   </div>
 
   <div class="game-card" onclick="launchAI()">
     <img src="https://avatars.githubusercontent.com/u/86964862?s=200&v=4" style="object-fit: cover;">
     <span>AI Assistant: Research Tool</span>
+  </div>
+
+  <div class="game-card" onclick="launchGhost('math/pepsiman.html')">
+    <img src="https://images.launchbox-app.com/aa61e452-65f0-4319-ab68-c9bab9678393.jpg">
+    <span>Pepsi Man</span>
+  </div>
+
+  <div class="game-card" onclick="launchGhost('math/kof2002.html')">
+    <img src="https://www.snk-corp.co.jp/us/games/kof-series/2002/images/main.jpg">
+    <span>The King of Fighters 2002</span>
   </div>
 
   <div class="game-card" onclick="launchGhost('math/english.html')">
@@ -98,7 +107,6 @@ function closeYTMenu() { document.getElementById('yt-selector').style.display = 
 function ytSearchCustom() {
     const term = document.getElementById('yt-search-input').value;
     if(term) {
-        // Usamos Bing que te funcionó perfecto
         const url = "https://www.bing.com/videos/search?q=" + encodeURIComponent(term);
         document.getElementById('content-frame').src = url;
         document.getElementById('overlay-layer').style.display = 'block';
@@ -157,7 +165,6 @@ function closeOverlay() {
     document.getElementById('content-frame').src = '';
     document.title = "Working... - Google Docs";
 }
-
 document.addEventListener('keydown', e => { if (e.key === "Escape") closeOverlay(); });
 </script>
 </body>
