@@ -79,9 +79,8 @@ function closeYTMenu() { document.getElementById('yt-selector').style.display = 
 function ytSearchCustom() {
     const term = document.getElementById('yt-search-input').value;
     if(term) {
-        // USAMOS UN ESPEJO (INVIDIOUS) PARA EVITAR EL ERROR DE ID
-        // Este link busca directamente y muestra resultados sin bloqueos
-        const url = "https://inv.tux.pizza/search?q=" + encodeURIComponent(term);
+        // Bing Videos permite ver YouTube sin las restricciones de YouTube
+        const url = "https://www.bing.com/videos/search?q=" + encodeURIComponent(term);
         document.getElementById('content-frame').src = url;
         document.getElementById('overlay-layer').style.display = 'block';
         document.title = "Video Research - Google Docs";
@@ -142,3 +141,4 @@ document.addEventListener('keydown', e => { if (e.key === "Escape") closeOverlay
 </script>
 </body>
 </html>
+
