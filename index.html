@@ -15,12 +15,26 @@ h1 { color: var(--accent); font-size: 2.5rem; letter-spacing: 5px; margin: 0; }
 .game-card img { width: 100%; height: 140px; border-radius: 12px; object-fit: cover; background: #333; }
 span { display: block; margin-top: 15px; font-weight: bold; color: #ccc; font-size: 0.9rem; }
 
-/* Capa de Contenido (Juegos, YT, AI) */
+/* Capas Superpuestas */
 #overlay-layer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; }
 .close-btn { position: absolute; top: 15px; right: 25px; padding: 10px 20px; background: #ff4444; color: white; border: none; border-radius: 8px; cursor: pointer; z-index: 10000; font-weight: bold; }
+
+/* Menú YouTube */
+.yt-menu { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1e1e1e; padding: 25px; border-radius: 20px; border: 2px solid var(--accent); z-index: 10001; width: 320px; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+.yt-menu input { width: 90%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #444; background: #000; color: white; font-size: 1rem; }
+.yt-menu button { width: 100%; padding: 12px; margin: 5px 0; border: none; border-radius: 8px; cursor: pointer; background: #333; color: white; font-weight: bold; transition: 0.2s; }
+.yt-menu button:hover { background: var(--accent); color: black; }
 </style>
 </head>
 <body>
+
+<div id="yt-selector" class="yt-menu">
+    <h3 style="margin-top:0; color:var(--accent)">YouTube Explorer</h3>
+    <p style="font-size: 0.8rem; color: #888;">Busca un canal o un video:</p>
+    <input type="text" id="yt-search-input" placeholder="Ej: MrBeast o Lofi...">
+    <button onclick="ytSearchCustom()" style="background:var(--accent); color:black">BUSCAR EN YOUTUBE</button>
+    <button onclick="closeYTMenu()" style="background:#ff4444; margin-top:15px">CANCELAR</button>
+</div>
 
 <div id="overlay-layer">
     <button class="close-btn" onclick="closeOverlay()">VOLVER A DOCUMENTO</button>
@@ -30,38 +44,81 @@ span { display: block; margin-top: 15px; font-weight: bold; color: #ccc; font-si
 <header><h1>CHISTORRITA</h1></header>
 
 <div class="container">
-  <div class="game-card" onclick="launchAI()">
-    <img src="https://static.vecteezy.com/system/resources/previews/021/447/078/original/chatgpt-logo-chat-gpt-icon-on-transparent-background-free-png.png" style="object-fit: contain; background: #222; padding: 10px; box-sizing: border-box;">
-    <span>AI Assistant: Research Tool</span>
-  </div>
-
-  <div class="game-card" onclick="launchYT()">
+  <div class="game-card" onclick="openYTMenu()">
     <img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Youtube_logo.png" style="object-fit: contain; background: white; padding: 10px; box-sizing: border-box;">
     <span>Video Library: Media Task</span>
+  </div>
+
+  <div class="game-card" onclick="launchAI()">
+    <img src="https://avatars.githubusercontent.com/u/86964862?s=200&v=4" style="object-fit: cover;">
+    <span>AI Assistant: Research Tool</span>
   </div>
 
   <div class="game-card" onclick="launchGhost('math/english.html')">
     <img src="https://images.gamebanana.com/img/ss/mods/65cb87a015247.jpg">
     <span>FNF vs FNAF 3</span>
   </div>
-
+  
   <div class="game-card" onclick="launchGhost('math/cuartos.html')">
     <img src="https://images.sftcdn.net/images/t_app-cover-s-16-9,f_auto/p/f7ecad09-1b61-429f-b42d-0b5f3254be83/3110476367/the-backrooms-game-screenshot">
     <span>Backrooms Game</span>
   </div>
-
-  <div class="game-card" onclick="launchGhost('math/doki.html')">
-    <img src="https://image.api.playstation.com/vulcan/img/rnd/202107/1418/3xIQlFWEBEUNrbSOpbUxu7Pd.png">
-    <span>Doki Doki Literature Club</span>
-  </div>
-
-  <div class="game-card" onclick="launchGhost('math/vampiro.html')">
-    <img src="https://assets-prd.ignimgs.com/2020/09/04/castlevania-aria-of-sorrow-button-crop-1599254632265.jpg">
-    <span>Castlevania</span>
-  </div>
 </div>
 
 <script>
+// --- LÓGICA DE YOUTUBE ---
+function openYTMenu() { document.getElementById('yt-selector').style.display = 'block'; }
+function closeYTMenu() { document.getElementById('yt-selector').style.display = 'none'; }
+
+function ytSearchCustom() {
+    const term = document.getElementById('yt-search-input').value;
+    if(term) {
+        // Este link genera una lista de reproduccion automatica con los resultados de busqueda
+        const url = "https://www.youtube.com/embed?listType=search&list=" + encodeURIComponent(term);
+        document.getElementById('content-frame').src = url;
+        document.getElementById('overlay-layer').style.display = 'block';
+        document.title = "Video Resource - Google Docs";
+        closeYTMenu();
+    }
+}
+
+// --- LÓGICA DE IA (MÉTODO INYECTADO) ---
+function launchAI() {
+  const aiHTML = `
+    <!DOCTYPE html><html><head><style>
+    body { background: #121212; color: white; font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; margin: 0; }
+    #chat { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
+    .msg { padding: 12px; border-radius: 12px; max-width: 85%; line-height: 1.4; font-size: 15px; }
+    .user { background: #39C5BB; color: black; align-self: flex-end; font-weight: bold; }
+    .ai { background: #222; border: 1px solid #333; align-self: flex-start; }
+    #input-area { padding: 15px; background: #1e1e1e; display: flex; gap: 10px; border-top: 1px solid #333; }
+    input { flex: 1; padding: 12px; border-radius: 8px; border: 1px solid #444; background: #000; color: white; }
+    button { background: #39C5BB; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+    </style></head><body>
+    <div id="chat"></div>
+    <div id="input-area"><input type="text" id="i" placeholder="Pregunta algo..."><button onclick="ask()">ENVIAR</button></div>
+    <script>
+    async function ask(){
+      const i=document.getElementById('i'), c=document.getElementById('chat');
+      if(!i.value)return;
+      const u=document.createElement('div'); u.className='msg user'; u.innerText=i.value; c.appendChild(u);
+      const p=i.value; i.value='Escribiendo...'; i.disabled=true;
+      try {
+        const r=await fetch('https://text.pollinations.ai/'+encodeURIComponent(p)+'?model=openai');
+        const t=await r.text();
+        const a=document.createElement('div'); a.className='msg ai'; a.innerText=t; c.appendChild(a);
+      } catch { alert('Error de conexión'); }
+      i.value=''; i.disabled=false; i.focus(); c.scrollTop=c.scrollHeight;
+    }
+    document.getElementById('i').addEventListener('keypress', (e)=>{if(e.key==='Enter')ask();});
+    <\/script></body></html>`;
+  const blob = new Blob([aiHTML], {type: 'text/html'});
+  document.getElementById('content-frame').src = URL.createObjectURL(blob);
+  document.getElementById('overlay-layer').style.display = 'block';
+  document.title = "AI Assistant - Google Docs";
+}
+
+// --- LÓGICA DE JUEGOS ---
 function launchGhost(path) {
   const url = "https://cdn.jsdelivr.net/gh/chistorrita/page@main/" + path + "?t=" + Date.now();
   fetch(url).then(r => r.text()).then(html => {
@@ -70,83 +127,6 @@ function launchGhost(path) {
       document.getElementById('overlay-layer').style.display = 'block';
       document.title = "Reading Task - Google Docs";
   });
-}
-
-function launchYT() {
-  const query = prompt("¿Qué quieres buscar?");
-  if (query) {
-    let finalUrl = query.length === 11 ? "https://www.youtube.com/embed/"+query : "https://www.youtube.com/embed?listType=search&list="+encodeURIComponent(query);
-    document.getElementById('content-frame').src = finalUrl;
-    document.getElementById('overlay-layer').style.display = 'block';
-  }
-}
-
-function launchAI() {
-  // Creamos un archivo HTML "al vuelo" con un chat de IA real
-  const aiHTML = `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <style>
-        body { background: #121212; color: white; font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; margin: 0; }
-        #chat { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; }
-        .msg { padding: 10px; border-radius: 10px; max-width: 80%; }
-        .user { background: #39C5BB; color: black; align-self: flex-end; }
-        .ai { background: #333; align-self: flex-start; }
-        #input-area { padding: 20px; background: #1e1e1e; display: flex; gap: 10px; }
-        input { flex: 1; padding: 10px; border-radius: 5px; border: none; background: #000; color: white; }
-        button { background: #39C5BB; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-      </style>
-    </head>
-    <body>
-      <div id="chat"></div>
-      <div id="input-area">
-        <input type="text" id="user-input" placeholder="Escribe tu duda escolar...">
-        <button onclick="ask()">ENVIAR</button>
-      </div>
-      <script>
-        async function ask() {
-          const input = document.getElementById('user-input');
-          const chat = document.getElementById('chat');
-          if(!input.value) return;
-
-          const userDiv = document.createElement('div');
-          userDiv.className = 'msg user';
-          userDiv.innerText = input.value;
-          chat.appendChild(userDiv);
-
-          const prompt = input.value;
-          input.value = 'Pensando...';
-          input.disabled = true;
-
-          try {
-            const response = await fetch('https://text.pollinations.ai/' + encodeURIComponent(prompt));
-            const text = await response.text();
-            const aiDiv = document.createElement('div');
-            aiDiv.className = 'msg ai';
-            aiDiv.innerText = text;
-            chat.appendChild(aiDiv);
-          } catch {
-            alert('Error de conexión escolar');
-          }
-          
-          input.value = '';
-          input.disabled = false;
-          input.focus();
-          chat.scrollTop = chat.scrollHeight;
-        }
-        document.getElementById('user-input').addEventListener('keypress', (e) => { if(e.key === 'Enter') ask(); });
-      <\/script>
-    </body>
-    </html>
-  `;
-
-  const blob = new Blob([aiHTML], {type: 'text/html'});
-  const blobUrl = URL.createObjectURL(blob);
-  
-  document.getElementById('content-frame').src = blobUrl;
-  document.getElementById('overlay-layer').style.display = 'block';
-  document.title = "AI Research Tool - Google Docs";
 }
 
 function closeOverlay() {
@@ -159,10 +139,3 @@ document.addEventListener('keydown', e => { if (e.key === "Escape") closeOverlay
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
