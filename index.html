@@ -12,17 +12,17 @@ h1 { color: var(--accent); font-size: 2rem; letter-spacing: 5px; margin: 0; }
 
 .container { 
     display: grid; 
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); 
     gap: 15px; 
     padding: 20px; 
-    max-width: 1300px; 
+    max-width: 1400px; 
     margin: auto; 
 }
 
-.game-card { background: var(--card); border: 2px solid #333; border-radius: 15px; padding: 12px; cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; height: 180px; }
+.game-card { background: var(--card); border: 2px solid #333; border-radius: 15px; padding: 12px; cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; height: 190px; }
 .game-card:hover { border-color: var(--accent); transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-.game-card img { width: 100%; height: 110px; border-radius: 10px; object-fit: cover; background: #333; }
-span { display: block; margin-top: 10px; font-weight: bold; color: #ccc; font-size: 0.75rem; overflow: hidden; text-overflow: ellipsis; white-space: normal; line-height: 1.2; }
+.game-card img { width: 100%; height: 100px; border-radius: 10px; object-fit: cover; background: #333; }
+span { display: block; margin-top: 10px; font-weight: bold; color: #ccc; font-size: 0.7rem; overflow: hidden; text-overflow: ellipsis; white-space: normal; line-height: 1.2; }
 
 #overlay-layer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; }
 .close-btn { position: absolute; top: 0; right: 20px; padding: 5px 15px; background: #333; color: #888; border: 1px solid #444; border-top: none; border-radius: 0 0 8px 8px; cursor: pointer; z-index: 10000; font-size: 11px; }
@@ -59,74 +59,94 @@ span { display: block; margin-top: 10px; font-weight: bold; color: #ccc; font-si
     <span>Pepsi Man</span>
   </div>
 
+  <div class="game-card" onclick="launchGhost('math/english.html')">
+    <img src="https://images.gamebanana.com/img/ss/mods/65cb87a015247.jpg">
+    <span>FNF vs FNAF 3</span>
+  </div>
+
+  <div class="game-card" onclick="launchGhost('math/cuartos.html')">
+    <img src="https://images.sftcdn.net/images/t_app-cover-s-16-9,f_auto/p/f7ecad09-1b61-429f-b42d-0b5f3254be83/3110476367/the-backrooms-game-screenshot">
+    <span>Backrooms Game</span>
+  </div>
+
+  <div class="game-card" onclick="launchGhost('math/doki.html')">
+    <img src="https://image.api.playstation.com/vulcan/img/rnd/202107/1418/3xIQlFWEBEUNrbSOpbUxu7Pd.png">
+    <span>Doki Doki Literature Club</span>
+  </div>
+
+  <div class="game-card" onclick="launchGhost('math/vampiro.html')">
+    <img src="https://assets-prd.ignimgs.com/2020/09/04/castlevania-aria-of-sorrow-button-crop-1599254632265.jpg">
+    <span>Castlevania Aria of Sorrow</span>
+  </div>
+
   <div class="game-card" onclick="launchGhost('math/fnfTWIDDLEFINGER.html')">
     <img src="https://kbhgames.com/wp-content/uploads/2024/06/FNF-TwiddleFinger.webp">
-    <span>fnfTWIDDLEFINGER</span>
+    <span>fnf vs TWIDDLEFINGER</span>
   </div>
 
   <div class="game-card" onclick="launchGhost('math/fnfagoti.html')">
     <img src="https://images.gamebanana.com/img/ss/mods/60986ffa12142.jpg">
-    <span>fnfagoti</span>
+    <span>fnf vs agoti</span>
   </div>
 
   <div class="game-card" onclick="launchGhost('math/fnfanimation.html')">
     <img src="https://images.gamebanana.com/img/ss/mods/6233d68f1b023.jpg">
-    <span>fnfanimation</span>
+    <span>fnf vs animation</span>
   </div>
 
   <div class="game-card" onclick="launchGhost('math/fnfbfdi26.html')">
     <img src="https://images.gamebanana.com/img/ss/wips/6697d4c1c3dd0.jpg">
-    <span>fnfbfdi26</span>
+    <span>fnf bfdi26</span>
   </div>
 
   <div class="game-card" onclick="launchGhost('math/fnfblackbetrayal.html')">
     <img src="https://i.ytimg.com/vi/xqY5xsGO1VY/maxresdefault.jpg">
-    <span>fnfblackbetrayal</span>
+    <span>fnf blackbetrayal</span>
   </div>
 
   <div class="game-card" onclick="launchGhost('math/fnfcamelliarudeblaster.html')">
     <img src="https://images.gamebanana.com/img/ss/mods/61130e899ff0a.jpg">
-    <span>fnfcamelliarudeblaster</span>
+    <span>fnf vs camelliarudeblaster</span>
   </div>
 
   <div class="game-card" onclick="launchGhost('math/fnfcory.html')">
     <img src="https://pbs.twimg.com/profile_images/1593454294099001350/JmhDalcR_400x400.png">
-    <span>fnfcory</span>
+    <span>fnf vs cory</span>
   </div>
 
   <div class="game-card" onclick="launchGhost('math/fnfcrunchin.html')">
     <img src="https://i.ytimg.com/vi/OyfLu-x5Ryc/maxresdefault.jpg">
-    <span>fnfcrunchin</span>
+    <span>fnf vs crunchin</span>
   </div>
 
   <div class="game-card" onclick="launchGhost('math/fnfdesolation.html')">
     <img src="https://i1.sndcdn.com/artworks-zMXBoO0Bvf38nE5N-yJ5HAA-t500x500.jpg">
-    <span>fnfdesolation</span>
+    <span>fnf desolation</span>
   </div>
 
   <div class="game-card" onclick="launchGhost('math/fnfdokitakeoverplus.html')">
     <img src="https://i.ytimg.com/vi/4pB0XtscOhs/maxresdefault.jpg">
-    <span>fnfdokitakeoverplus</span>
+    <span>fnf vs dokitakeoverplus</span>
   </div>
 
   <div class="game-card" onclick="launchGhost('math/fnfdropandroll.html')">
     <img src="https://images.gamebanana.com/img/ss/mods/6654fc5193e7a.jpg">
-    <span>fnfdropandroll</span>
+    <span>fnf dropandroll</span>
   </div>
 
   <div class="game-card" onclick="launchGhost('math/fnfdustin.html')">
     <img src="https://images.gamebanana.com/img/ss/mods/68c5e96da7aca.jpg">
-    <span>fnfdustin</span>
+    <span>fnf vs dustin</span>
   </div>
 
   <div class="game-card" onclick="launchGhost('math/fnffleetway.html')">
     <img src="https://images.steamusercontent.com/ugc/1835779809877904647/22BDAE0EC75DAA5C9E95152211BB05B54AC287D0/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true">
-    <span>fnffleetway</span>
+    <span>fnf vs fleetway</span>
   </div>
 
   <div class="game-card" onclick="launchGhost('math/fnffnaf1.html')">
     <img src="https://img.itch.zone/aW1hZ2UvMTQ1NDMzMS84NDkxODQzLnBuZw==/original/nyYosD.png">
-    <span>fnffnaf1</span>
+    <span>fnf vs fnaf1</span>
   </div>
 
 </div>
