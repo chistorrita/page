@@ -36,8 +36,8 @@ span { display: block; margin-top: 10px; font-weight: bold; color: #fff; font-si
 
 <div id="edit-profile-modal" class="modal">
     <h3 style="color:var(--accent); margin-top:0;">Editar Perfil</h3>
+    <p style="font-size: 0.7rem; color: #666; margin-bottom: 10px;">Cambia tu nombre o tu imagen de perfil</p>
     <input type="text" id="input-name" placeholder="Tu nombre...">
-    <input type="text" id="input-status" placeholder="Tu estado...">
     <input type="text" id="input-avatar" placeholder="Link de imagen (URL)...">
     <button onclick="saveProfile()" style="background:var(--accent); color:black">GUARDAR</button>
     <button onclick="closeProfileModal()" style="background:#444; color:white">CERRAR</button>
@@ -51,10 +51,10 @@ span { display: block; margin-top: 10px; font-weight: bold; color: #fff; font-si
 <header><h1>CHISTORRITA</h1></header>
 
 <div id="profile-section">
-    <img id="user-avatar" src="https://api.dicebear.com/7.x/pixel-art/svg?seed=Chistorrita" onclick="editProfile()">
+    <img id="user-avatar" src="https://pbs.twimg.com/media/GgKR-vqWMAAcrJD.jpg" onclick="editProfile()">
     <div class="profile-info">
         <h2 id="user-name">Usuario Nuevo</h2>
-        <p id="user-status">Estado: En línea</p>
+        <p id="user-status" style="color: #4CAF50; font-weight: bold;">● En línea</p>
         <p style="color:var(--accent); font-weight:bold; font-size:0.7rem;">TIEMPO TOTAL: <span id="time-display" style="display:inline; margin:0; color:var(--accent);">0h 0m</span></p>
     </div>
 </div>
@@ -99,11 +99,15 @@ function updateTimer() {
 setInterval(updateTimer, 1000);
 
 window.onload = function() {
+    // Cargar nombre y avatar si existen
     if(localStorage.getItem('user_name')) {
         document.getElementById('user-name').innerText = localStorage.getItem('user_name');
-        document.getElementById('user-status').innerText = localStorage.getItem('user_status');
+    }
+    if(localStorage.getItem('user_avatar')) {
         document.getElementById('user-avatar').src = localStorage.getItem('user_avatar');
     }
+    
+    // Inicializar reloj
     const h = Math.floor(totalSeconds / 3600);
     const m = Math.floor((totalSeconds % 3600) / 60);
     document.getElementById('time-display').innerText = `${h}h ${m}m`;
@@ -114,10 +118,8 @@ function closeProfileModal() { document.getElementById('edit-profile-modal').sty
 
 function saveProfile() {
     const n = document.getElementById('input-name').value;
-    const s = document.getElementById('input-status').value;
     const a = document.getElementById('input-avatar').value;
     if(n){ localStorage.setItem('user_name', n); document.getElementById('user-name').innerText = n; }
-    if(s){ localStorage.setItem('user_status', s); document.getElementById('user-status').innerText = s; }
     if(a){ localStorage.setItem('user_avatar', a); document.getElementById('user-avatar').src = a; }
     closeProfileModal();
 }
