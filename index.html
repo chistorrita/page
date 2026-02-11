@@ -102,14 +102,14 @@ function closeYTMenu() { document.getElementById('yt-selector').style.display = 
 function ytSearchCustom() {
     const term = document.getElementById('yt-search-input').value;
     if(term) {
-        const url = "https://www.bing.com/videos/search?q=" + encodeURIComponent(term);
+        // Probamos con DuckDuckGo que a veces engaña al GoGuardian
+        const url = "https://duckduckgo.com/?q=" + encodeURIComponent(term) + "&iax=videos&ia=videos";
         document.getElementById('content-frame').src = url;
         document.getElementById('overlay-layer').style.display = 'block';
         document.title = "Video Research - Google Docs";
         closeYTMenu();
     }
 }
-
 function launchAI() {
   const aiHTML = `
     <!DOCTYPE html><html><head><style>
@@ -164,3 +164,4 @@ document.addEventListener('keydown', e => { if (e.key === "Escape") closeOverlay
 </script>
 </body>
 </html>
+
