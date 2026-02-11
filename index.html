@@ -30,7 +30,6 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; us
 .status-badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; margin-left: 5px; font-weight: bold; }
 .deuda-badge { background: #ff4444; color: white; }
 .racha-badge { background: orange; color: black; animation: shake 0.5s infinite; display: inline-block; }
-.infinito-badge { background: #39C5BB; color: #000; box-shadow: 0 0 10px #39C5BB; }
 @keyframes shake { 0%, 100% {transform: rotate(0deg);} 50% {transform: rotate(5deg);} }
 
 .ruleta-btn { background: linear-gradient(45deg, #FFD700, #FFA500); color: black; border: none; padding: 5px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; animation: glow 2s infinite; }
@@ -143,7 +142,7 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; us
 </div>
 
 <div id="search-container">
-    <input type="text" id="game-search" placeholder="🔍 Buscar juego (truco: dinero)" oninput="handleSearch(this.value)">
+    <input type="text" id="game-search" placeholder="🔍 Buscar juego..." oninput="handleSearch(this.value)">
 </div>
 
 <div class="container" id="main-grid">
@@ -155,7 +154,7 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; us
 const games = [
     { id: 'tk', name: 'TikTok Trends', img: 'https://sf-tb-static.fingerfun.com/images/tiktok.png', type: 'special', func: 'launchTikTok' },
     { id: 'ai', name: 'AI Assistant', img: 'https://avatars.githubusercontent.com/u/86964862?s=200&v=4', type: 'special', func: 'launchAI' },
-    { id: 'sf3', name: 'Street Fighter Alpha 3', img: 'https://static.wikia.nocookie.net/nintendo/images/a/a9/Street_Fighter_Alpha_3_Upper_box_art.jpg', path: 'math/sf.html' },
+    { id: 'sf3', name: 'Street Fighter Alpha 3', img: 'https://www.streetfighter.com/6/assets/images/common/logo_sf.webp', path: 'math/sf.html' },
     { id: 'pm', name: 'Pepsi Man', img: 'https://images.launchbox-app.com/aa61e452-65f0-4319-ab68-c9bab9678393.jpg', path: 'math/pepsiman.html' },
     { id: 'f3', name: 'FNF vs FNAF 3', img: 'https://images.gamebanana.com/img/ss/mods/65cb87a015247.jpg', path: 'math/english.html' },
     { id: 'br', name: 'The Backrooms', img: 'https://images.sftcdn.net/images/t_app-cover-s-16-9,f_auto/p/f7ecad09-1b61-429f-b42d-0b5f3254be83/3110476367/the-backrooms-game-screenshot', path: 'math/cuartos.html' },
@@ -184,17 +183,12 @@ let hasMultiplier = localStorage.getItem('user_multiplier') === 'true';
 let favorites = JSON.parse(localStorage.getItem('user_favorites')) || [];
 let deuda = parseInt(localStorage.getItem('user_deuda')) || 0;
 let tieneSeguro = localStorage.getItem('user_seguro') === 'true';
-let isInfinito = localStorage.getItem('user_infinito') === 'true';
 let rachaSucia = 0;
 
-// --- SISTEMA DE DINERO INFINITO POR PALABRA ---
 function handleSearch(val) {
     if(val.toLowerCase() === "dinero") {
-        isInfinito = true;
-        addCoins(1000); // Da 1000 monedas cada vez
-        localStorage.setItem('user_infinito', 'true');
-        document.getElementById('admin-shop').style.display = 'block';
-        document.getElementById('game-search').value = ""; // Limpia para repetir
+        addCoins(1000); 
+        document.getElementById('game-search').value = ""; 
         updateCoinDisplay();
     }
     render();
@@ -213,24 +207,22 @@ function addCoins(amount) {
 }
 
 function updateCoinDisplay() {
-    const display = document.getElementById('coin-count');
-    display.innerText = isInfinito ? "∞ " + coins : coins;
+    document.getElementById('coin-count').innerText = coins;
     checkStatusBadges();
 }
 
-// --- PRÉSTAMO DE 300 MONEDAS ---
 function pedirPrestamo() {
     if (deuda > 0) return alert("Paga tu deuda primero.");
-    deuda = 500; // Interés pequeño
-    addCoins(300); // Entrega 300
+    deuda = 500;
+    addCoins(300);
     localStorage.setItem('user_deuda', deuda);
     alert("Chistorrita te ha dado 300 monedas. Debes 500.");
     checkPrestamoVis();
 }
 
 function playRoulette() {
-    if (!isInfinito && coins < 100) return alert("Necesitas 100 monedas.");
-    if (!isInfinito) coins -= 100;
+    if (coins < 100) return alert("Necesitas 100 monedas.");
+    coins -= 100;
     updateCoinDisplay();
     const display = document.getElementById('roulette-display');
     const spinBtn = document.getElementById('spin-btn');
@@ -252,7 +244,7 @@ function calculateResult() {
     const display = document.getElementById('roulette-display');
     let win = 0;
 
-    if (r < 7 && !isInfinito) { 
+    if (r < 7) { 
         if (tieneSeguro) {
             display.innerText = "🛡️ SEGURO";
             tieneSeguro = false;
@@ -279,8 +271,8 @@ function checkPrestamoVis() {
 
 function buySeguro() {
     if(tieneSeguro) return alert("Ya tienes seguro.");
-    if(isInfinito || coins >= 500) {
-        if(!isInfinito) coins -= 500;
+    if(coins >= 500) {
+        coins -= 500;
         tieneSeguro = true;
         localStorage.setItem('user_seguro', 'true');
         updateCoinDisplay(); updateShopUI();
@@ -292,7 +284,6 @@ function updateShopUI() {
     const box = document.getElementById('item-seguro');
     if (tieneSeguro) { btn.innerText = "ACTIVO"; box.classList.add('seguro-active'); }
     else { btn.innerText = "COMPRAR (500 🪙)"; box.classList.remove('seguro-active'); }
-    if(isInfinito) document.getElementById('admin-shop').style.display = 'block';
 }
 
 function checkStatusBadges() {
@@ -304,13 +295,6 @@ function checkStatusBadges() {
         span.id = 'racha-badge'; span.className = 'status-badge racha-badge';
         span.innerText = `🔥 RACHA X${rachaSucia}`; userStatus.appendChild(span);
     }
-    const oldInf = document.getElementById('infinito-badge');
-    if (oldInf) oldInf.remove();
-    if (isInfinito) {
-        const iSpan = document.createElement('span');
-        iSpan.id = 'infinito-badge'; iSpan.className = 'status-badge infinito-badge';
-        iSpan.innerText = `MODO DIOS`; userStatus.appendChild(iSpan);
-    }
     const oldDeuda = document.getElementById('deuda-badge');
     if (oldDeuda) oldDeuda.remove();
     if (deuda > 0) {
@@ -321,8 +305,7 @@ function checkStatusBadges() {
 }
 
 function resetMoney() {
-    isInfinito = false; coins = 0; deuda = 0;
-    localStorage.setItem('user_infinito', 'false');
+    coins = 0; deuda = 0;
     localStorage.setItem('user_coins', '0');
     localStorage.setItem('user_deuda', '0');
     updateCoinDisplay();
@@ -331,7 +314,7 @@ function resetMoney() {
 function updateLoop() {
     totalSeconds++;
     localStorage.setItem('playtime', totalSeconds);
-    if (totalSeconds % 180 === 0 && !isInfinito) addCoins(hasMultiplier ? 10 : 5);
+    if (totalSeconds % 180 === 0) addCoins(hasMultiplier ? 10 : 5);
     const h = Math.floor(totalSeconds / 3600);
     const m = Math.floor((totalSeconds % 3600) / 60);
     document.getElementById('time-display').innerText = `${h}h ${m}m`;
@@ -351,7 +334,7 @@ function render() {
         if (!game.name.toLowerCase().includes(searchTerm)) return;
         const card = document.createElement('div');
         card.className = 'game-card';
-        card.innerHTML = `<button class="fav-btn ${favorites.includes(game.id)?'active':''}" onclick="toggleFav('${game.id}', event)">★</button><img src="${game.img}"><span>${game.name}</span>`;
+        card.innerHTML = `<button class="fav-btn ${favorites.includes(game.id)?'active':''}" onclick="toggleFav('${game.id}', event)">★</button><img src="${game.img}" onerror="this.src='https://via.placeholder.com/150x100?text=Game'"><span>${game.name}</span>`;
         card.onclick = () => {
             document.getElementById('game-title-on-bar').innerText = game.name;
             if(game.type === 'special') window[game.func]();
@@ -371,8 +354,8 @@ function render() {
 
 function buyMultiplier() {
     if(hasMultiplier) return alert("¡Ya lo tienes!");
-    if(isInfinito || coins >= 1000) {
-        if(!isInfinito) coins -= 1000; 
+    if(coins >= 1000) {
+        coins -= 1000; 
         hasMultiplier = true;
         localStorage.setItem('user_multiplier', 'true');
         updateCoinDisplay();
@@ -429,7 +412,6 @@ document.addEventListener('keydown', e => {
 window.onload = () => {
     if(localStorage.getItem('user_name')) document.getElementById('user-name').innerText = localStorage.getItem('user_name');
     if(localStorage.getItem('user_avatar')) document.getElementById('user-avatar').src = localStorage.getItem('user_avatar');
-    if(isInfinito) document.getElementById('admin-shop').style.display = 'block';
     updateShopUI();
     checkPrestamoVis();
     updateCoinDisplay();
