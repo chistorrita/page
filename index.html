@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title id="tab-title">Working... - Google Docs</title>
+<title id="tab-title">Google Docs</title>
 <link id="tab-icon" rel="icon" type="image/x-icon" href="https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico">
 <style>
 :root { --accent: #39C5BB; --dark: #121212; --card: #1E1E1E; --turq-bar: #39C5BB; }
@@ -172,7 +172,6 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
 <script>
 // --- JUEGOS ---
 const games = [
-    { id: 'tk', name: 'TikTok Trends', img: 'https://sf-tb-static.fingerfun.com/images/tiktok.png', type: 'special', func: 'launchTikTok' },
     { id: 'ai', name: 'AI Assistant', img: 'https://avatars.githubusercontent.com/u/86964862?s=200&v=4', type: 'special', func: 'launchAI' },
     { id: 'sf3', name: 'Street Fighter Alpha 3', img: 'https://static.wikia.nocookie.net/nintendo/images/a/a9/Street_Fighter_Alpha_3_Upper_box_art.jpg/revision/latest?cb=20170119005425&path-prefix=en', path: 'math/sf.html' },
     { id: 'pm', name: 'Pepsi Man', img: 'https://images.launchbox-app.com/aa61e452-65f0-4319-ab68-c9bab9678393.jpg', path: 'math/pepsiman.html' },
@@ -205,13 +204,16 @@ let deuda = parseInt(localStorage.getItem('user_deuda')) || 0;
 let tieneSeguro = localStorage.getItem('user_seguro') === 'true';
 let rachaSucia = 0;
 
-function addCoins(amount) {
-    if (deuda > 0) {
+function addCoins(amount, esPrestamo = false) {
+    // Si NO es un préstamo y hay deuda, cobramos
+    if (!esPrestamo && deuda > 0) {
         let pago = Math.min(amount, deuda);
         deuda -= pago;
         amount -= pago;
         localStorage.setItem('user_deuda', deuda);
     }
+    
+    // Sumamos lo que quede (o el préstamo entero)
     coins += amount;
     localStorage.setItem('user_coins', coins);
     updateCoinDisplay();
@@ -243,10 +245,12 @@ function playRoulette() {
 }
 
 function calculateResult() {
-    const r = Math.random() * 100;
+    const r = Math.random() * 100; // Genera un número del 0 al 100
     const display = document.getElementById('roulette-display');
     let win = 0;
-    if (r < 7) {
+
+    if (r < 7) { 
+        // 7% de probabilidad de Bancarrota
         if (tieneSeguro) {
             display.innerText = "🛡️ SEGURO ACTIVADO";
             display.style.color = "#00ff00";
@@ -258,15 +262,27 @@ function calculateResult() {
             display.innerText = "BANCARROTA 💀";
             display.style.color = "red";
         }
-    } else if (r < 15) { 
-        win = 1000; display.innerText = "JACKPOT! 🎰"; display.style.color = "gold"; rachaSucia++;
-    } else if (r < 40) { 
+    } 
+    else if (r < 8) { 
+        // 1% de probabilidad (del 7 al 8): JACKPOT
+        win = 5000; 
+        display.innerText = "🔥 JACKPOT 5000!!"; 
+        display.style.color = "gold"; 
+        rachaSucia++;
+    } 
+    else if (r < 30) { 
+        // 22% de probabilidad: Premio de 300
         win = 300; display.innerText = "+300 🪙"; display.style.color = "#39C5BB"; rachaSucia++;
-    } else if (r < 70) { 
+    } 
+    else if (r < 60) { 
+        // 30% de probabilidad: Premio de 150
         win = 150; display.innerText = "+150 🪙"; display.style.color = "white"; rachaSucia++;
-    } else { 
+    } 
+    else { 
+        // Resto: Nada
         display.innerText = "0 - NADA"; display.style.color = "#444"; rachaSucia = 0;
     }
+
     if (win > 0) addCoins(win);
     checkPrestamoVis();
     updateCoinDisplay();
@@ -277,12 +293,18 @@ function checkPrestamoVis() {
 }
 
 function pedirPrestamo() {
-    if (deuda > 0) return alert("Paga tu deuda primero.");
-    deuda = 400; addCoins(200);
+    if (deuda > 0) return alert("¡Paga tu deuda primero!");
+    
+    deuda = 400; 
     localStorage.setItem('user_deuda', deuda);
+    
+    // Agregamos el segundo parámetro 'true' para indicar que es préstamo
+    addCoins(200, true); 
+    
     checkPrestamoVis();
+    checkStatusBadges();
+    alert("¡Trato hecho! Recibes 200 🪙 pero ahora debes 400.");
 }
-
 function buySeguro() {
     if(tieneSeguro) return alert("Ya tienes seguro.");
     if(coins >= 500) {
@@ -400,11 +422,6 @@ function launchGhost(path) {
     });
 }
 
-function launchTikTok() {
-    document.getElementById('content-frame').src = "https://urlebird.com/trending/";
-    document.getElementById('overlay-layer').style.display = 'flex';
-}
-
 function launchAI() {
     const aiHTML = `<html><head><style>body{background:#0a0a0a;color:#e0e0e0;font-family:sans-serif;margin:0;display:flex;flex-direction:column;height:100vh;}#chat{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:15px;}.bubble{max-width:85%;padding:14px;border-radius:15px;font-size:14px;line-height:1.5;box-shadow:0 4px 15px rgba(0,0,0,0.5);}.user{align-self:flex-end;background:#1a1a1a;color:#39C5BB;border:1px solid #333;}.bot{align-self:flex-start;background:#222;color:#fff;border-left:4px solid #39C5BB;}#input-area{padding:20px;background:#111;display:flex;gap:10px;border-top:1px solid #222;}input{flex:1;border:1px solid #333;padding:14px;border-radius:10px;background:#000;color:white;outline:none;}button{background:#39C5BB;border:none;color:#000;padding:0 25px;border-radius:10px;cursor:pointer;font-weight:bold;}</style></head><body><div id="chat"></div><div id="input-area"><input type="text" id="i" placeholder="Pregunta algo..."><button onclick="ask()">ENVIAR</button></div><script>async function ask(){const i=document.getElementById('i'),c=document.getElementById('chat');if(!i.value)return;const u=document.createElement('div');u.className='bubble user';u.innerText=i.value;c.appendChild(u);const p=i.value;i.value='...';i.disabled=true;try{const r=await fetch('https://text.pollinations.ai/'+encodeURIComponent(p)+'?model=openai');const t=await r.text();const b=document.createElement('div');b.className='bubble bot';b.innerText=t;c.appendChild(b);}catch{alert('Error');}i.value='';i.disabled=false;c.scrollTop=c.scrollHeight;}<\/script></body></html>`;
     const blob = new Blob([aiHTML], {type: 'text/html'});
@@ -452,3 +469,4 @@ window.onload = () => {
 </script>
 </body>
 </html>
+
