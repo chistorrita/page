@@ -14,7 +14,9 @@ body { background: var(--dark); color: white; font-family: sans-serif; margin: 0
 .top-btns { display: flex; gap: 12px; align-items: center; }
 
 header { padding: 20px; border-bottom: 2px solid var(--accent); background: #222; }
-h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
+/* Logo con click secreto */
+h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; cursor: pointer; user-select: none; }
+h1:active { transform: scale(0.98); }
 
 /* Buscador */
 #search-container { padding: 15px; background: #1a1a1a; }
@@ -30,6 +32,7 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
 .status-badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; margin-left: 5px; font-weight: bold; }
 .deuda-badge { background: #ff4444; color: white; }
 .racha-badge { background: orange; color: black; animation: shake 0.5s infinite; display: inline-block; }
+.infinito-badge { background: #39C5BB; color: #000; box-shadow: 0 0 10px #39C5BB; }
 @keyframes shake { 0%, 100% {transform: rotate(0deg);} 50% {transform: rotate(5deg);} }
 
 /* Botón Ruleta */
@@ -95,6 +98,12 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
         <p style="font-size:0.6rem; color:#888;">Evita 1 Bancarrota en la ruleta.</p>
         <button id="buy-seguro" onclick="buySeguro()" style="background:#00ff00; color:black; margin-top:5px;">COMPRAR (500 🪙)</button>
     </div>
+    <div id="admin-shop" style="display:none;">
+        <div class="shop-item" style="border-color: #39C5BB;">
+            <p style="margin:0; font-weight:bold; color:#39C5BB;">💻 Modo Hacker</p>
+            <button onclick="resetMoney()" style="background:#333; color:white; margin-top:5px;">RESET DINERO</button>
+        </div>
+    </div>
     <button onclick="closeModal('shop-modal')" style="background:#444; color:white">CERRAR</button>
 </div>
 
@@ -128,7 +137,7 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
     <iframe id="content-frame" style="flex:1; width:100%; border:none;" allowfullscreen></iframe>
 </div>
 
-<header><h1>CHISTORRITA</h1></header>
+<header><h1 onclick="cheatClick()">CHISTORRITA</h1></header>
 
 <div id="profile-section">
     <img id="user-avatar" src="https://pbs.twimg.com/media/GgKR-vqWMAAcrJD.jpg" onclick="openModal('edit-profile-modal')">
@@ -181,10 +190,13 @@ let hasMultiplier = localStorage.getItem('user_multiplier') === 'true';
 let favorites = JSON.parse(localStorage.getItem('user_favorites')) || [];
 let deuda = parseInt(localStorage.getItem('user_deuda')) || 0;
 let tieneSeguro = localStorage.getItem('user_seguro') === 'true';
+let isInfinito = localStorage.getItem('user_infinito') === 'true';
+let cheatCounter = 0;
 let rachaSucia = 0;
 
-// --- GESTIÓN DE MONEDAS (Con Deuda) ---
+// --- GESTIÓN DE MONEDAS ---
 function addCoins(amount) {
+    if(isInfinito) return;
     if (deuda > 0) {
         let pago = Math.min(amount, deuda);
         deuda -= pago;
@@ -197,14 +209,45 @@ function addCoins(amount) {
 }
 
 function updateCoinDisplay() {
-    document.getElementById('coin-count').innerText = coins;
+    const display = document.getElementById('coin-count');
+    if (isInfinito) {
+        display.innerText = "∞";
+        display.style.fontSize = "1.5rem";
+    } else {
+        display.innerText = coins;
+        display.style.fontSize = "1rem";
+    }
     checkStatusBadges();
+}
+
+// --- CHEAT INFINITO ---
+function cheatClick() {
+    cheatCounter++;
+    if(cheatCounter >= 5) {
+        isInfinito = true;
+        localStorage.setItem('user_infinito', 'true');
+        document.getElementById('admin-shop').style.display = 'block';
+        alert("💻 ACCESO ROOT: DINERO INFINITO ACTIVADO");
+        updateCoinDisplay();
+        cheatCounter = 0;
+    }
+}
+
+function resetMoney() {
+    isInfinito = false;
+    coins = 0;
+    deuda = 0;
+    localStorage.setItem('user_infinito', 'false');
+    localStorage.setItem('user_coins', '0');
+    localStorage.setItem('user_deuda', '0');
+    updateCoinDisplay();
+    alert("Dinero reseteado. ¡Vuelve a la lucha!");
 }
 
 // --- RULETA LOGIC ---
 function playRoulette() {
-    if (coins < 100) return alert("Necesitas 100 monedas.");
-    coins -= 100;
+    if (!isInfinito && coins < 100) return alert("Necesitas 100 monedas.");
+    if (!isInfinito) coins -= 100;
     updateCoinDisplay();
     const display = document.getElementById('roulette-display');
     const spinBtn = document.getElementById('spin-btn');
@@ -226,7 +269,7 @@ function calculateResult() {
     const display = document.getElementById('roulette-display');
     let win = 0;
 
-    if (r < 7) { // BANCARROTA
+    if (r < 7 && !isInfinito) { // BANCARROTA (No afecta a infinito)
         if (tieneSeguro) {
             display.innerText = "🛡️ SEGURO ACTIVADO";
             display.style.color = "#00ff00";
@@ -255,7 +298,7 @@ function calculateResult() {
 
 // --- PRESTAMOS Y SEGURO ---
 function checkPrestamoVis() {
-    document.getElementById('prestamo-section').style.display = (coins < 100) ? 'block' : 'none';
+    document.getElementById('prestamo-section').style.display = (!isInfinito && coins < 100) ? 'block' : 'none';
 }
 
 function pedirPrestamo() {
@@ -268,8 +311,9 @@ function pedirPrestamo() {
 
 function buySeguro() {
     if(tieneSeguro) return alert("Ya tienes seguro.");
-    if(coins >= 500) {
-        coins -= 500; tieneSeguro = true;
+    if(isInfinito || coins >= 500) {
+        if(!isInfinito) coins -= 500;
+        tieneSeguro = true;
         localStorage.setItem('user_coins', coins);
         localStorage.setItem('user_seguro', 'true');
         updateCoinDisplay(); updateShopUI();
@@ -281,10 +325,12 @@ function updateShopUI() {
     const box = document.getElementById('item-seguro');
     if (tieneSeguro) { btn.innerText = "ACTIVO"; box.classList.add('seguro-active'); }
     else { btn.innerText = "COMPRAR (500 🪙)"; box.classList.remove('seguro-active'); }
+    if(isInfinito) document.getElementById('admin-shop').style.display = 'block';
 }
 
 function checkStatusBadges() {
     const userStatus = document.getElementById('user-status');
+    
     const oldRacha = document.getElementById('racha-badge');
     if (oldRacha) oldRacha.remove();
     if (rachaSucia >= 3) {
@@ -292,9 +338,18 @@ function checkStatusBadges() {
         span.id = 'racha-badge'; span.className = 'status-badge racha-badge';
         span.innerText = `🔥 RACHA X${rachaSucia}`; userStatus.appendChild(span);
     }
+
+    const oldInf = document.getElementById('infinito-badge');
+    if (oldInf) oldInf.remove();
+    if (isInfinito) {
+        const iSpan = document.createElement('span');
+        iSpan.id = 'infinito-badge'; iSpan.className = 'status-badge infinito-badge';
+        iSpan.innerText = `MODO DIOS`; userStatus.appendChild(iSpan);
+    }
+
     const oldDeuda = document.getElementById('deuda-badge');
     if (oldDeuda) oldDeuda.remove();
-    if (deuda > 0) {
+    if (deuda > 0 && !isInfinito) {
         const dSpan = document.createElement('span');
         dSpan.id = 'deuda-badge'; dSpan.className = 'status-badge deuda-badge';
         dSpan.innerText = `DEUDA: ${deuda}`; userStatus.appendChild(dSpan);
@@ -305,7 +360,7 @@ function checkStatusBadges() {
 function updateLoop() {
     totalSeconds++;
     localStorage.setItem('playtime', totalSeconds);
-    if (totalSeconds % 180 === 0) {
+    if (totalSeconds % 180 === 0 && !isInfinito) {
         addCoins(hasMultiplier ? 10 : 5);
     }
     const h = Math.floor(totalSeconds / 3600);
@@ -350,8 +405,9 @@ function render() {
 
 function buyMultiplier() {
     if(hasMultiplier) return alert("¡Ya lo tienes!");
-    if(coins >= 1000) {
-        coins -= 1000; hasMultiplier = true;
+    if(isInfinito || coins >= 1000) {
+        if(!isInfinito) coins -= 1000; 
+        hasMultiplier = true;
         localStorage.setItem('user_coins', coins); localStorage.setItem('user_multiplier', 'true');
         updateCoinDisplay();
         document.getElementById('buy-x2').innerText = "ADQUIRIDO";
