@@ -88,9 +88,8 @@ function closeYTMenu() { document.getElementById('yt-selector').style.display = 
 function ytSearchCustom() {
     const term = document.getElementById('yt-search-input').value;
     if(term) {
-        // Usamos una instancia de Invidious (yewtu.be) que es un espejo de YouTube
-        // Esto se salta la mayoría de los bloqueos porque no usa el dominio de YouTube
-        const url = "https://yewtu.be/search?q=" + encodeURIComponent(term);
+        // Usamos una instancia de Piped que redirige el tráfico de forma distinta
+        const url = "https://piped.video/search?q=" + encodeURIComponent(term);
         document.getElementById('content-frame').src = url;
         document.getElementById('overlay-layer').style.display = 'block';
         closeYTMenu();
@@ -151,4 +150,5 @@ document.addEventListener('keydown', e => { if (e.key === "Escape") closeOverlay
 </script>
 </body>
 </html>
+
 
