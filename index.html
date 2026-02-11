@@ -242,7 +242,11 @@ function calculateResult() {
     const r = Math.random() * 100;
     const display = document.getElementById('roulette-display');
     let win = 0;
-    if (r < 7) {
+    
+    // --- NUEVAS PROBABILIDADES MÁS DIFÍCILES ---
+    if (r < 1) { // 1% MEGA JACKPOT
+        win = 5000; display.innerText = "⭐ MEGA JACKPOT ⭐"; display.style.color = "gold"; rachaSucia++;
+    } else if (r < 8) { // 7% BANCARROTA
         if (tieneSeguro) {
             display.innerText = "🛡️ SEGURO ACTIVADO";
             display.style.color = "#00ff00";
@@ -254,10 +258,10 @@ function calculateResult() {
             display.innerText = "BANCARROTA 💀";
             display.style.color = "red";
         }
-    } else if (r < 15) { win = 1000; display.innerText = "JACKPOT! 🎰"; display.style.color = "gold"; rachaSucia++; }
-    else if (r < 40) { win = 300; display.innerText = "+300 🪙"; display.style.color = "#39C5BB"; rachaSucia++; }
-    else if (r < 70) { win = 150; display.innerText = "+150 🪙"; display.style.color = "white"; rachaSucia++; }
+    } else if (r < 25) { win = 300; display.innerText = "+300 🪙"; display.style.color = "#39C5BB"; rachaSucia++; }
+    else if (r < 60) { win = 150; display.innerText = "+150 🪙"; display.style.color = "white"; rachaSucia++; }
     else { display.innerText = "0 - NADA"; display.style.color = "#444"; rachaSucia = 0; }
+    
     if (win > 0) addCoins(win);
     checkPrestamoVis();
     updateCoinDisplay();
@@ -327,7 +331,6 @@ function launchGhost(path) {
     });
 }
 
-// --- IA REPARADA Y RESISTENTE ---
 function launchAI() {
     const aiHTML = `<html><head><style>
     body{background:#0a0a0a;color:#e0e0e0;font-family:sans-serif;margin:0;display:flex;flex-direction:column;height:100vh;}
@@ -350,13 +353,10 @@ function launchAI() {
         c.scrollTop=c.scrollHeight;
 
         try {
-            // NUEVO PUENTE: Más rápido y estable para el colegio
             const targetUrl = 'https://text.pollinations.ai/' + encodeURIComponent(userMsg) + '?model=openai';
             const response = await fetch('https://api.codetabs.com/v1/proxy/?quest=' + encodeURIComponent(targetUrl));
-            
             if(!response.ok) throw new Error();
             const text = await response.text();
-            
             const b=document.createElement('div'); b.className='bubble bot';
             b.innerText = text;
             c.appendChild(b);
@@ -364,15 +364,13 @@ function launchAI() {
             const err=document.createElement('div'); err.className='bubble bot';
             err.style.color='#ff4444'; err.innerText='[ERROR]: Reintentando por canal seguro...';
             c.appendChild(err);
-            
-            // Reintento automático sin proxy por si el bloqueo no es tan fuerte
             try {
                 const r2 = await fetch('https://text.pollinations.ai/' + encodeURIComponent(userMsg));
                 const t2 = await r2.text();
                 err.innerText = t2;
                 err.style.color = 'white';
             } catch {
-                err.innerText = 'El firewall es demasiado fuerte hoy. Usa los juegos por ahora.';
+                err.innerText = 'Servidor ocupado. Intenta de nuevo.';
             }
         }
         i.value=''; i.disabled=false; i.focus();
@@ -407,5 +405,3 @@ window.onload = () => {
 </script>
 </body>
 </html>
-
-
