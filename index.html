@@ -5,11 +5,10 @@
 <title id="tab-title">Google Docs</title>
 <link id="tab-icon" rel="icon" type="image/x-icon" href="https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico">
 <style>
-:root { --accent: #39C5BB; --dark: #121212; --card: #1E1E1E; --turq-bar: #39C5BB; }
-body { background: var(--dark); color: white; font-family: sans-serif; margin: 0; text-align: center; overflow-x: hidden; }
+:root { --accent: #39C5BB; --dark: #121212; --card: #1E1E1E; }
+body { background: var(--dark); color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; text-align: center; overflow-x: hidden; }
 
-.coin-img { width: 18px; height: 18px; vertical-align: middle; margin-right: 2px; }
-
+/* Barra Superior */
 #top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #000; font-size: 0.8rem; border-bottom: 1px solid #333; }
 #datetime { color: var(--accent); font-family: monospace; }
 .top-btns { display: flex; gap: 12px; align-items: center; }
@@ -17,85 +16,44 @@ body { background: var(--dark); color: white; font-family: sans-serif; margin: 0
 header { padding: 20px; border-bottom: 2px solid var(--accent); background: #222; }
 h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
 
-#search-container { padding: 15px; background: #1a1a1a; }
-#game-search { width: 60%; max-width: 400px; padding: 10px 20px; border-radius: 20px; border: 1px solid #333; background: #000; color: white; outline: none; transition: 0.3s; }
-#game-search:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(57, 197, 187, 0.3); }
-
+/* Perfil */
 #profile-section { background: #1a1a1a; padding: 15px; border-bottom: 1px solid #333; display: flex; align-items: center; justify-content: center; gap: 20px; }
-#user-avatar { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--accent); cursor: pointer; object-fit: cover; }
+#user-avatar { width: 65px; height: 65px; border-radius: 50%; border: 2px solid var(--accent); cursor: pointer; object-fit: cover; background: #333; }
 .coin-display { background: #222; padding: 5px 15px; border-radius: 20px; border: 1px solid gold; color: gold; font-weight: bold; }
 
-.status-badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; margin-left: 5px; font-weight: bold; }
-.deuda-badge { background: #ff4444; color: white; }
+/* Buscador */
+#search-container { padding: 15px; background: #1a1a1a; }
+#game-search { width: 60%; max-width: 400px; padding: 10px 20px; border-radius: 20px; border: 1px solid #333; background: #000; color: white; outline: none; }
 
-.ruleta-btn { background: linear-gradient(45deg, #FFD700, #FFA500); color: black; border: none; padding: 5px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; animation: glow 2s infinite; }
-@keyframes glow { 0% { box-shadow: 0 0 5px gold; } 50% { box-shadow: 0 0 20px gold; } 100% { box-shadow: 0 0 5px gold; } }
-
+/* Grid de Juegos */
 .container { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; padding: 20px; max-width: 1400px; margin: auto; }
-#favorites-container { border-bottom: 2px dashed #333; padding-bottom: 20px; display: none; margin-bottom: 20px; }
-.fav-title { grid-column: 1 / -1; text-align: left; color: gold; font-size: 0.9rem; margin-bottom: 10px; font-weight: bold; }
-
 .game-card { background: var(--card); border: 2px solid #333; border-radius: 15px; padding: 12px; cursor: pointer; transition: 0.3s; position: relative; height: 180px; display: flex; flex-direction: column; justify-content: space-between; }
 .game-card:hover { border-color: var(--accent); transform: translateY(-5px); }
 .game-card img { width: 100%; height: 100px; border-radius: 10px; object-fit: cover; }
-.game-card span { font-size: 0.75rem; font-weight: bold; margin-top: 5px; }
-.fav-btn { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.7); border: none; color: white; border-radius: 50%; cursor: pointer; padding: 5px; z-index: 5; }
-.fav-btn.active { color: gold; }
+.game-card span { font-size: 0.75rem; font-weight: bold; }
 
-.modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1e1e1e; padding: 25px; border-radius: 20px; border: 2px solid var(--accent); z-index: 10001; width: 320px; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
-.modal input { width: 90%; padding: 10px; margin: 10px 0; background: #000; border: 1px solid #333; color: white; border-radius: 8px; }
-.modal button { width: 100%; padding: 10px; margin: 5px 0; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-.shop-item { background: #000; padding: 10px; border-radius: 10px; border: 1px solid #333; margin-bottom: 10px; text-align: left; }
+/* Modales */
+.modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1e1e1e; padding: 25px; border-radius: 20px; border: 2px solid var(--accent); z-index: 10001; width: 340px; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+.modal h3 { margin-top: 0; color: var(--accent); }
+.modal input, .modal select { width: 90%; padding: 10px; margin: 10px 0; background: #000; color: white; border: 1px solid #333; border-radius: 8px; }
+.modal button { width: 100%; padding: 12px; margin: 5px 0; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
+.shop-item { background: #000; padding: 10px; border-radius: 10px; border: 1px solid #333; margin-bottom: 10px; text-align: left; font-size: 0.8rem; }
 
+/* Capa de Juego */
 #overlay-layer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; flex-direction: column; }
-#game-bar { display: flex; justify-content: space-between; align-items: center; background: #222; padding: 8px 20px; border-bottom: 2px solid var(--accent); color: white; }
-#game-title-on-bar { font-family: monospace; font-size: 0.9rem; color: var(--accent); }
-.bar-btn { background: #333; color: white; border: 1px solid #444; padding: 6px 15px; border-radius: 8px; cursor: pointer; }
-.btn-close { background: #8b0000 !important; }
+#game-bar { display: flex; justify-content: space-between; align-items: center; background: #222; padding: 8px 20px; border-bottom: 2px solid var(--accent); }
 </style>
 </head>
 <body>
 
 <div id="top-bar">
-    <div id="datetime">Cargando...</div>
+    <div id="datetime">00:00:00</div>
     <div class="top-btns">
-        <button class="ruleta-btn" onclick="openModal('roulette-modal')">🎰 SUERTE</button>
-        <div class="coin-display"><img src="https://i.postimg.cc/4yDWr2xT/22-sin-titulo-20260211174118.png" class="coin-img"> <span id="coin-count">0</span></div>
+        <button onclick="openModal('roulette-modal')" style="background:gold; border-radius:20px; padding:5px 15px; font-weight:bold; cursor:pointer;">🎰 RULETA</button>
+        <div class="coin-display">🪙 <span id="coin-count">0</span></div>
         <div style="cursor:pointer;" onclick="openModal('shop-modal')">🛒 Tienda</div>
         <div style="cursor:pointer;" onclick="openModal('settings-modal')">⚙️ Camuflaje</div>
     </div>
-</div>
-
-<div id="roulette-modal" class="modal">
-    <h3 style="color:gold; margin-top:0;">Ruleta Chistorrita</h3>
-    <div id="roulette-display" style="font-size: 2rem; font-weight: bold; margin: 20px 0; color: var(--accent);">???</div>
-    <button id="spin-btn" onclick="playRoulette()" style="background:gold; color:black;">¡GIRAR! (100 🪙)</button>
-    <div id="prestamo-section" style="display:none; margin-top:10px;">
-        <button onclick="pedirPrestamo()" style="background:#222; color:white; border:1px solid #ff4444; font-size:0.7rem;">PEDIR 200 🪙</button>
-    </div>
-    <button onclick="closeModal('roulette-modal')" style="background:#444; color:white; margin-top:10px;">SALIR</button>
-</div>
-
-<div id="edit-profile-modal" class="modal">
-    <h3 style="color:var(--accent); margin-top:0;">Editar Perfil</h3>
-    <input type="text" id="input-name" placeholder="Nombre...">
-    <input type="text" id="input-avatar" placeholder="URL Imagen...">
-    <button onclick="saveProfile()" style="background:var(--accent); color:black;">GUARDAR</button>
-    <button onclick="closeModal('edit-profile-modal')" style="background:#444;">CERRAR</button>
-</div>
-
-<div id="shop-modal" class="modal">
-    <h3 style="color:gold; margin-top:0;">Tienda</h3>
-    <button onclick="buyMultiplier()" style="background:gold; color:black;">Multiplicador x2 (1000 🪙)</button>
-    <button onclick="closeModal('shop-modal')" style="background:#444; color:white; margin-top:10px;">CERRAR</button>
-</div>
-
-<div id="overlay-layer">
-    <div id="game-bar">
-        <div id="game-title-on-bar">CARGANDO...</div>
-        <button class="bar-btn btn-close" onclick="closeOverlay()">✕ CLOSE</button>
-    </div>
-    <iframe id="content-frame" style="flex:1; width:100%; border:none;" allowfullscreen></iframe>
 </div>
 
 <header><h1>CHISTORRITA</h1></header>
@@ -103,9 +61,8 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
 <div id="profile-section">
     <img id="user-avatar" src="https://pbs.twimg.com/media/GgKR-vqWMAAcrJD.jpg" onclick="openModal('edit-profile-modal')">
     <div class="profile-info">
-        <h2 id="user-name">Usuario Nuevo</h2>
-        <p id="user-status" style="color: #4CAF50; font-weight: bold; font-size:0.8rem; margin:0;">● En línea</p>
-        <p style="color:var(--accent); font-weight:bold; font-size:0.7rem;">TIEMPO: <span id="time-display">0h 0m</span></p>
+        <h2 id="user-name" style="margin:0;">Usuario Nuevo</h2>
+        <p style="color:var(--accent); font-weight:bold; font-size:0.75rem; margin:5px 0;">TIEMPO: <span id="time-display">0h 0m</span></p>
     </div>
 </div>
 
@@ -113,14 +70,59 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
     <input type="text" id="game-search" placeholder="🔍 Buscar juego..." oninput="render()">
 </div>
 
-<div class="container" id="main-grid">
-    <div id="favorites-container" class="container"></div>
+<div class="container" id="main-grid"></div>
+
+<div id="edit-profile-modal" class="modal">
+    <h3>Mi Perfil</h3>
+    <input type="text" id="input-name" placeholder="Tu nombre...">
+    <input type="text" id="input-avatar" placeholder="URL de tu foto...">
+    <button onclick="saveProfile()" style="background:var(--accent); color:black;">GUARDAR</button>
+    <button onclick="closeModal('edit-profile-modal')" style="background:#444; color:white;">CANCELAR</button>
+</div>
+
+<div id="shop-modal" class="modal">
+    <h3>Tienda Chistorrita</h3>
+    <div class="shop-item">
+        <b>🔥 Multiplicador x2</b><br>Gana el doble de monedas por minuto.<br>
+        <button onclick="buyMultiplier()" style="background:gold; color:black; margin-top:5px;">COMPRAR (1000 🪙)</button>
+    </div>
+    <div class="shop-item">
+        <b>🛡️ Seguro de Ruleta</b><br>Protección contra una bancarrota.<br>
+        <button id="btn-seguro" onclick="buySeguro()" style="background:#00ff00; color:black; margin-top:5px;">COMPRAR (500 🪙)</button>
+    </div>
+    <button onclick="closeModal('shop-modal')" style="background:#444; color:white;">SALIR</button>
+</div>
+
+<div id="settings-modal" class="modal">
+    <h3>Ajustes de Camuflaje</h3>
+    <select id="cam-select">
+        <option value="docs">Google Docs</option>
+        <option value="drive">Google Drive</option>
+        <option value="classroom">Google Classroom</option>
+    </select>
+    <button onclick="applyCamouflage()" style="background:var(--accent); color:black;">APLICAR CAMBIOS</button>
+    <button onclick="closeModal('settings-modal')" style="background:#444; color:white;">CERRAR</button>
+</div>
+
+<div id="roulette-modal" class="modal">
+    <h3>Ruleta de la Suerte</h3>
+    <div id="roulette-display" style="font-size:2.5rem; margin:20px; font-weight:bold; color:var(--accent);">???</div>
+    <button id="spin-btn" onclick="playRoulette()" style="background:gold; color:black;">¡GIRAR! (100 🪙)</button>
+    <button onclick="closeModal('roulette-modal')" style="background:#444; color:white; margin-top:10px;">SALIR</button>
+</div>
+
+<div id="overlay-layer">
+    <div id="game-bar">
+        <div id="game-title-on-bar" style="color:white; font-weight:bold;">JUEGO</div>
+        <button onclick="closeOverlay()" style="background:#8b0000; color:white; border:none; padding:8px 20px; border-radius:5px; cursor:pointer; font-weight:bold;">✕ CERRAR</button>
+    </div>
+    <iframe id="content-frame" style="flex:1; width:100%; border:none;" allowfullscreen></iframe>
 </div>
 
 <script>
-// --- LISTA DE JUEGOS COMPLETA ---
+// --- LISTA DE JUEGOS ---
 const games = [
-    { id: 'ai', name: 'AI Assistant', img: 'https://avatars.githubusercontent.com/u/86964862?s=200&v=4', type: 'special', func: 'launchAI' },
+    { id: 'ai', name: 'AI Assistant', img: 'https://avatars.githubusercontent.com/u/86964862?s=200&v=4', type: 'special' },
     { id: 'sf3', name: 'Street Fighter Alpha 3', img: 'https://static.wikia.nocookie.net/nintendo/images/a/a9/Street_Fighter_Alpha_3_Upper_box_art.jpg/revision/latest?cb=20170119005425&path-prefix=en', path: 'math/sf.html' },
     { id: 'pm', name: 'Pepsi Man', img: 'https://images.launchbox-app.com/aa61e452-65f0-4319-ab68-c9bab9678393.jpg', path: 'math/pepsiman.html' },
     { id: 'br', name: 'The Backrooms', img: 'https://images.sftcdn.net/images/t_app-cover-s-16-9,f_auto/p/f7ecad09-1b61-429f-b42d-0b5f3254be83/3110476367/the-backrooms-game-screenshot', path: 'math/cuartos.html' },
@@ -129,43 +131,115 @@ const games = [
     { id: 'tf', name: 'FNF: TwiddleFinger', img: 'https://kbhgames.com/wp-content/uploads/2024/06/FNF-TwiddleFinger.webp', path: 'math/fnfTWIDDLEFINGER.html' },
     { id: 'ag', name: 'FNF vs Agoti', img: 'https://images.gamebanana.com/img/ss/mods/60986ffa12142.jpg', path: 'math/fnfagoti.html' },
     { id: 'an', name: 'FNF vs Animation', img: 'https://images.gamebanana.com/img/ss/mods/6233d68f1b023.jpg', path: 'math/fnfanimation.html' },
-    { id: 'bf', name: 'FNF vs BFDI 26', img: 'https://images.gamebanana.com/img/ss/wips/6697d4c1c3dd0.jpg', path: 'math/fnfbfdi26.html' },
-    { id: 'bb', name: 'FNF vs Black Betrayal', img: 'https://i.ytimg.com/vi/xqY5xsGO1VY/maxresdefault.jpg', path: 'math/fnfblackbetrayal.html' },
-    { id: 'ca', name: 'FNF vs Camellia', img: 'https://images.gamebanana.com/img/ss/mods/61130e899ff0a.jpg', path: 'math/fnfcamelliarudeblaster.html' },
-    { id: 'co', name: 'FNF vs Cory', img: 'https://pbs.twimg.com/profile_images/1593454294099001350/JmhDalcR_400x400.png', path: 'math/fnfcory.html' },
-    { id: 'cr', name: 'FNF vs Crunchin', img: 'https://i.ytimg.com/vi/OyfLu-x5Ryc/maxresdefault.jpg', path: 'math/fnfcrunchin.html' },
-    { id: 'de', name: 'FNF Desolation', img: 'https://i1.sndcdn.com/artworks-zMXBoO0Bvf38nE5N-yJ5HAA-t500x500.jpg', path: 'math/fnfdesolation.html' },
-    { id: 'dt', name: 'FNF Doki Takeover', img: 'https://i.ytimg.com/vi/4pB0XtscOhs/maxresdefault.jpg', path: 'math/fnfdokitakeoverplus.html' },
-    { id: 'dr', name: 'FNF Drop and Roll', img: 'https://images.gamebanana.com/img/ss/mods/6654fc5193e7a.jpg', path: 'math/fnfdropandroll.html' },
-    { id: 'du', name: 'FNF vs Dustin', img: 'https://images.gamebanana.com/img/ss/mods/68c5e96da7aca.jpg', path: 'math/fnfdustin.html' },
-    { id: 'fw', name: 'FNF Fleetway', img: 'https://images.steamusercontent.com/ugc/1835779809877904647/22BDAE0EC75DAA5C9E95152211BB05B54AC287D0/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true', path: 'math/fnffleetway.html' },
     { id: 'f1', name: 'FNF vs FNAF 1', img: 'https://img.itch.zone/aW1hZ2UvMTQ1NDMzMS84NDkxODQzLnBuZw==/original/nyYosD.png', path: 'math/fnffnaf1.html' }
 ];
 
-// --- VARIABLES DE ESTADO ---
+// --- ESTADO ---
 let coins = parseInt(localStorage.getItem('user_coins')) || 0;
 let totalSeconds = parseInt(localStorage.getItem('playtime')) || 0;
 let hasMultiplier = localStorage.getItem('user_multiplier') === 'true';
-let favorites = JSON.parse(localStorage.getItem('user_favorites')) || [];
-let deuda = parseInt(localStorage.getItem('user_deuda')) || 0;
+let tieneSeguro = localStorage.getItem('user_seguro') === 'true';
 
-// --- RELOJ Y TIEMPO ---
-function updateTime() {
+// --- RELOJ ---
+function updateClock() {
     totalSeconds++;
     localStorage.setItem('playtime', totalSeconds);
     const h = Math.floor(totalSeconds / 3600);
     const m = Math.floor((totalSeconds % 3600) / 60);
     document.getElementById('time-display').innerText = `${h}h ${m}m`;
-    
-    // Monedas cada 3 minutos
-    if (totalSeconds % 180 === 0) addCoins(hasMultiplier ? 10 : 5);
-    
-    const now = new Date();
-    document.getElementById('datetime').innerText = now.toLocaleTimeString() + " | " + now.toLocaleDateString();
+    if(totalSeconds % 60 === 0) addCoins(hasMultiplier ? 10 : 5);
+    document.getElementById('datetime').innerText = new Date().toLocaleTimeString();
 }
-setInterval(updateTime, 1000);
+setInterval(updateClock, 1000);
 
-// --- SISTEMA DE PERFIL ---
+// --- MONEDAS Y TIENDA ---
+function addCoins(n) {
+    coins += n;
+    localStorage.setItem('user_coins', coins);
+    document.getElementById('coin-count').innerText = coins;
+}
+
+function buyMultiplier() {
+    if(coins >= 1000) { addCoins(-1000); hasMultiplier = true; localStorage.setItem('user_multiplier','true'); alert("¡Doble de monedas activado!"); }
+    else alert("No tienes suficientes monedas.");
+}
+
+function buySeguro() {
+    if(coins >= 500) { addCoins(-500); tieneSeguro = true; localStorage.setItem('user_seguro','true'); updateShopUI(); }
+}
+
+function updateShopUI() { document.getElementById('btn-seguro').innerText = tieneSeguro ? "ACTIVO" : "COMPRAR (500 🪙)"; }
+
+// --- CAMUFLAJE ---
+function applyCamouflage() {
+    const v = document.getElementById('cam-select').value;
+    const t = document.getElementById('tab-title');
+    const i = document.getElementById('tab-icon');
+    if(v === 'docs') { t.innerText = "Google Docs"; i.href = "https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico"; }
+    else if(v === 'drive') { t.innerText = "Mi unidad - Google Drive"; i.href = "https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png"; }
+    else { t.innerText = "Classroom"; i.href = "https://www.gstatic.com/classroom/favicon.png"; }
+    closeModal('settings-modal');
+}
+
+// --- CORE JUEGOS ---
+function render() {
+    const grid = document.getElementById('main-grid');
+    const term = document.getElementById('game-search').value.toLowerCase();
+    grid.innerHTML = '';
+    games.forEach(g => {
+        if(!g.name.toLowerCase().includes(term)) return;
+        const card = document.createElement('div');
+        card.className = 'game-card';
+        card.innerHTML = `<img src="${g.img}"><span>${g.name}</span>`;
+        card.onclick = () => {
+            if(g.type === 'special') launchAI();
+            else launchGhost(g.path, g.name);
+        };
+        grid.appendChild(card);
+    });
+}
+
+function launchGhost(path, name) {
+    document.getElementById('game-title-on-bar').innerText = name;
+    const url = "https://cdn.jsdelivr.net/gh/chistorrita/page@latest/" + path + "?t=" + Date.now();
+    fetch(url).then(r => r.text()).then(html => {
+        const blob = new Blob([html], {type: 'text/html'});
+        document.getElementById('content-frame').src = URL.createObjectURL(blob);
+        document.getElementById('overlay-layer').style.display = 'flex';
+    });
+}
+
+function launchAI() {
+    document.getElementById('game-title-on-bar').innerText = "AI Assistant";
+    document.getElementById('content-frame').src = "https://text.pollinations.ai/prompt/Hola, como puedo ayudarte?";
+    document.getElementById('overlay-layer').style.display = 'flex';
+}
+
+// --- RULETA ---
+function playRoulette() {
+    if(coins < 100) return alert("Pobre.");
+    addCoins(-100);
+    const d = document.getElementById('roulette-display');
+    const btn = document.getElementById('spin-btn');
+    btn.disabled = true;
+    let count = 0;
+    const interval = setInterval(() => {
+        d.innerText = Math.floor(Math.random() * 999);
+        count++;
+        if(count > 15) {
+            clearInterval(interval);
+            btn.disabled = false;
+            let luck = Math.random() * 100;
+            if(luck < 10) { // Bancarrota
+                if(tieneSeguro) { d.innerText = "🛡️ SALVADO"; tieneSeguro = false; localStorage.setItem('user_seguro', 'false'); updateShopUI(); }
+                else { d.innerText = "💀 0"; coins = 0; addCoins(0); }
+            } else if(luck < 40) { d.innerText = "+300"; addCoins(300); }
+            else { d.innerText = "0"; }
+        }
+    }, 100);
+}
+
+// --- PERFIL ---
 function saveProfile() {
     const n = document.getElementById('input-name').value;
     const a = document.getElementById('input-avatar').value;
@@ -174,97 +248,17 @@ function saveProfile() {
     closeModal('edit-profile-modal');
 }
 
-// --- CORE ---
-function addCoins(amount) {
-    if (deuda > 0) {
-        let pago = Math.min(amount, deuda);
-        deuda -= pago; amount -= pago;
-        localStorage.setItem('user_deuda', deuda);
-    }
-    coins += amount;
-    localStorage.setItem('user_coins', coins);
-    document.getElementById('coin-count').innerText = coins;
-    document.getElementById('prestamo-section').style.display = (coins < 100) ? 'block' : 'none';
-}
-
-function render() {
-    const grid = document.getElementById('main-grid');
-    const favCont = document.getElementById('favorites-container');
-    const term = document.getElementById('game-search').value.toLowerCase();
-    
-    Array.from(grid.children).forEach(c => { if(c.id !== 'favorites-container') c.remove(); });
-    favCont.innerHTML = '<div class="fav-title">⭐ MIS FAVORITOS</div>';
-    
-    let fCount = 0;
-    games.forEach(g => {
-        if(!g.name.toLowerCase().includes(term)) return;
-        const card = document.createElement('div');
-        card.className = 'game-card';
-        card.innerHTML = `<button class="fav-btn ${favorites.includes(g.id)?'active':''}" onclick="toggleFav('${g.id}', event)">★</button><img src="${g.img}"><span>${g.name}</span>`;
-        card.onclick = () => {
-            document.getElementById('game-title-on-bar').innerText = g.name;
-            if(g.type === 'special') window[g.func]();
-            else launchGhost(g.path);
-        };
-        if(favorites.includes(g.id)) {
-            const clone = card.cloneNode(true); clone.onclick = card.onclick;
-            favCont.appendChild(clone); fCount++;
-        }
-        grid.appendChild(card);
-    });
-    favCont.style.display = fCount > 0 ? 'grid' : 'none';
-}
-
-function launchGhost(path) {
-    const url = "https://cdn.jsdelivr.net/gh/chistorrita/page@latest/" + path + "?t=" + Date.now();
-    document.getElementById('content-frame').src = url;
-    document.getElementById('overlay-layer').style.display = 'flex';
-}
-
-async function launchAI() {
-    const aiHTML = `<html><body style="margin:0; background:#111; color:cyan; font-family:sans-serif; display:flex; flex-direction:column; height:100vh;"><div id="c" style="flex:1; overflow-y:auto; padding:20px;"></div><div style="display:flex; padding:10px; background:#000;"><input id="i" style="flex:1; padding:10px; background:#222; color:white; border:none; border-radius:5px;"><button onclick="send()" style="padding:10px; background:cyan; border:none; margin-left:5px; border-radius:5px;">OK</button></div><script>async function send(){const i=document.getElementById('i'),c=document.getElementById('c'),v=i.value; if(!v)return; c.innerHTML+='<p><b>Tú:</b> '+v+'</p>'; i.value='...'; const r=await fetch('https://text.pollinations.ai/'+encodeURIComponent(v)); const t=await r.text(); c.innerHTML+='<p style="color:white;"><b>AI:</b> '+t+'</p>'; i.value=''; c.scrollTop=c.scrollHeight;}<\/script></body></html>`;
-    const blob = new Blob([aiHTML], {type: 'text/html'});
-    document.getElementById('content-frame').src = URL.createObjectURL(blob);
-    document.getElementById('overlay-layer').style.display = 'flex';
-}
-
-function playRoulette() {
-    if(coins < 100) return alert("Pobre.");
-    coins -= 100; addCoins(0);
-    const d = document.getElementById('roulette-display');
-    let t = 0;
-    const int = setInterval(() => {
-        d.innerText = Math.floor(Math.random()*500);
-        if(t++ > 15) {
-            clearInterval(int);
-            const win = Math.random() > 0.6 ? 250 : 0;
-            d.innerText = win > 0 ? "+"+win : "NADA";
-            addCoins(win);
-        }
-    }, 100);
-}
-
-function toggleFav(id, e) {
-    e.stopPropagation();
-    favorites = favorites.includes(id) ? favorites.filter(i => i !== id) : [...favorites, id];
-    localStorage.setItem('user_favorites', JSON.stringify(favorites));
-    render();
-}
-
 function openModal(id) { document.getElementById(id).style.display = 'block'; }
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 function closeOverlay() { document.getElementById('overlay-layer').style.display = 'none'; document.getElementById('content-frame').src = ''; }
-function pedirPrestamo() { coins += 200; deuda = 400; addCoins(0); closeModal('roulette-modal'); alert("Chistorrita te prestó 200. Debes 400."); }
-
-// TECLA Q - PÁNICO
-window.onkeydown = (e) => { if(e.key.toLowerCase() === 'q') window.location.href = 'https://google.com'; };
 
 window.onload = () => {
     if(localStorage.getItem('user_name')) document.getElementById('user-name').innerText = localStorage.getItem('user_name');
     if(localStorage.getItem('user_avatar')) document.getElementById('user-avatar').src = localStorage.getItem('user_avatar');
-    document.getElementById('coin-count').innerText = coins;
-    render();
+    addCoins(0); updateShopUI(); render();
 };
+// TECLA DE PANICO
+window.onkeydown = (e) => { if(e.key.toLowerCase() === 'q') window.location.href = 'https://google.com'; };
 </script>
 </body>
 </html>
