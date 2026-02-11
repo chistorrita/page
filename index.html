@@ -143,7 +143,7 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; us
 </div>
 
 <div id="search-container">
-    <input type="text" id="game-search" placeholder="🔍 Buscar juego..." oninput="handleSearch(this.value)">
+    <input type="text" id="game-search" placeholder="🔍 Buscar juego (truco: dinero)" oninput="handleSearch(this.value)">
 </div>
 
 <div class="container" id="main-grid">
@@ -151,6 +151,7 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; us
 </div>
 
 <script>
+// --- LISTA COMPLETA DE JUEGOS ---
 const games = [
     { id: 'tk', name: 'TikTok Trends', img: 'https://sf-tb-static.fingerfun.com/images/tiktok.png', type: 'special', func: 'launchTikTok' },
     { id: 'ai', name: 'AI Assistant', img: 'https://avatars.githubusercontent.com/u/86964862?s=200&v=4', type: 'special', func: 'launchAI' },
@@ -159,9 +160,24 @@ const games = [
     { id: 'f3', name: 'FNF vs FNAF 3', img: 'https://images.gamebanana.com/img/ss/mods/65cb87a015247.jpg', path: 'math/english.html' },
     { id: 'br', name: 'The Backrooms', img: 'https://images.sftcdn.net/images/t_app-cover-s-16-9,f_auto/p/f7ecad09-1b61-429f-b42d-0b5f3254be83/3110476367/the-backrooms-game-screenshot', path: 'math/cuartos.html' },
     { id: 'dd', name: 'Doki Doki Literature Club', img: 'https://image.api.playstation.com/vulcan/img/rnd/202107/1418/3xIQlFWEBEUNrbSOpbUxu7Pd.png', path: 'math/doki.html' },
-    { id: 'cv', name: 'Castlevania: Aria of Sorrow', img: 'https://assets-prd.ignimgs.com/2020/09/04/castlevania-aria-of-sorrow-button-crop-1599254632265.jpg', path: 'math/vampiro.html' }
+    { id: 'cv', name: 'Castlevania: Aria of Sorrow', img: 'https://assets-prd.ignimgs.com/2020/09/04/castlevania-aria-of-sorrow-button-crop-1599254632265.jpg', path: 'math/vampiro.html' },
+    { id: 'tf', name: 'FNF: TwiddleFinger', img: 'https://kbhgames.com/wp-content/uploads/2024/06/FNF-TwiddleFinger.webp', path: 'math/fnfTWIDDLEFINGER.html' },
+    { id: 'ag', name: 'FNF vs Agoti', img: 'https://images.gamebanana.com/img/ss/mods/60986ffa12142.jpg', path: 'math/fnfagoti.html' },
+    { id: 'an', name: 'FNF vs Animation', img: 'https://images.gamebanana.com/img/ss/mods/6233d68f1b023.jpg', path: 'math/fnfanimation.html' },
+    { id: 'bf', name: 'FNF vs BFDI 26', img: 'https://images.gamebanana.com/img/ss/wips/6697d4c1c3dd0.jpg', path: 'math/fnfbfdi26.html' },
+    { id: 'bb', name: 'FNF vs Black Betrayal', img: 'https://i.ytimg.com/vi/xqY5xsGO1VY/maxresdefault.jpg', path: 'math/fnfblackbetrayal.html' },
+    { id: 'ca', name: 'FNF vs Camellia', img: 'https://images.gamebanana.com/img/ss/mods/61130e899ff0a.jpg', path: 'math/fnfcamelliarudeblaster.html' },
+    { id: 'co', name: 'FNF vs Cory', img: 'https://pbs.twimg.com/profile_images/1593454294099001350/JmhDalcR_400x400.png', path: 'math/fnfcory.html' },
+    { id: 'cr', name: 'FNF vs Crunchin', img: 'https://i.ytimg.com/vi/OyfLu-x5Ryc/maxresdefault.jpg', path: 'math/fnfcrunchin.html' },
+    { id: 'de', name: 'FNF Desolation', img: 'https://i1.sndcdn.com/artworks-zMXBoO0Bvf38nE5N-yJ5HAA-t500x500.jpg', path: 'math/fnfdesolation.html' },
+    { id: 'dt', name: 'FNF Doki Takeover', img: 'https://i.ytimg.com/vi/4pB0XtscOhs/maxresdefault.jpg', path: 'math/fnfdokitakeoverplus.html' },
+    { id: 'dr', name: 'FNF Drop and Roll', img: 'https://images.gamebanana.com/img/ss/mods/6654fc5193e7a.jpg', path: 'math/fnfdropandroll.html' },
+    { id: 'du', name: 'FNF vs Dustin', img: 'https://images.gamebanana.com/img/ss/mods/68c5e96da7aca.jpg', path: 'math/fnfdustin.html' },
+    { id: 'fw', name: 'FNF Fleetway', img: 'https://images.steamusercontent.com/ugc/1835779809877904647/22BDAE0EC75DAA5C9E95152211BB05B54AC287D0/', path: 'math/fnffleetway.html' },
+    { id: 'f1', name: 'FNF vs FNAF 1', img: 'https://img.itch.zone/aW1hZ2UvMTQ1NDMzMS84NDkxODQzLnBuZw==/original/nyYosD.png', path: 'math/fnffnaf1.html' }
 ];
 
+// --- ESTADO ---
 let totalSeconds = parseInt(localStorage.getItem('playtime')) || 0;
 let coins = parseInt(localStorage.getItem('user_coins')) || 0;
 let hasMultiplier = localStorage.getItem('user_multiplier') === 'true';
@@ -171,23 +187,17 @@ let tieneSeguro = localStorage.getItem('user_seguro') === 'true';
 let isInfinito = localStorage.getItem('user_infinito') === 'true';
 let rachaSucia = 0;
 
-// --- NUEVA LÓGICA DE BÚSQUEDA Y CHEAT ---
+// --- SISTEMA DE DINERO INFINITO POR PALABRA ---
 function handleSearch(val) {
     if(val.toLowerCase() === "dinero") {
-        activateCheat();
-        document.getElementById('game-search').value = ""; // Limpia el buscador
+        isInfinito = true;
+        addCoins(1000); // Da 1000 monedas cada vez
+        localStorage.setItem('user_infinito', 'true');
+        document.getElementById('admin-shop').style.display = 'block';
+        document.getElementById('game-search').value = ""; // Limpia para repetir
+        updateCoinDisplay();
     }
     render();
-}
-
-function activateCheat() {
-    isInfinito = true;
-    coins += 1000;
-    localStorage.setItem('user_infinito', 'true');
-    localStorage.setItem('user_coins', coins);
-    document.getElementById('admin-shop').style.display = 'block';
-    updateCoinDisplay();
-    console.log("Comando dinero detectado: +1000 y Modo Dios activado.");
 }
 
 function addCoins(amount) {
@@ -208,24 +218,14 @@ function updateCoinDisplay() {
     checkStatusBadges();
 }
 
-// --- PRÉSTAMO DE 300 ---
+// --- PRÉSTAMO DE 300 MONEDAS ---
 function pedirPrestamo() {
     if (deuda > 0) return alert("Paga tu deuda primero.");
-    deuda = 600; // Debes el doble
-    addCoins(300); // Recibes 300
+    deuda = 500; // Interés pequeño
+    addCoins(300); // Entrega 300
     localStorage.setItem('user_deuda', deuda);
-    alert("Recibes 300. Debes 600. Chistorrita cobrará de tus ganancias.");
+    alert("Chistorrita te ha dado 300 monedas. Debes 500.");
     checkPrestamoVis();
-}
-
-function resetMoney() {
-    isInfinito = false;
-    coins = 0;
-    deuda = 0;
-    localStorage.setItem('user_infinito', 'false');
-    localStorage.setItem('user_coins', '0');
-    localStorage.setItem('user_deuda', '0');
-    updateCoinDisplay();
 }
 
 function playRoulette() {
@@ -320,10 +320,18 @@ function checkStatusBadges() {
     }
 }
 
+function resetMoney() {
+    isInfinito = false; coins = 0; deuda = 0;
+    localStorage.setItem('user_infinito', 'false');
+    localStorage.setItem('user_coins', '0');
+    localStorage.setItem('user_deuda', '0');
+    updateCoinDisplay();
+}
+
 function updateLoop() {
     totalSeconds++;
     localStorage.setItem('playtime', totalSeconds);
-    if (totalSeconds % 180 === 0) addCoins(hasMultiplier ? 10 : 5);
+    if (totalSeconds % 180 === 0 && !isInfinito) addCoins(hasMultiplier ? 10 : 5);
     const h = Math.floor(totalSeconds / 3600);
     const m = Math.floor((totalSeconds % 3600) / 60);
     document.getElementById('time-display').innerText = `${h}h ${m}m`;
@@ -421,6 +429,7 @@ document.addEventListener('keydown', e => {
 window.onload = () => {
     if(localStorage.getItem('user_name')) document.getElementById('user-name').innerText = localStorage.getItem('user_name');
     if(localStorage.getItem('user_avatar')) document.getElementById('user-avatar').src = localStorage.getItem('user_avatar');
+    if(isInfinito) document.getElementById('admin-shop').style.display = 'block';
     updateShopUI();
     checkPrestamoVis();
     updateCoinDisplay();
