@@ -276,7 +276,20 @@ function calculateResult() {
 }
 
 function checkPrestamoVis() { document.getElementById('prestamo-section').style.display = (coins < 100) ? 'block' : 'none'; }
-function pedirPrestamo() { if (deuda > 0) return alert("Paga tu deuda primero."); deuda = 400; addCoins(200); localStorage.setItem('user_deuda', deuda); checkPrestamoVis(); }
+function pedirPrestamo() { 
+    if (deuda > 0) return alert("Paga tu deuda primero."); 
+    
+    // Primero sumamos las monedas directamente para que addCoins no las intercepte
+    coins += 300; 
+    deuda = 400; // La deuda es el doble (intereses de Chistorrita)
+    
+    localStorage.setItem('user_coins', coins);
+    localStorage.setItem('user_deuda', deuda); 
+    
+    updateCoinDisplay();
+    checkPrestamoVis(); 
+    alert("Chistorrita te ha prestado 300 monedas. ¡Pero ahora me debes 400!");
+}
 function buySeguro() { if(tieneSeguro) return alert("Ya tienes seguro."); if(coins >= 500) { coins -= 500; tieneSeguro = true; localStorage.setItem('user_coins', coins); localStorage.setItem('user_seguro', 'true'); updateCoinDisplay(); updateShopUI(); } else alert("Faltan monedas."); }
 function updateShopUI() { const btn = document.getElementById('buy-seguro'); const box = document.getElementById('item-seguro'); if (tieneSeguro) { btn.innerText = "ACTIVO"; box.classList.add('seguro-active'); } else { btn.innerText = "COMPRAR (500 )"; btn.innerHTML = `COMPRAR (500 <img src="https://i.postimg.cc/4yDWr2xT/22-sin-titulo-20260211174118.png" class="coin-img">)`; box.classList.remove('seguro-active'); } }
 function checkStatusBadges() { const userStatus = document.getElementById('user-status'); const oldRacha = document.getElementById('racha-badge'); if (oldRacha) oldRacha.remove(); if (rachaSucia >= 3) { const span = document.createElement('span'); span.id = 'racha-badge'; span.className = 'status-badge racha-badge'; span.innerText = `🔥 RACHA X${rachaSucia}`; userStatus.appendChild(span); } const oldDeuda = document.getElementById('deuda-badge'); if (oldDeuda) oldDeuda.remove(); if (deuda > 0) { const dSpan = document.createElement('span'); dSpan.id = 'deuda-badge'; dSpan.className = 'status-badge deuda-badge'; dSpan.innerText = `DEUDA: ${deuda}`; userStatus.appendChild(dSpan); } }
@@ -413,3 +426,4 @@ window.onload = () => {
 </script>
 </body>
 </html>
+
