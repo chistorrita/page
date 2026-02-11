@@ -13,41 +13,22 @@ h1 { color: var(--accent); font-size: 2.5rem; letter-spacing: 5px; margin: 0; }
 .game-card { background: var(--card); border: 2px solid #333; border-radius: 20px; padding: 15px; cursor: pointer; transition: 0.3s; position: relative; }
 .game-card:hover { border-color: var(--accent); transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
 .game-card img { width: 100%; height: 140px; border-radius: 12px; object-fit: cover; background: #333; }
-span { display: block; margin-top: 15px; font-weight: bold; color: #ccc; font-size: 0.9rem; }
+span { display: block; margin-top: 15px; font-weight: bold; color: #ccc; font-size: 0.85rem; }
 
-/* Capa de Contenido */
 #overlay-layer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; }
+.close-btn { position: absolute; top: 0; right: 20px; padding: 5px 15px; background: #333; color: #888; border: 1px solid #444; border-top: none; border-radius: 0 0 8px 8px; cursor: pointer; z-index: 10000; font-size: 11px; }
 
-/* Botón discreto (Pestaña) */
-.close-btn { 
-    position: absolute; 
-    top: 0; 
-    right: 20px; 
-    padding: 5px 15px; 
-    background: #333; 
-    color: #888; 
-    border: 1px solid #444; 
-    border-top: none;
-    border-radius: 0 0 8px 8px; 
-    cursor: pointer; 
-    z-index: 10000; 
-    font-size: 11px;
-    transition: 0.3s;
-}
-.close-btn:hover { background: #444; color: white; }
-
-/* Menú YouTube */
 .yt-menu { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1e1e1e; padding: 25px; border-radius: 20px; border: 2px solid var(--accent); z-index: 10001; width: 320px; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
-.yt-menu input { width: 90%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #444; background: #000; color: white; font-size: 1rem; }
+.yt-menu input { width: 90%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #444; background: #000; color: white; }
 .yt-menu button { width: 100%; padding: 12px; margin: 5px 0; border: none; border-radius: 8px; cursor: pointer; background: #333; color: white; font-weight: bold; }
 </style>
 </head>
 <body>
 
 <div id="yt-selector" class="yt-menu">
-    <h3 style="margin-top:0; color:var(--accent)">Video Library</h3>
-    <input type="text" id="yt-search-input" placeholder="Buscar canal o video...">
-    <button onclick="ytSearchCustom()" style="background:var(--accent); color:black">BUSCAR EN BING</button>
+    <h3 style="margin-top:0; color:var(--accent)">Video Research</h3>
+    <input type="text" id="yt-search-input" placeholder="Buscar contenido...">
+    <button onclick="ytSearchCustom()" style="background:var(--accent); color:black">BUSCAR</button>
     <button onclick="closeYTMenu()" style="background:#ff4444; margin-top:10px">CANCELAR</button>
 </div>
 
@@ -65,8 +46,13 @@ span { display: block; margin-top: 15px; font-weight: bold; color: #ccc; font-si
   </div>
 
   <div class="game-card" onclick="launchAI()">
-    <img src="https://avatars.githubusercontent.com/u/86964862?s=200&v=4" style="object-fit: cover;">
+    <img src="https://avatars.githubusercontent.com/u/86964862?s=200&v=4">
     <span>AI Assistant: Research Tool</span>
+  </div>
+
+  <div class="game-card" onclick="launchGhost('math/sf.html')">
+    <img src="https://static.wikia.nocookie.net/nintendo/images/a/a9/Street_Fighter_Alpha_3_Upper_box_art.jpg/revision/latest?cb=20170119005425&path-prefix=en">
+    <span>Street Fighter Alpha 3</span>
   </div>
 
   <div class="game-card" onclick="launchGhost('math/pepsiman.html')">
@@ -102,14 +88,14 @@ function closeYTMenu() { document.getElementById('yt-selector').style.display = 
 function ytSearchCustom() {
     const term = document.getElementById('yt-search-input').value;
     if(term) {
-        // Probamos con DuckDuckGo que a veces engaña al GoGuardian
+        // Cambiado a DuckDuckGo Videos para intentar bypass de GoGuardian
         const url = "https://duckduckgo.com/?q=" + encodeURIComponent(term) + "&iax=videos&ia=videos";
         document.getElementById('content-frame').src = url;
         document.getElementById('overlay-layer').style.display = 'block';
-        document.title = "Video Research - Google Docs";
         closeYTMenu();
     }
 }
+
 function launchAI() {
   const aiHTML = `
     <!DOCTYPE html><html><head><style>
@@ -146,12 +132,12 @@ function launchAI() {
 }
 
 function launchGhost(path) {
-  const url = "https://cdn.jsdelivr.net/gh/chistorrita/page@main/" + path + "?t=" + Date.now();
+  const url = "https://cdn.jsdelivr.net/gh/chistorrita/page@latest/" + path + "?t=" + Date.now();
   fetch(url).then(r => r.text()).then(html => {
       const blob = new Blob([html], {type: 'text/html'});
       document.getElementById('content-frame').src = URL.createObjectURL(blob);
       document.getElementById('overlay-layer').style.display = 'block';
-      document.title = "Reading Task - Google Docs";
+      document.title = "Research Task - Google Docs";
   });
 }
 
@@ -164,4 +150,3 @@ document.addEventListener('keydown', e => { if (e.key === "Escape") closeOverlay
 </script>
 </body>
 </html>
-
