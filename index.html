@@ -53,11 +53,13 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
 .game-card { background: var(--card); border: 2px solid #333; border-radius: 15px; padding: 12px; cursor: pointer; transition: 0.3s; position: relative; height: 180px; display: flex; flex-direction: column; justify-content: space-between; }
 .game-card:hover { border-color: var(--accent); transform: translateY(-5px); }
 .game-card img { width: 100%; height: 100px; border-radius: 10px; object-fit: cover; }
+.game-card span { font-size: 0.75rem; font-weight: bold; margin-top: 5px; }
+.fav-btn { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.7); border: none; color: white; border-radius: 50%; cursor: pointer; padding: 5px; z-index: 5; }
+.fav-btn.active { color: gold; }
 
 .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1e1e1e; padding: 25px; border-radius: 20px; border: 2px solid var(--accent); z-index: 10001; width: 340px; max-height: 80vh; overflow-y: auto; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
 .modal button { width: 100%; padding: 10px; margin: 5px 0; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
 .shop-item { background: #000; padding: 10px; border-radius: 10px; border: 1px solid #333; margin-bottom: 10px; text-align: left; }
-.item-owned { opacity: 0.6; border-color: gold; }
 
 #overlay-layer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; flex-direction: column; }
 #game-bar { display: flex; justify-content: space-between; align-items: center; background: #222; padding: 8px 20px; border-bottom: 2px solid var(--accent); color: white; }
@@ -93,51 +95,43 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
 
 <div id="shop-modal" class="modal">
     <h3 style="color:gold; margin-top:0;">Tienda Premium</h3>
-    
-    <div style="font-size: 0.8rem; color: #888; margin-bottom: 5px;">MEJORAS</div>
     <div class="shop-item">
         <p style="margin:0; font-weight:bold; color:var(--accent);">🔥 Multiplicador x2</p>
         <button id="buy-x2" onclick="buyMultiplier()" style="background:gold; color:black; margin-top:5px;">COMPRAR (1000 <img src="https://i.postimg.cc/4yDWr2xT/22-sin-titulo-20260211174118.png" class="coin-img">)</button>
     </div>
-
-    <div style="font-size: 0.8rem; color: #888; margin-bottom: 5px;">CONSUMIBLES</div>
     <div class="shop-item">
         <p style="margin:0; font-weight:bold; color:#00ff00;">🛡️ Seguro de Ruleta</p>
         <button id="buy-seguro" onclick="buySeguro()" style="background:#00ff00; color:black;">COMPRAR (500 <img src="https://i.postimg.cc/4yDWr2xT/22-sin-titulo-20260211174118.png" class="coin-img">)</button>
     </div>
     <div class="shop-item">
         <p style="margin:0; font-weight:bold; color:cyan;">🎟️ Ticket de Suerte</p>
-        <p style="font-size:0.6rem; color:#888;">Asegura 500 monedas en el sig. tiro.</p>
         <button onclick="buyTicket()" style="background:cyan; color:black;">COMPRAR (800 <img src="https://i.postimg.cc/4yDWr2xT/22-sin-titulo-20260211174118.png" class="coin-img">)</button>
     </div>
     <div class="shop-item">
         <p style="margin:0; font-weight:bold; color:orange;">📦 Caja Misteriosa</p>
-        <p style="font-size:0.6rem; color:#888;">¿Jackpot (2%) o Basura?</p>
         <button onclick="buyLootBox()" style="background:orange; color:black;">ABRIR (400 <img src="https://i.postimg.cc/4yDWr2xT/22-sin-titulo-20260211174118.png" class="coin-img">)</button>
     </div>
-
-    <div style="font-size: 0.8rem; color: #888; margin-bottom: 5px;">TEMAS VISUALES</div>
     <div class="shop-item">
+        <p style="margin:0; font-weight:bold; color:white;">🎨 Temas Visuales</p>
         <select id="theme-select" onchange="changeTheme()" style="width:100%; padding:8px; background:#222; color:white; border-radius:5px;">
-            <option value="default">Tema Original (Gratis)</option>
+            <option value="default">Original (Gratis)</option>
             <option value="lava">Lava Roja (500)</option>
             <option value="matrix">Matrix Hacker (500)</option>
             <option value="gold">Oro Puro (1000)</option>
         </select>
     </div>
-
     <button onclick="closeModal('shop-modal')" style="background:#444; color:white">CERRAR</button>
 </div>
 
 <div id="settings-modal" class="modal">
     <h3 style="color:var(--accent); margin-top:0;">Camuflaje</h3>
-    <select id="cam-select" onchange="applyCamouflage()" style="width:100%; padding:10px; background:#000; color:white;">
+    <select id="cam-select" onchange="applyCamouflage()" style="width:100%; padding:10px; background:#000; color:white; border-radius:8px;">
         <option value="docs">Google Docs</option>
         <option value="drive">Google Drive</option>
         <option value="classroom">Classroom</option>
     </select>
     <p style="font-size:0.7rem; color:#666; margin-top:10px;">Link de Pánico (Tecla Q):</p>
-    <input type="text" id="panic-link" placeholder="https://google.com" style="width:90%; padding:10px; background:#000; color:white; border-radius:8px;">
+    <input type="text" id="panic-link" placeholder="https://google.com" style="width:90%; padding:10px; background:#000; color:white; border-radius:8px; border:1px solid #333;">
     <button onclick="saveSettings()" style="background:var(--accent); color:black; margin-top:10px;">GUARDAR</button>
 </div>
 
@@ -179,26 +173,41 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
 </div>
 
 <script>
-// --- VARIABLES DE ESTADO ---
-let coins = parseInt(localStorage.getItem('user_coins')) || 0;
-let hasMultiplier = localStorage.getItem('user_multiplier') === 'true';
-let tieneSeguro = localStorage.getItem('user_seguro') === 'true';
-let tieneTicket = localStorage.getItem('user_ticket') === 'true';
-let deuda = parseInt(localStorage.getItem('user_deuda')) || 0;
-let favorites = JSON.parse(localStorage.getItem('user_favorites')) || [];
-let totalSeconds = parseInt(localStorage.getItem('playtime')) || 0;
-let rachaSucia = 0;
-let purchasedThemes = JSON.parse(localStorage.getItem('user_themes')) || ['default'];
-let activeTheme = localStorage.getItem('user_theme_active') || 'default';
-
+// --- LISTA COMPLETA DE JUEGOS ---
 const games = [
     { id: 'ai', name: 'AI Assistant', img: 'https://avatars.githubusercontent.com/u/86964862?s=200&v=4', type: 'special', func: 'launchAI' },
     { id: 'sf3', name: 'Street Fighter Alpha 3', img: 'https://static.wikia.nocookie.net/nintendo/images/a/a9/Street_Fighter_Alpha_3_Upper_box_art.jpg/revision/latest?cb=20170119005425&path-prefix=en', path: 'math/sf.html' },
     { id: 'pm', name: 'Pepsi Man', img: 'https://images.launchbox-app.com/aa61e452-65f0-4319-ab68-c9bab9678393.jpg', path: 'math/pepsiman.html' },
     { id: 'br', name: 'The Backrooms', img: 'https://images.sftcdn.net/images/t_app-cover-s-16-9,f_auto/p/f7ecad09-1b61-429f-b42d-0b5f3254be83/3110476367/the-backrooms-game-screenshot', path: 'math/cuartos.html' },
-    { id: 'dd', name: 'Doki Doki Literature Club', img: 'https://image.api.playstation.com/vulcan/img/rnd/202107/1418/3xIQlFWEBEUNrbSOpbUxu7Pd.png', path: 'math/doki.html' }
-    // ... (puedes añadir los demás juegos aquí)
+    { id: 'dd', name: 'Doki Doki Literature Club', img: 'https://image.api.playstation.com/vulcan/img/rnd/202107/1418/3xIQlFWEBEUNrbSOpbUxu7Pd.png', path: 'math/doki.html' },
+    { id: 'cv', name: 'Castlevania: Aria of Sorrow', img: 'https://assets-prd.ignimgs.com/2020/09/04/castlevania-aria-of-sorrow-button-crop-1599254632265.jpg', path: 'math/vampiro.html' },
+    { id: 'tf', name: 'FNF: TwiddleFinger', img: 'https://kbhgames.com/wp-content/uploads/2024/06/FNF-TwiddleFinger.webp', path: 'math/fnfTWIDDLEFINGER.html' },
+    { id: 'ag', name: 'FNF vs Agoti', img: 'https://images.gamebanana.com/img/ss/mods/60986ffa12142.jpg', path: 'math/fnfagoti.html' },
+    { id: 'an', name: 'FNF vs Animation', img: 'https://images.gamebanana.com/img/ss/mods/6233d68f1b023.jpg', path: 'math/fnfanimation.html' },
+    { id: 'bf', name: 'FNF vs BFDI 26', img: 'https://images.gamebanana.com/img/ss/wips/6697d4c1c3dd0.jpg', path: 'math/fnfbfdi26.html' },
+    { id: 'bb', name: 'FNF vs Black Betrayal', img: 'https://i.ytimg.com/vi/xqY5xsGO1VY/maxresdefault.jpg', path: 'math/fnfblackbetrayal.html' },
+    { id: 'ca', name: 'FNF vs Camellia', img: 'https://images.gamebanana.com/img/ss/mods/61130e899ff0a.jpg', path: 'math/fnfcamelliarudeblaster.html' },
+    { id: 'co', name: 'FNF vs Cory', img: 'https://pbs.twimg.com/profile_images/1593454294099001350/JmhDalcR_400x400.png', path: 'math/fnfcory.html' },
+    { id: 'cr', name: 'FNF vs Crunchin', img: 'https://i.ytimg.com/vi/OyfLu-x5Ryc/maxresdefault.jpg', path: 'math/fnfcrunchin.html' },
+    { id: 'de', name: 'FNF Desolation', img: 'https://i1.sndcdn.com/artworks-zMXBoO0Bvf38nE5N-yJ5HAA-t500x500.jpg', path: 'math/fnfdesolation.html' },
+    { id: 'dt', name: 'FNF Doki Takeover', img: 'https://i.ytimg.com/vi/4pB0XtscOhs/maxresdefault.jpg', path: 'math/fnfdokitakeoverplus.html' },
+    { id: 'dr', name: 'FNF Drop and Roll', img: 'https://images.gamebanana.com/img/ss/mods/6654fc5193e7a.jpg', path: 'math/fnfdropandroll.html' },
+    { id: 'du', name: 'FNF vs Dustin', img: 'https://images.gamebanana.com/img/ss/mods/68c5e96da7aca.jpg', path: 'math/fnfdustin.html' },
+    { id: 'fw', name: 'FNF Fleetway', img: 'https://images.steamusercontent.com/ugc/1835779809877904647/22BDAE0EC75DAA5C9E95152211BB05B54AC287D0/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true', path: 'math/fnffleetway.html' },
+    { id: 'f1', name: 'FNF vs FNAF 1', img: 'https://img.itch.zone/aW1hZ2UvMTQ1NDMzMS84NDkxODQzLnBuZw==/original/nyYosD.png', path: 'math/fnffnaf1.html' }
 ];
+
+// --- ESTADO Y VARIABLES ---
+let coins = parseInt(localStorage.getItem('user_coins')) || 0;
+let hasMultiplier = localStorage.getItem('user_multiplier') === 'true';
+let tieneSeguro = localStorage.getItem('user_seguro') === 'true';
+let tieneTicket = localStorage.getItem('user_ticket') === 'true';
+let deuda = parseInt(localStorage.getItem('user_deuda')) || 0;
+let totalSeconds = parseInt(localStorage.getItem('playtime')) || 0;
+let favorites = JSON.parse(localStorage.getItem('user_favorites')) || [];
+let purchasedThemes = JSON.parse(localStorage.getItem('user_themes')) || ['default'];
+let activeTheme = localStorage.getItem('user_theme_active') || 'default';
+let rachaSucia = 0;
 
 // --- FUNCIONES CORE ---
 function addCoins(amount) {
@@ -218,16 +227,13 @@ function updateCoinDisplay() {
     checkStatusBadges();
 }
 
-// --- RULETA ---
 function playRoulette() {
     if (coins < 100) return alert("Necesitas 100 monedas.");
     coins -= 100;
     updateCoinDisplay();
-    
     const display = document.getElementById('roulette-display');
     const spinBtn = document.getElementById('spin-btn');
     spinBtn.disabled = true;
-    
     let timer = 0;
     const interval = setInterval(() => {
         display.innerText = Math.floor(Math.random() * 1000);
@@ -243,117 +249,53 @@ function playRoulette() {
 function calculateResult() {
     const display = document.getElementById('roulette-display');
     let win = 0;
-
     if (tieneTicket) {
-        win = 500;
-        display.innerText = "🎟️ TICKET: +500";
-        display.style.color = "cyan";
-        tieneTicket = false;
-        localStorage.setItem('user_ticket', 'false');
+        win = 500; display.innerText = "🎟️ TICKET: +500"; display.style.color = "cyan";
+        tieneTicket = false; localStorage.setItem('user_ticket', 'false');
     } else {
         const r = Math.random() * 100;
-        if (r < 1) { 
-            win = 5000; display.innerText = "⭐ MEGA JACKPOT ⭐"; display.style.color = "gold"; rachaSucia++;
-        } else if (r < 8) { 
-            if (tieneSeguro) {
-                display.innerText = "🛡️ SEGURO ACTIVADO";
-                display.style.color = "#00ff00";
-                tieneSeguro = false;
-                localStorage.setItem('user_seguro', 'false');
-            } else {
-                coins = 0; rachaSucia = 0;
-                display.innerText = "BANCARROTA 💀";
-                display.style.color = "red";
-            }
+        if (r < 1) { win = 5000; display.innerText = "⭐ MEGA JACKPOT ⭐"; display.style.color = "gold"; rachaSucia++; }
+        else if (r < 8) {
+            if (tieneSeguro) { display.innerText = "🛡️ SEGURO ACTIVADO"; display.style.color = "#00ff00"; tieneSeguro = false; localStorage.setItem('user_seguro', 'false'); }
+            else { coins = 0; rachaSucia = 0; display.innerText = "BANCARROTA 💀"; display.style.color = "red"; }
         } else if (r < 25) { win = 300; display.innerHTML = `+300 <img src="https://i.postimg.cc/4yDWr2xT/22-sin-titulo-20260211174118.png" class="coin-img">`; display.style.color = "var(--accent)"; rachaSucia++; }
         else if (r < 60) { win = 150; display.innerHTML = `+150 <img src="https://i.postimg.cc/4yDWr2xT/22-sin-titulo-20260211174118.png" class="coin-img">`; display.style.color = "white"; rachaSucia++; }
         else { display.innerText = "0 - NADA"; display.style.color = "#444"; rachaSucia = 0; }
     }
-    
     if (win > 0) addCoins(win);
-    updateCoinDisplay();
-    updateShopUI();
-    checkPrestamoVis();
-}
-
-// --- TIENDA Y CONSUMIBLES ---
-function buyMultiplier() {
-    if(hasMultiplier) return;
-    if(coins >= 1000) {
-        coins -= 1000; hasMultiplier = true;
-        localStorage.setItem('user_multiplier', 'true');
-        updateCoinDisplay();
-        document.getElementById('buy-x2').innerText = "ADQUIRIDO";
-    } else alert("Pobre detectado.");
-}
-
-function buySeguro() {
-    if(tieneSeguro) return alert("Ya tienes uno.");
-    if(coins >= 500) {
-        coins -= 500; tieneSeguro = true;
-        localStorage.setItem('user_seguro', 'true');
-        updateCoinDisplay();
-        updateShopUI();
-    }
-}
-
-function buyTicket() {
-    if(tieneTicket) return alert("Ya tienes un ticket.");
-    if(coins >= 800) {
-        coins -= 800; tieneTicket = true;
-        localStorage.setItem('user_ticket', 'true');
-        updateCoinDisplay();
-        alert("¡Ticket comprado! Tu próximo giro dará 500.");
-    }
+    updateCoinDisplay(); updateShopUI(); checkPrestamoVis();
 }
 
 function buyLootBox() {
-    if(coins < 400) return alert("No tienes 400 monedas.");
+    if(coins < 400) return alert("Faltan 400 monedas.");
     coins -= 400;
     const r = Math.random() * 100;
-    if (r < 2) { // 2% Jackpot pedido
-        alert("¡INCREÍBLE! Jackpot de la caja: 2,000 monedas.");
-        addCoins(2000);
-    } else if (r < 15) {
-        alert("¡Te salió un Seguro de Ruleta!");
-        tieneSeguro = true; localStorage.setItem('user_seguro', 'true');
-    } else if (r < 50) {
-        const p = Math.floor(Math.random() * 400) + 100;
-        alert(`Recuperaste algo: ${p} monedas.`);
-        addCoins(p);
-    } else {
-        alert("La caja estaba vacía... Chistorrita te estafó.");
-    }
-    updateCoinDisplay();
-    updateShopUI();
+    if (r < 2) { alert("¡JACKPOT! +2,000 monedas."); addCoins(2000); }
+    else if (r < 15) { alert("¡Seguro de Ruleta!"); tieneSeguro = true; localStorage.setItem('user_seguro', 'true'); }
+    else if (r < 50) { const p = Math.floor(Math.random() * 400) + 100; alert(`Recibiste ${p} monedas.`); addCoins(p); }
+    else { alert("Caja vacía. Mala suerte."); }
+    updateCoinDisplay(); updateShopUI();
 }
 
-// --- TEMAS ---
+function buyTicket() {
+    if(tieneTicket) return alert("Ya tienes uno.");
+    if(coins >= 800) { coins -= 800; tieneTicket = true; localStorage.setItem('user_ticket', 'true'); updateCoinDisplay(); }
+    else alert("Faltan monedas.");
+}
+
 function changeTheme() {
     const theme = document.getElementById('theme-select').value;
     const prices = { lava: 500, matrix: 500, gold: 1000, default: 0 };
-    
     if (!purchasedThemes.includes(theme)) {
         if (coins >= prices[theme]) {
-            if(confirm(`¿Comprar este tema por ${prices[theme]} monedas?`)) {
-                coins -= prices[theme];
-                purchasedThemes.push(theme);
+            if(confirm(`¿Comprar tema por ${prices[theme]}?`)) {
+                coins -= prices[theme]; purchasedThemes.push(theme);
                 localStorage.setItem('user_themes', JSON.stringify(purchasedThemes));
-            } else {
-                document.getElementById('theme-select').value = activeTheme;
-                return;
-            }
-        } else {
-            alert("No tienes dinero para este estilo.");
-            document.getElementById('theme-select').value = activeTheme;
-            return;
-        }
+            } else { document.getElementById('theme-select').value = activeTheme; return; }
+        } else { alert("Monedas insuficientes."); document.getElementById('theme-select').value = activeTheme; return; }
     }
-    
-    activeTheme = theme;
-    localStorage.setItem('user_theme_active', theme);
-    applyThemeUI();
-    updateCoinDisplay();
+    activeTheme = theme; localStorage.setItem('user_theme_active', theme);
+    applyThemeUI(); updateCoinDisplay();
 }
 
 function applyThemeUI() {
@@ -362,55 +304,26 @@ function applyThemeUI() {
     document.getElementById('theme-select').value = activeTheme;
 }
 
-// --- UTILIDADES ---
-function updateShopUI() {
-    const sBtn = document.getElementById('buy-seguro');
-    if(tieneSeguro) sBtn.innerText = "ACTIVO";
-    else sBtn.innerHTML = `COMPRAR (500 <img src="https://i.postimg.cc/4yDWr2xT/22-sin-titulo-20260211174118.png" class="coin-img">)`;
-}
-
 function pedirPrestamo() {
     if (deuda > 0) return alert("Paga tu deuda primero.");
-    coins += 200; 
-    deuda = 400;
+    coins += 200; deuda = 400;
     localStorage.setItem('user_coins', coins);
     localStorage.setItem('user_deuda', deuda);
-    updateCoinDisplay();
-    checkPrestamoVis();
+    updateCoinDisplay(); checkPrestamoVis();
     alert("Chistorrita te prestó 200. Me debes 400.");
 }
 
 function checkPrestamoVis() { document.getElementById('prestamo-section').style.display = (coins < 100) ? 'block' : 'none'; }
+function buyMultiplier() { if(hasMultiplier) return; if(coins >= 1000) { coins -= 1000; hasMultiplier = true; localStorage.setItem('user_multiplier', 'true'); updateCoinDisplay(); document.getElementById('buy-x2').innerText = "ADQUIRIDO"; } }
+function buySeguro() { if(tieneSeguro) return; if(coins >= 500) { coins -= 500; tieneSeguro = true; localStorage.setItem('user_seguro', 'true'); updateCoinDisplay(); updateShopUI(); } }
+function updateShopUI() { const sBtn = document.getElementById('buy-seguro'); sBtn.innerText = tieneSeguro ? "ACTIVO" : "COMPRAR (500)"; }
 
-function checkStatusBadges() {
-    const userStatus = document.getElementById('user-status');
-    const oldRacha = document.getElementById('racha-badge');
-    if (oldRacha) oldRacha.remove();
-    if (rachaSucia >= 3) {
-        const span = document.createElement('span');
-        span.id = 'racha-badge'; span.className = 'status-badge racha-badge';
-        span.innerText = `🔥 RACHA X${rachaSucia}`;
-        userStatus.appendChild(span);
-    }
-    const oldDeuda = document.getElementById('deuda-badge');
-    if (oldDeuda) oldDeuda.remove();
-    if (deuda > 0) {
-        const dSpan = document.createElement('span');
-        dSpan.id = 'deuda-badge'; dSpan.className = 'status-badge deuda-badge';
-        dSpan.innerText = `DEUDA: ${deuda}`;
-        userStatus.appendChild(dSpan);
-    }
-}
-
-// --- RENDER Y CARGA ---
 function render() {
     const grid = document.getElementById('main-grid');
     const favCont = document.getElementById('favorites-container');
     const searchTerm = document.getElementById('game-search').value.toLowerCase();
-    
     Array.from(grid.children).forEach(c => { if(c.id !== 'favorites-container') c.remove(); });
     favCont.innerHTML = '<div class="fav-title">⭐ MIS FAVORITOS</div>';
-    
     let visibleFavs = 0;
     games.forEach(game => {
         if (!game.name.toLowerCase().includes(searchTerm)) return;
@@ -425,34 +338,29 @@ function render() {
         if(favorites.includes(game.id)) {
             const clone = card.cloneNode(true);
             clone.onclick = card.onclick;
-            favCont.appendChild(clone);
-            visibleFavs++;
+            clone.querySelector('.fav-btn').onclick = card.querySelector('.fav-btn').onclick;
+            favCont.appendChild(clone); visibleFavs++;
         }
         grid.appendChild(card);
     });
     favCont.style.display = (visibleFavs > 0) ? 'grid' : 'none';
 }
 
-// ... Resto de funciones (launchGhost, AI, Fullscreen, etc.) igual que antes ...
+function launchGhost(path) {
+    const url = "https://cdn.jsdelivr.net/gh/chistorrita/page@latest/" + path + "?t=" + Date.now();
+    fetch(url).then(r => r.text()).then(html => {
+        const blob = new Blob([html], {type: 'text/html'});
+        document.getElementById('content-frame').src = URL.createObjectURL(blob);
+        document.getElementById('overlay-layer').style.display = 'flex';
+    });
+}
 
-window.onload = () => {
-    if(localStorage.getItem('user_name')) document.getElementById('user-name').innerText = localStorage.getItem('user_name');
-    if(localStorage.getItem('user_avatar')) document.getElementById('user-avatar').src = localStorage.getItem('user_avatar');
-    if(hasMultiplier) document.getElementById('buy-x2').innerText = "ADQUIRIDO";
-    applyThemeUI();
-    updateShopUI();
-    checkPrestamoVis();
-    updateCoinDisplay();
-    render();
-};
-
+function launchAI() { /* Tu función de AI Assistant */ }
+function toggleFav(id, e) { e.stopPropagation(); favorites = favorites.includes(id) ? favorites.filter(i => i !== id) : [...favorites, id]; localStorage.setItem('user_favorites', JSON.stringify(favorites)); render(); }
 function openModal(id) { document.getElementById(id).style.display = 'block'; }
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-function toggleFav(id, e) { e.stopPropagation(); favorites = favorites.includes(id) ? favorites.filter(i => i !== id) : [...favorites, id]; localStorage.setItem('user_favorites', JSON.stringify(favorites)); render(); }
 function closeOverlay() { document.getElementById('overlay-layer').style.display = 'none'; document.getElementById('content-frame').src = ''; }
-function applyCamouflage() { /* Igual que tu código */ }
-function saveSettings() { /* Igual que tu código */ }
-function saveProfile() { /* Igual que tu código */ }
+function toggleFullScreen() { const f = document.getElementById('content-frame'); if (f.requestFullscreen) f.requestFullscreen(); else if (f.webkitRequestFullscreen) f.webkitRequestFullscreen(); }
 
 setInterval(() => {
     totalSeconds++;
@@ -464,6 +372,13 @@ setInterval(() => {
     const now = new Date();
     document.getElementById('datetime').innerText = now.toLocaleTimeString() + " | " + now.toLocaleDateString();
 }, 1000);
+
+window.onload = () => {
+    if(localStorage.getItem('user_name')) document.getElementById('user-name').innerText = localStorage.getItem('user_name');
+    if(localStorage.getItem('user_avatar')) document.getElementById('user-avatar').src = localStorage.getItem('user_avatar');
+    if(hasMultiplier) document.getElementById('buy-x2').innerText = "ADQUIRIDO";
+    applyThemeUI(); updateShopUI(); checkPrestamoVis(); updateCoinDisplay(); render();
+};
 </script>
 </body>
 </html>
