@@ -53,120 +53,120 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
 <body>
 
 <div id="top-bar">
-    <div id="datetime">Cargando...</div>
-    <div class="top-btns">
-        <button class="ruleta-btn" onclick="openModal('roulette-modal')">🎰 SUERTE</button>
-        <div class="coin-display">🪙 <span id="coin-count">0</span></div>
-        <div style="cursor:pointer;" onclick="openModal('shop-modal')">🛒 Tienda</div>
-        <div style="cursor:pointer;" onclick="openModal('settings-modal')">⚙️ Camuflaje</div>
-    </div>
+    <div id="datetime">Cargando...</div>
+    <div class="top-btns">
+        <button class="ruleta-btn" onclick="openModal('roulette-modal')">🎰 SUERTE</button>
+        <div class="coin-display">🪙 <span id="coin-count">0</span></div>
+        <div style="cursor:pointer;" onclick="openModal('shop-modal')">🛒 Tienda</div>
+        <div style="cursor:pointer;" onclick="openModal('settings-modal')">⚙️ Camuflaje</div>
+    </div>
 </div>
 
 <div id="roulette-modal" class="modal">
-    <h3 style="color:gold; margin-top:0;">Ruleta Chistorrita</h3>
-    <p id="roulette-cost-text" style="font-size:0.7rem; color:#aaa;">Costo: 100 🪙</p>
-    <div id="roulette-display">???</div>
-    <button id="spin-btn" onclick="playRoulette()" style="background:gold; color:black;">¡GIRAR!</button>
-    <div id="prestamo-section" style="display:none; margin-top:10px; border-top:1px solid #333; padding-top:10px;">
-        <p style="font-size:0.7rem; color:#ff4444; margin:5px 0;">¿Pobre? Chistorrita te ayuda.</p>
-        <button onclick="pedirPrestamo()" style="background:#222; color:white; border:1px solid #ff4444; font-size:0.7rem;">PEDIR 200 🪙</button>
-    </div>
-    <button onclick="closeModal('roulette-modal')" style="background:#444; color:white; margin-top:10px;">SALIR</button>
+    <h3 style="color:gold; margin-top:0;">Ruleta Chistorrita</h3>
+    <p id="roulette-cost-text" style="font-size:0.7rem; color:#aaa;">Costo: 100 🪙</p>
+    <div id="roulette-display">???</div>
+    <button id="spin-btn" onclick="playRoulette()" style="background:gold; color:black;">¡GIRAR!</button>
+    <div id="prestamo-section" style="display:none; margin-top:10px; border-top:1px solid #333; padding-top:10px;">
+        <p style="font-size:0.7rem; color:#ff4444; margin:5px 0;">¿Pobre? Chistorrita te ayuda.</p>
+        <button onclick="pedirPrestamo()" style="background:#222; color:white; border:1px solid #ff4444; font-size:0.7rem;">PEDIR 200 🪙</button>
+    </div>
+    <button onclick="closeModal('roulette-modal')" style="background:#444; color:white; margin-top:10px;">SALIR</button>
 </div>
 
 <div id="shop-modal" class="modal">
-    <h3 style="color:gold; margin-top:0;">Tienda Chistorrita</h3>
-    <div class="shop-item" id="item-ticket">
-        <p style="margin:0; font-weight:bold; color:gold;">🎫 Ticket Dorado</p>
-        <p style="font-size:0.6rem; color:#888;">Giro gratis + 500 monedas garantizadas.</p>
-        <button id="buy-ticket" onclick="buyTicket()" style="background:gold; color:black; margin-top:5px;">COMPRAR (300 🪙)</button>
-    </div>
-    <div class="shop-item">
-        <p style="margin:0; font-weight:bold; color:var(--accent);">🔥 Multiplicador x2</p>
-        <button id="buy-x2" onclick="buyMultiplier()" style="background:gold; color:black; margin-top:5px;">COMPRAR (1000 🪙)</button>
-    </div>
-    <div class="shop-item" id="item-seguro">
-        <p style="margin:0; font-weight:bold; color:#00ff00;">🛡️ Seguro de Ruleta</p>
-        <p style="font-size:0.6rem; color:#888;">Evita 1 Bancarrota en la ruleta.</p>
-        <button id="buy-seguro" onclick="buySeguro()" style="background:#00ff00; color:black; margin-top:5px;">COMPRAR (500 🪙)</button>
-    </div>
-    <button onclick="closeModal('shop-modal')" style="background:#444; color:white">CERRAR</button>
+    <h3 style="color:gold; margin-top:0;">Tienda Chistorrita</h3>
+    <div class="shop-item" id="item-ticket">
+        <p style="margin:0; font-weight:bold; color:gold;">🎫 Ticket Dorado</p>
+        <p style="font-size:0.6rem; color:#888;">Giro gratis + 500 monedas garantizadas.</p>
+        <button id="buy-ticket" onclick="buyTicket()" style="background:gold; color:black; margin-top:5px;">COMPRAR (300 🪙)</button>
+    </div>
+    <div class="shop-item">
+        <p style="margin:0; font-weight:bold; color:var(--accent);">🔥 Multiplicador x2</p>
+        <button id="buy-x2" onclick="buyMultiplier()" style="background:gold; color:black; margin-top:5px;">COMPRAR (1000 🪙)</button>
+    </div>
+    <div class="shop-item" id="item-seguro">
+        <p style="margin:0; font-weight:bold; color:#00ff00;">🛡️ Seguro de Ruleta</p>
+        <p style="font-size:0.6rem; color:#888;">Evita 1 Bancarrota en la ruleta.</p>
+        <button id="buy-seguro" onclick="buySeguro()" style="background:#00ff00; color:black; margin-top:5px;">COMPRAR (500 🪙)</button>
+    </div>
+    <button onclick="closeModal('shop-modal')" style="background:#444; color:white">CERRAR</button>
 </div>
 
 <div id="settings-modal" class="modal">
-    <h3 style="color:var(--accent); margin-top:0;">Camuflaje</h3>
-    <select id="cam-select" onchange="applyCamouflage()" style="width:100%; padding:10px; background:#000; color:white; border-radius:8px;">
-        <option value="docs">Google Docs</option>
-        <option value="drive">Google Drive</option>
-        <option value="classroom">Classroom</option>
-    </select>
-    <p style="font-size:0.7rem; color:#666; margin-top:10px;">Link de Pánico (Tecla Q):</p>
-    <input type="text" id="panic-link" placeholder="https://google.com" style="width:90%; padding:10px; background:#000; color:white; border-radius:8px; border:1px solid #333;">
-    <button onclick="saveSettings()" style="background:var(--accent); color:black; margin-top:10px;">GUARDAR</button>
+    <h3 style="color:var(--accent); margin-top:0;">Camuflaje</h3>
+    <select id="cam-select" onchange="applyCamouflage()" style="width:100%; padding:10px; background:#000; color:white; border-radius:8px;">
+        <option value="docs">Google Docs</option>
+        <option value="drive">Google Drive</option>
+        <option value="classroom">Classroom</option>
+    </select>
+    <p style="font-size:0.7rem; color:#666; margin-top:10px;">Link de Pánico (Tecla Q):</p>
+    <input type="text" id="panic-link" placeholder="https://google.com" style="width:90%; padding:10px; background:#000; color:white; border-radius:8px; border:1px solid #333;">
+    <button onclick="saveSettings()" style="background:var(--accent); color:black; margin-top:10px;">GUARDAR</button>
 </div>
 
 <div id="edit-profile-modal" class="modal">
-    <h3 style="color:var(--accent); margin-top:0;">Editar Perfil</h3>
-    <input type="text" id="input-name" placeholder="Nombre..." style="width:90%; padding:10px; background:#000; color:white; margin-bottom:10px;">
-    <input type="text" id="input-avatar" placeholder="URL Imagen..." style="width:90%; padding:10px; background:#000; color:white;">
-    <button onclick="saveProfile()" style="background:var(--accent); color:black; margin-top:10px;">GUARDAR</button>
+    <h3 style="color:var(--accent); margin-top:0;">Editar Perfil</h3>
+    <input type="text" id="input-name" placeholder="Nombre..." style="width:90%; padding:10px; background:#000; color:white; margin-bottom:10px;">
+    <input type="text" id="input-avatar" placeholder="URL Imagen..." style="width:90%; padding:10px; background:#000; color:white;">
+    <button onclick="saveProfile()" style="background:var(--accent); color:black; margin-top:10px;">GUARDAR</button>
 </div>
 
 <div id="overlay-layer">
-    <div id="game-bar">
-        <div id="game-title-on-bar">CARGANDO...</div>
-        <div class="game-bar-btns">
-            <button class="bar-btn" onclick="toggleFullScreen()"><span>⛶</span> Fullscreen</button>
-            <button class="bar-btn btn-close" onclick="closeOverlay()"><span>✕</span> Close</button>
-        </div>
-    </div>
-    <iframe id="content-frame" style="flex:1; width:100%; border:none;" allowfullscreen></iframe>
+    <div id="game-bar">
+        <div id="game-title-on-bar">CARGANDO...</div>
+        <div class="game-bar-btns">
+            <button class="bar-btn" onclick="toggleFullScreen()"><span>⛶</span> Fullscreen</button>
+            <button class="bar-btn btn-close" onclick="closeOverlay()"><span>✕</span> Close</button>
+        </div>
+    </div>
+    <iframe id="content-frame" style="flex:1; width:100%; border:none;" allowfullscreen></iframe>
 </div>
 
 <header><h1>CHISTORRITA</h1></header>
 
 <div id="profile-section">
-    <img id="user-avatar" src="https://pbs.twimg.com/media/GgKR-vqWMAAcrJD.jpg" onclick="openModal('edit-profile-modal')">
-    <div class="profile-info">
-        <h2 id="user-name">Usuario Nuevo</h2>
-        <p id="user-status" style="color: #4CAF50; font-weight: bold; font-size:0.8rem; margin:0;">● En línea <span id="badge" style="color:gold; font-size:0.7rem; margin-left:10px;"></span></p>
-        <p style="color:var(--accent); font-weight:bold; font-size:0.7rem;">TIEMPO: <span id="time-display">0h 0m</span></p>
-    </div>
+    <img id="user-avatar" src="https://pbs.twimg.com/media/GgKR-vqWMAAcrJD.jpg" onclick="openModal('edit-profile-modal')">
+    <div class="profile-info">
+        <h2 id="user-name">Usuario Nuevo</h2>
+        <p id="user-status" style="color: #4CAF50; font-weight: bold; font-size:0.8rem; margin:0;">● En línea <span id="badge" style="color:gold; font-size:0.7rem; margin-left:10px;"></span></p>
+        <p style="color:var(--accent); font-weight:bold; font-size:0.7rem;">TIEMPO: <span id="time-display">0h 0m</span></p>
+    </div>
 </div>
 
 <div id="search-container">
-    <input type="text" id="game-search" placeholder="🔍 Buscar juego..." oninput="render()">
+    <input type="text" id="game-search" placeholder="🔍 Buscar juego..." oninput="render()">
 </div>
 
 <div class="container" id="main-grid">
-    <div id="favorites-container" class="container"></div>
+    <div id="favorites-container" class="container"></div>
 </div>
 
 <script>
 // --- JUEGOS ---
 const games = [
-    { id: 'tk', name: 'TikTok Trends', img: 'https://sf-tb-static.fingerfun.com/images/tiktok.png', type: 'special', func: 'launchTikTok' },
-    { id: 'ai', name: 'AI Assistant', img: 'https://avatars.githubusercontent.com/u/86964862?s=200&v=4', type: 'special', func: 'launchAI' },
-    { id: 'sf3', name: 'Street Fighter Alpha 3', img: 'https://static.wikia.nocookie.net/nintendo/images/a/a9/Street_Fighter_Alpha_3_Upper_box_art.jpg/revision/latest?cb=20170119005425&path-prefix=en', path: 'math/sf.html' },
-    { id: 'pm', name: 'Pepsi Man', img: 'https://images.launchbox-app.com/aa61e452-65f0-4319-ab68-c9bab9678393.jpg', path: 'math/pepsiman.html' },
-    { id: 'f3', name: 'FNF vs FNAF 3', img: 'https://images.gamebanana.com/img/ss/mods/65cb87a015247.jpg', path: 'math/english.html' },
-    { id: 'br', name: 'The Backrooms', img: 'https://images.sftcdn.net/images/t_app-cover-s-16-9,f_auto/p/f7ecad09-1b61-429f-b42d-0b5f3254be83/3110476367/the-backrooms-game-screenshot', path: 'math/cuartos.html' },
-    { id: 'dd', name: 'Doki Doki Literature Club', img: 'https://image.api.playstation.com/vulcan/img/rnd/202107/1418/3xIQlFWEBEUNrbSOpbUxu7Pd.png', path: 'math/doki.html' },
-    { id: 'cv', name: 'Castlevania: Aria of Sorrow', img: 'https://assets-prd.ignimgs.com/2020/09/04/castlevania-aria-of-sorrow-button-crop-1599254632265.jpg', path: 'math/vampiro.html' },
-    { id: 'tf', name: 'FNF: TwiddleFinger', img: 'https://kbhgames.com/wp-content/uploads/2024/06/FNF-TwiddleFinger.webp', path: 'math/fnfTWIDDLEFINGER.html' },
-    { id: 'ag', name: 'FNF vs Agoti', img: 'https://images.gamebanana.com/img/ss/mods/60986ffa12142.jpg', path: 'math/fnfagoti.html' },
-    { id: 'an', name: 'FNF vs Animation', img: 'https://images.gamebanana.com/img/ss/mods/6233d68f1b023.jpg', path: 'math/fnfanimation.html' },
-    { id: 'bf', name: 'FNF vs BFDI 26', img: 'https://images.gamebanana.com/img/ss/wips/6697d4c1c3dd0.jpg', path: 'math/fnfbfdi26.html' },
-    { id: 'bb', name: 'FNF vs Black Betrayal', img: 'https://i.ytimg.com/vi/xqY5xsGO1VY/maxresdefault.jpg', path: 'math/fnfblackbetrayal.html' },
-    { id: 'ca', name: 'FNF vs Camellia', img: 'https://images.gamebanana.com/img/ss/mods/61130e899ff0a.jpg', path: 'math/fnfcamelliarudeblaster.html' },
-    { id: 'co', name: 'FNF vs Cory', img: 'https://pbs.twimg.com/profile_images/1593454294099001350/JmhDalcR_400x400.png', path: 'math/fnfcory.html' },
-    { id: 'cr', name: 'FNF vs Crunchin', img: 'https://i.ytimg.com/vi/OyfLu-x5Ryc/maxresdefault.jpg', path: 'math/fnfcrunchin.html' },
-    { id: 'de', name: 'FNF Desolation', img: 'https://i1.sndcdn.com/artworks-zMXBoO0Bvf38nE5N-yJ5HAA-t500x500.jpg', path: 'math/fnfdesolation.html' },
-    { id: 'dt', name: 'FNF Doki Takeover', img: 'https://i.ytimg.com/vi/4pB0XtscOhs/maxresdefault.jpg', path: 'math/fnfdokitakeoverplus.html' },
-    { id: 'dr', name: 'FNF Drop and Roll', img: 'https://images.gamebanana.com/img/ss/mods/6654fc5193e7a.jpg', path: 'math/fnfdropandroll.html' },
-    { id: 'du', name: 'FNF vs Dustin', img: 'https://images.gamebanana.com/img/ss/mods/68c5e96da7aca.jpg', path: 'math/fnfdustin.html' },
-    { id: 'fw', name: 'FNF Fleetway', img: 'https://images.steamusercontent.com/ugc/1835779809877904647/22BDAE0EC75DAA5C9E95152211BB05B54AC287D0/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true', path: 'math/fnffleetway.html' },
-    { id: 'f1', name: 'FNF vs FNAF 1', img: 'https://img.itch.zone/aW1hZ2UvMTQ1NDMzMS84NDkxODQzLnBuZw==/original/nyYosD.png', path: 'math/fnffnaf1.html' }
+    { id: 'tk', name: 'TikTok Trends', img: 'https://sf-tb-static.fingerfun.com/images/tiktok.png', type: 'special', func: 'launchTikTok' },
+    { id: 'ai', name: 'AI Assistant', img: 'https://avatars.githubusercontent.com/u/86964862?s=200&v=4', type: 'special', func: 'launchAI' },
+    { id: 'sf3', name: 'Street Fighter Alpha 3', img: 'https://static.wikia.nocookie.net/nintendo/images/a/a9/Street_Fighter_Alpha_3_Upper_box_art.jpg/revision/latest?cb=20170119005425&path-prefix=en', path: 'math/sf.html' },
+    { id: 'pm', name: 'Pepsi Man', img: 'https://images.launchbox-app.com/aa61e452-65f0-4319-ab68-c9bab9678393.jpg', path: 'math/pepsiman.html' },
+    { id: 'f3', name: 'FNF vs FNAF 3', img: 'https://images.gamebanana.com/img/ss/mods/65cb87a015247.jpg', path: 'math/english.html' },
+    { id: 'br', name: 'The Backrooms', img: 'https://images.sftcdn.net/images/t_app-cover-s-16-9,f_auto/p/f7ecad09-1b61-429f-b42d-0b5f3254be83/3110476367/the-backrooms-game-screenshot', path: 'math/cuartos.html' },
+    { id: 'dd', name: 'Doki Doki Literature Club', img: 'https://image.api.playstation.com/vulcan/img/rnd/202107/1418/3xIQlFWEBEUNrbSOpbUxu7Pd.png', path: 'math/doki.html' },
+    { id: 'cv', name: 'Castlevania: Aria of Sorrow', img: 'https://assets-prd.ignimgs.com/2020/09/04/castlevania-aria-of-sorrow-button-crop-1599254632265.jpg', path: 'math/vampiro.html' },
+    { id: 'tf', name: 'FNF: TwiddleFinger', img: 'https://kbhgames.com/wp-content/uploads/2024/06/FNF-TwiddleFinger.webp', path: 'math/fnfTWIDDLEFINGER.html' },
+    { id: 'ag', name: 'FNF vs Agoti', img: 'https://images.gamebanana.com/img/ss/mods/60986ffa12142.jpg', path: 'math/fnfagoti.html' },
+    { id: 'an', name: 'FNF vs Animation', img: 'https://images.gamebanana.com/img/ss/mods/6233d68f1b023.jpg', path: 'math/fnfanimation.html' },
+    { id: 'bf', name: 'FNF vs BFDI 26', img: 'https://images.gamebanana.com/img/ss/wips/6697d4c1c3dd0.jpg', path: 'math/fnfbfdi26.html' },
+    { id: 'bb', name: 'FNF vs Black Betrayal', img: 'https://i.ytimg.com/vi/xqY5xsGO1VY/maxresdefault.jpg', path: 'math/fnfblackbetrayal.html' },
+    { id: 'ca', name: 'FNF vs Camellia', img: 'https://images.gamebanana.com/img/ss/mods/61130e899ff0a.jpg', path: 'math/fnfcamelliarudeblaster.html' },
+    { id: 'co', name: 'FNF vs Cory', img: 'https://pbs.twimg.com/profile_images/1593454294099001350/JmhDalcR_400x400.png', path: 'math/fnfcory.html' },
+    { id: 'cr', name: 'FNF vs Crunchin', img: 'https://i.ytimg.com/vi/OyfLu-x5Ryc/maxresdefault.jpg', path: 'math/fnfcrunchin.html' },
+    { id: 'de', name: 'FNF Desolation', img: 'https://i1.sndcdn.com/artworks-zMXBoO0Bvf38nE5N-yJ5HAA-t500x500.jpg', path: 'math/fnfdesolation.html' },
+    { id: 'dt', name: 'FNF Doki Takeover', img: 'https://i.ytimg.com/vi/4pB0XtscOhs/maxresdefault.jpg', path: 'math/fnfdokitakeoverplus.html' },
+    { id: 'dr', name: 'FNF Drop and Roll', img: 'https://images.gamebanana.com/img/ss/mods/6654fc5193e7a.jpg', path: 'math/fnfdropandroll.html' },
+    { id: 'du', name: 'FNF vs Dustin', img: 'https://images.gamebanana.com/img/ss/mods/68c5e96da7aca.jpg', path: 'math/fnfdustin.html' },
+    { id: 'fw', name: 'FNF Fleetway', img: 'https://images.steamusercontent.com/ugc/1835779809877904647/22BDAE0EC75DAA5C9E95152211BB05B54AC287D0/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true', path: 'math/fnffleetway.html' },
+    { id: 'f1', name: 'FNF vs FNAF 1', img: 'https://img.itch.zone/aW1hZ2UvMTQ1NDMzMS84NDkxODQzLnBuZw==/original/nyYosD.png', path: 'math/fnffnaf1.html' }
 ];
 
 // --- ESTADO ---
@@ -176,141 +176,130 @@ let hasMultiplier = localStorage.getItem('user_multiplier') === 'true';
 let favorites = JSON.parse(localStorage.getItem('user_favorites')) || [];
 let deuda = parseInt(localStorage.getItem('user_deuda')) || 0;
 let tieneSeguro = localStorage.getItem('user_seguro') === 'true';
-let tieneTicket = localStorage.getItem('user_ticket') === 'true'; 
+let tieneTicket = localStorage.getItem('user_ticket') === 'true'; 
 let rachaSucia = 0;
 
+// NUEVO: Sistema de cooldown para el ticket
 let tirosRealizados = parseInt(localStorage.getItem('tiros_desde_compra')) || 0;
 const TIROS_NECESARIOS = 10;
 
 function addCoins(amount) {
-    if (deuda > 0) {
-        let pago = Math.min(amount, deuda);
-        deuda -= pago;
-        amount -= pago;
-        localStorage.setItem('user_deuda', deuda);
-    }
-    coins += amount;
-    localStorage.setItem('user_coins', coins);
-    updateCoinDisplay();
+    if (deuda > 0) {
+        let pago = Math.min(amount, deuda);
+        deuda -= pago;
+        amount -= pago;
+        localStorage.setItem('user_deuda', deuda);
+    }
+    coins += amount;
+    localStorage.setItem('user_coins', coins);
+    updateCoinDisplay();
 }
 
 function updateCoinDisplay() {
-    document.getElementById('coin-count').innerText = coins;
-    checkStatusBadges();
+    document.getElementById('coin-count').innerText = coins;
+    // Aquí podrías llamar a checkStatusBadges() si la tienes definida
 }
 
 function playRoulette() {
-    let costo = tieneTicket ? 0 : 100; 
-    if (coins < costo) return alert("Necesitas 100 monedas.");
-    
-    coins -= costo;
-    tirosRealizados++;
-    localStorage.setItem('tiros_desde_compra', tirosRealizados);
-    
-    updateCoinDisplay();
-    updateShopUI();
+    let costo = tieneTicket ? 0 : 100; 
+    if (coins < costo) return alert("Necesitas 100 monedas.");
+    
+    coins -= costo;
+    
+    tirosRealizados++;
+    localStorage.setItem('tiros_desde_compra', tirosRealizados);
+    
+    updateCoinDisplay();
 
-    const display = document.getElementById('roulette-display');
-    const spinBtn = document.getElementById('spin-btn');
-    spinBtn.disabled = true;
-    let timer = 0;
-    const interval = setInterval(() => {
-        display.innerText = Math.floor(Math.random() * 1000);
-        timer += 100;
-        if (timer >= 2000) {
-            clearInterval(interval);
-            calculateResult();
-            spinBtn.disabled = false;
-        }
-    }, 100);
+    const display = document.getElementById('roulette-display');
+    const spinBtn = document.getElementById('spin-btn');
+    spinBtn.disabled = true;
+    let timer = 0;
+    const interval = setInterval(() => {
+        display.innerText = Math.floor(Math.random() * 1000);
+        timer += 100;
+        if (timer >= 2000) {
+            clearInterval(interval);
+            calculateResult();
+            spinBtn.disabled = false;
+        }
+    }, 100);
 }
 
 function calculateResult() {
-    const r = Math.random() * 100;
-    const display = document.getElementById('roulette-display');
-    let win = 0;
+    const r = Math.random() * 100;
+    const display = document.getElementById('roulette-display');
+    let win = 0;
 
-    if (tieneTicket) {
-        win = 500;
-        display.innerText = "🎫 TICKET: +500";
-        display.style.color = "gold";
-        tieneTicket = false;
-        localStorage.setItem('user_ticket', 'false');
-        updateShopUI();
-    } else {
-        // --- PROBABILIDAD MODIFICADA: 1% de MEGA JACKPOT con 5000 monedas ---
-        if (r < 1) { 
-            win = 5000; 
-            display.innerText = "⭐ MEGA JACKPOT ⭐"; 
-            display.style.color = "#ff00ff";
-        } 
-        else if (r < 8) { 
-            if (tieneSeguro) {
-                display.innerText = "🛡️ SEGURO ACTIVADO";
-                display.style.color = "#00ff00";
-                tieneSeguro = false;
-                localStorage.setItem('user_seguro', 'false');
-                updateShopUI();
-            } else {
-                coins = 0; 
-                rachaSucia = 0;
-                display.innerText = "BANCARROTA 💀";
-                display.style.color = "red";
-            }
-        } 
-        else if (r < 18) { 
-            win = 1000; 
-            display.innerText = "JACKPOT! 🎰"; 
-            display.style.color = "gold"; 
-            rachaSucia++;
-        } 
-        else if (r < 45) { 
-            win = 300; 
-            display.innerText = "+300 🪙"; 
-            display.style.color = "#39C5BB"; 
-            rachaSucia++;
-        } 
-        else if (r < 75) { 
-            win = 150; 
-            display.innerText = "+150 🪙"; 
-            display.style.color = "white"; 
-            rachaSucia++;
-        } 
-        else { 
-            display.innerText = "0 - NADA"; 
-            display.style.color = "#444"; 
-            rachaSucia = 0;
-        }
-    }
+    if (tieneTicket) {
+        win = 500;
+        display.innerText = "🎫 TICKET: +500";
+        display.style.color = "gold";
+        tieneTicket = false;
+        localStorage.setItem('user_ticket', 'false');
+    } else {
+        // MODIFICACIÓN: 1% de probabilidad de ganar 5000
+        if (r < 1) { 
+            win = 5000; 
+            display.innerText = "⭐ MEGA JACKPOT ⭐"; 
+            display.style.color = "#ff00ff";
+        } 
+        else if (r < 8) { 
+            if (tieneSeguro) {
+                display.innerText = "🛡️ SEGURO ACTIVADO";
+                display.style.color = "#00ff00";
+                tieneSeguro = false;
+                localStorage.setItem('user_seguro', 'false');
+            } else {
+                coins = 0; 
+                rachaSucia = 0;
+                display.innerText = "BANCARROTA 💀";
+                display.style.color = "red";
+            }
+        } 
+        else if (r < 18) { 
+            win = 1000; 
+            display.innerText = "JACKPOT! 🎰"; 
+            display.style.color = "gold"; 
+            rachaSucia++;
+        } 
+        else if (r < 45) { 
+            win = 300; 
+            display.innerText = "+300 🪙"; 
+            display.style.color = "#39C5BB"; 
+            rachaSucia++;
+        } 
+        else if (r < 75) { 
+            win = 150; 
+            display.innerText = "+150 🪙"; 
+            display.style.color = "white"; 
+            rachaSucia++;
+        } 
+        else { 
+            display.innerText = "0 - NADA"; 
+            display.style.color = "#444"; 
+            rachaSucia = 0;
+        }
+    }
 
-    if (win > 0) addCoins(win);
-    checkPrestamoVis();
-    updateCoinDisplay();
+    if (win > 0) addCoins(win);
+    updateCoinDisplay();
 }
 
-function buyTicket() {
-    if(tieneTicket) return alert("Ya tienes un ticket activo.");
-    if(tirosRealizados < TIROS_NECESARIOS) {
-        return alert(`Debes realizar ${TIROS_NECESARIOS - tirosRealizados} tiros más para volver a comprar.`);
-    }
-    if(coins >= 300) {
-        coins -= 300; 
-        tieneTicket = true;
-        tirosRealizados = 0;
-        localStorage.setItem('user_coins', coins);
-        localStorage.setItem('user_ticket', 'true');
-        updateCoinDisplay();
-        updateShopUI();
-    }
-}
-
-// Funciones auxiliares para que el script no rompa al pegar
+// Funciones básicas para que el script funcione al pegar
 function openModal(id) { document.getElementById(id).style.display = 'block'; }
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-function checkStatusBadges() {} 
-function updateShopUI() {}
-function checkPrestamoVis() {}
-function render() {}
+function buyTicket() {
+    if(tieneTicket) return alert("Ya tienes un ticket.");
+    if(tirosRealizados < TIROS_NECESARIOS) return alert("Faltan tiros.");
+    if(coins >= 300) {
+        coins -= 300;
+        tieneTicket = true;
+        tirosRealizados = 0;
+        localStorage.setItem('user_ticket', 'true');
+        updateCoinDisplay();
+    }
+}
 </script>
 </body>
 </html>
