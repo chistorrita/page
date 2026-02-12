@@ -114,7 +114,7 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
         <button id="buy-x2" onclick="buyMultiplier()" style="background:gold; color:black; margin-top:5px;">COMPRAR (1000 🪙)</button>
     </div>
 
-    <div class="shop-item" id="item-seguro">
+   <div class="shop-item" id="item-seguro">
         <p style="margin:0; font-weight:bold; color:#00ff00;">🛡️ Seguro de Ruleta</p>
         <p style="font-size:0.6rem; color:#888;">Evita 1 Bancarrota en la ruleta.</p>
         <button id="buy-seguro" onclick="buySeguro()" style="background:#00ff00; color:black; margin-top:5px;">COMPRAR (500 🪙)</button>
@@ -127,9 +127,7 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
     </div>
 
     <button onclick="closeModal('shop-modal')" style="background:#444; color:white; margin-top:10px;">CERRAR</button>
-</div>
-
-<div id="settings-modal" class="modal">
+</div> <div id="settings-modal" class="modal">
     <h3 style="color:var(--accent); margin-top:0;">Camuflaje</h3>
     <select id="cam-select" onchange="applyCamouflage()" style="width:100%; padding:10px; background:#000; color:white; border-radius:8px;">
         <option value="docs">Google Docs</option>
@@ -481,7 +479,6 @@ function launchGhost(path) {
         const blob = new Blob([html], {type: 'text/html'});
         document.getElementById('content-frame').src = URL.createObjectURL(blob);
         document.getElementById('overlay-layer').style.display = 'flex';
-    });
 }
 
 function launchAI() {
@@ -531,6 +528,7 @@ window.onload = () => {
 </script>
 </body>
 </html>
+
 
 
 
