@@ -6,54 +6,47 @@
 <title id="tab-title">Google Docs</title>
 <link id="tab-icon" rel="icon" type="image/x-icon" href="https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico">
 <style>
-/* Variables base (Default: Turquesa) */
-:root { 
-    --accent: #39C5BB; 
-    --dark: #121212; 
-    --card: #1E1E1E; 
-    --header-bg: #222;
-    --text: #ffffff;
-    --border: #333;
-}
+/* --- ESTILOS BASE --- */
+:root { --accent: #39C5BB; --dark: #121212; --card: #1E1E1E; --text: white; }
+body { background: var(--dark); color: var(--text); font-family: sans-serif; margin: 0; text-align: center; overflow-x: hidden; transition: 0.5s; }
 
-/* TEMA HACKER */
-body.theme-hacker {
-    --accent: #00ff41;
-    --dark: #000000;
-    --card: #0a0a0a;
-    --header-bg: #050505;
-    --border: #00ff41;
-    font-family: 'Courier New', Courier, monospace;
-}
+/* --- TEMAS COMPRABLES --- */
+body.theme-hacker { --accent: #00ff00; --dark: #000; --card: #051a05; font-family: 'Courier New', monospace; }
+body.theme-hacker header { border-color: #00ff00; text-shadow: 0 0 10px #00ff00; }
 
-/* TEMA INFIERNO */
-body.theme-inferno {
-    --accent: #ff4500;
-    --dark: #1a0505;
-    --card: #2d0a0a;
-    --header-bg: #400;
-    --border: #ff0000;
-}
+body.theme-infierno { --accent: #ff4400; --dark: #1a0000; --card: #330000; }
+body.theme-infierno header { border-color: #ff0000; background: linear-gradient(to bottom, #1a0000, #550000); }
 
-/* TEMA DORADO VIP */
-body.theme-gold {
-    --accent: #ffd700;
-    --dark: #0f0f0f;
-    --card: #1a1a10;
-    --header-bg: #222200;
-    --border: #ffd700;
-}
+body.theme-cielo { --accent: #00ccff; --dark: #e0f7ff; --card: #ffffff; --text: #333; }
+body.theme-cielo #top-bar, body.theme-cielo header { background: #00ccff; color: white; border: none; }
+body.theme-cielo .game-card { border-color: #00ccff; color: #333; }
 
-body { background: var(--dark); color: var(--text); font-family: sans-serif; margin: 0; text-align: center; overflow-x: hidden; transition: 0.3s; }
-#top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #000; font-size: 0.8rem; border-bottom: 1px solid var(--border); }
+body.theme-vip { 
+    --accent: #ffd700; 
+    --dark: #1a1a1a; 
+    --card: #2a2a2a; 
+    background: linear-gradient(135deg, #1a1a1a 0%, #453a00 100%);
+    border: 5px solid gold;
+    box-sizing: border-box;
+    min-height: 100vh;
+}
+body.theme-vip h1 { 
+    animation: vip-glow 2s infinite alternate; 
+    font-weight: 900;
+    text-shadow: 0 0 20px gold;
+}
+@keyframes vip-glow { from { color: #fff; } to { color: gold; } }
+
+/* --- RESTO DEL CSS --- */
+#top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #000; font-size: 0.8rem; border-bottom: 1px solid #333; }
 #datetime { color: var(--accent); font-family: monospace; }
 .top-btns { display: flex; gap: 12px; align-items: center; }
-header { padding: 20px; border-bottom: 2px solid var(--accent); background: var(--header-bg); }
+header { padding: 20px; border-bottom: 2px solid var(--accent); background: #222; }
 h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
-#search-container { padding: 15px; background: rgba(0,0,0,0.3); }
-#game-search { width: 60%; max-width: 400px; padding: 10px 20px; border-radius: 20px; border: 1px solid var(--border); background: #000; color: white; outline: none; transition: 0.3s; }
-#game-search:focus { border-color: var(--accent); box-shadow: 0 0 10px var(--accent); }
-#profile-section { background: rgba(0,0,0,0.2); padding: 15px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: center; gap: 20px; }
+#search-container { padding: 15px; background: #1a1a1a; }
+#game-search { width: 60%; max-width: 400px; padding: 10px 20px; border-radius: 20px; border: 1px solid #333; background: #000; color: white; outline: none; transition: 0.3s; }
+#game-search:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(57, 197, 187, 0.3); }
+#profile-section { background: #1a1a1a; padding: 15px; border-bottom: 1px solid #333; display: flex; align-items: center; justify-content: center; gap: 20px; }
 #user-avatar { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--accent); cursor: pointer; object-fit: cover; }
 .coin-display { background: #222; padding: 5px 15px; border-radius: 20px; border: 1px solid gold; color: gold; font-weight: bold; transition: 0.3s; }
 .status-badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; margin-left: 5px; font-weight: bold; }
@@ -63,18 +56,19 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
 .ruleta-btn { background: linear-gradient(45deg, #FFD700, #FFA500); color: black; border: none; padding: 5px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; animation: glow 2s infinite; }
 @keyframes glow { 0% { box-shadow: 0 0 5px gold; } 50% { box-shadow: 0 0 20px gold; } 100% { box-shadow: 0 0 5px gold; } }
 .container { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; padding: 20px; max-width: 1400px; margin: auto; }
-#favorites-container { border-bottom: 2px dashed var(--border); padding-bottom: 20px; display: none; margin-bottom: 20px; }
+#favorites-container { border-bottom: 2px dashed #333; padding-bottom: 20px; display: none; margin-bottom: 20px; }
 .fav-title { grid-column: 1 / -1; text-align: left; color: gold; font-size: 0.9rem; margin-bottom: 10px; font-weight: bold; }
-.game-card { background: var(--card); border: 2px solid var(--border); border-radius: 15px; padding: 12px; cursor: pointer; transition: 0.3s; position: relative; height: 180px; display: flex; flex-direction: column; justify-content: space-between; }
+.game-card { background: var(--card); border: 2px solid #333; border-radius: 15px; padding: 12px; cursor: pointer; transition: 0.3s; position: relative; height: 180px; display: flex; flex-direction: column; justify-content: space-between; }
 .game-card:hover { border-color: var(--accent); transform: translateY(-5px); }
 .game-card img { width: 100%; height: 100px; border-radius: 10px; object-fit: cover; }
-.game-card span { font-size: 0.75rem; font-weight: bold; margin-top: 5px; color: var(--text); }
+.game-card span { font-size: 0.75rem; font-weight: bold; margin-top: 5px; }
 .fav-btn { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.7); border: none; color: white; border-radius: 50%; cursor: pointer; padding: 5px; z-index: 5; }
 .fav-btn.active { color: gold; }
-.modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--card); padding: 25px; border-radius: 20px; border: 2px solid var(--accent); z-index: 10001; width: 350px; box-shadow: 0 0 50px rgba(0,0,0,0.8); max-height: 80vh; overflow-y: auto; }
+.modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1e1e1e; padding: 25px; border-radius: 20px; border: 2px solid var(--accent); z-index: 10001; width: 350px; max-height: 80vh; overflow-y: auto; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
 .modal button { width: 100%; padding: 10px; margin: 5px 0; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
-.shop-item { background: #000; padding: 10px; border-radius: 10px; border: 1px solid var(--border); margin-bottom: 10px; text-align: left; }
-.shop-section-title { font-size: 0.8rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin: 15px 0 10px 0; border-bottom: 1px solid #333; }
+.shop-item { background: #000; padding: 10px; border-radius: 10px; border: 1px solid #333; margin-bottom: 10px; text-align: left; }
+.seguro-active { border-color: #00ff00 !important; box-shadow: 0 0 10px #00ff00; }
+.ticket-active { border-color: gold !important; box-shadow: 0 0 10px gold; }
 #overlay-layer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; flex-direction: column; }
 #game-bar { display: flex; justify-content: space-between; align-items: center; background: #222; padding: 8px 20px; border-bottom: 2px solid var(--accent); color: white; }
 #game-title-on-bar { font-family: 'Courier New', Courier, monospace; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; color: var(--accent); }
@@ -86,7 +80,7 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
 #roulette-display { font-size: 2rem; font-weight: bold; margin: 20px 0; color: var(--accent); min-height: 50px; }
 </style>
 </head>
-<body id="main-body">
+<body id="body-tag">
 
 <div id="top-bar">
     <div id="datetime">Cargando...</div>
@@ -104,39 +98,41 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
     <div id="roulette-display">???</div>
     <button id="spin-btn" onclick="playRoulette()" style="background:gold; color:black;">¡GIRAR!</button>
     <div id="prestamo-section" style="display:none; margin-top:10px; border-top:1px solid #333; padding-top:10px;">
+        <p style="font-size:0.7rem; color:#ff4444; margin:5px 0;">¿Pobre? Chistorrita te ayuda.</p>
         <button onclick="pedirPrestamo()" style="background:#222; color:white; border:1px solid #ff4444; font-size:0.7rem;">PEDIR 200 🪙</button>
     </div>
     <button onclick="closeModal('roulette-modal')" style="background:#444; color:white; margin-top:10px;">SALIR</button>
 </div>
 
-<!-- TIENDA ACTUALIZADA CON TEMAS -->
 <div id="shop-modal" class="modal">
     <h3 style="color:gold; margin-top:0;">Tienda Chistorrita</h3>
     
-    <div class="shop-section-title">Mejoras</div>
-    <div class="shop-item">
+    <div style="background:#222; padding:10px; border-radius:10px; margin-bottom:10px;">
+        <p style="margin:0 0 10px 0; font-weight:bold; color:var(--accent); font-size:0.8rem;">🎭 TEMAS DE PÁGINA</p>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px;">
+            <button onclick="buyTheme('hacker', 1000)" style="background:#003300; color:#0f0; font-size:0.7rem;">Hacker (1k)</button>
+            <button onclick="buyTheme('infierno', 1000)" style="background:#330000; color:#f44; font-size:0.7rem;">Infierno (1k)</button>
+            <button onclick="buyTheme('cielo', 1000)" style="background:#00ccff; color:white; font-size:0.7rem;">Cielo (1k)</button>
+            <button onclick="buyTheme('vip', 5000)" style="background:gold; color:black; font-size:0.7rem; box-shadow:0 0 10px gold;">⭐ VIP (5k)</button>
+        </div>
+        <button onclick="setTheme('default')" style="background:#444; color:white; font-size:0.6rem; margin-top:5px;">Restablecer</button>
+    </div>
+
+    <div class="shop-item" id="item-ticket">
         <p style="margin:0; font-weight:bold; color:gold;">🎫 Ticket Dorado</p>
-        <button id="buy-ticket" onclick="buyTicket()" style="background:gold; color:black;">COMPRAR (300 🪙)</button>
+        <p style="font-size:0.6rem; color:#888;">Giro gratis + 500 monedas garantizadas.</p>
+        <button id="buy-ticket" onclick="buyTicket()" style="background:gold; color:black; margin-top:5px;">COMPRAR (300 🪙)</button>
     </div>
     <div class="shop-item">
         <p style="margin:0; font-weight:bold; color:var(--accent);">🔥 Multiplicador x2</p>
-        <button id="buy-x2" onclick="buyMultiplier()" style="background:gold; color:black;">COMPRAR (1000 🪙)</button>
+        <p style="font-size:0.6rem; color:#888;">Gana 30 🪙 por minuto en lugar de 15.</p>
+        <button id="buy-x2" onclick="buyMultiplier()" style="background:gold; color:black; margin-top:5px;">COMPRAR (1000 🪙)</button>
     </div>
-    
-    <div class="shop-section-title">Temas Visuales</div>
-    <div class="shop-item">
-        <p style="margin:0; font-weight:bold; color:#00ff41;">💻 Modo Hacker</p>
-        <button id="btn-theme-hacker" onclick="buyTheme('hacker', 1000)" style="background:#00ff41; color:black;">COMPRAR (1000 🪙)</button>
+    <div class="shop-item" id="item-seguro">
+        <p style="margin:0; font-weight:bold; color:#00ff00;">🛡️ Seguro de Ruleta</p>
+        <p style="font-size:0.6rem; color:#888;">Evita 1 Bancarrota en la ruleta.</p>
+        <button id="buy-seguro" onclick="buySeguro()" style="background:#00ff00; color:black; margin-top:5px;">COMPRAR (500 🪙)</button>
     </div>
-    <div class="shop-item">
-        <p style="margin:0; font-weight:bold; color:#ff4500;">🔥 Modo Infierno</p>
-        <button id="btn-theme-inferno" onclick="buyTheme('inferno', 1000)" style="background:#ff4500; color:white;">COMPRAR (1000 🪙)</button>
-    </div>
-    <div class="shop-item">
-        <p style="margin:0; font-weight:bold; color:#ffd700;">✨ Dorado VIP</p>
-        <button id="btn-theme-gold" onclick="buyTheme('gold', 5000)" style="background:#ffd700; color:black;">COMPRAR (5000 🪙)</button>
-    </div>
-
     <button onclick="closeModal('shop-modal')" style="background:#444; color:white">CERRAR</button>
 </div>
 
@@ -200,7 +196,20 @@ const games = [
     { id: 'br', name: 'The Backrooms', img: 'https://images.sftcdn.net/images/t_app-cover-s-16-9,f_auto/p/f7ecad09-1b61-429f-b42d-0b5f3254be83/3110476367/the-backrooms-game-screenshot', path: 'math/cuartos.html' },
     { id: 'dd', name: 'Doki Doki Literature Club', img: 'https://image.api.playstation.com/vulcan/img/rnd/202107/1418/3xIQlFWEBEUNrbSOpbUxu7Pd.png', path: 'math/doki.html' },
     { id: 'cv', name: 'Castlevania: Aria of Sorrow', img: 'https://assets-prd.ignimgs.com/2020/09/04/castlevania-aria-of-sorrow-button-crop-1599254632265.jpg', path: 'math/vampiro.html' },
-    { id: 'tf', name: 'FNF: TwiddleFinger', img: 'https://kbhgames.com/wp-content/uploads/2024/06/FNF-TwiddleFinger.webp', path: 'math/fnfTWIDDLEFINGER.html' }
+    { id: 'tf', name: 'FNF: TwiddleFinger', img: 'https://kbhgames.com/wp-content/uploads/2024/06/FNF-TwiddleFinger.webp', path: 'math/fnfTWIDDLEFINGER.html' },
+    { id: 'ag', name: 'FNF vs Agoti', img: 'https://images.gamebanana.com/img/ss/mods/60986ffa12142.jpg', path: 'math/fnfagoti.html' },
+    { id: 'an', name: 'FNF vs Animation', img: 'https://images.gamebanana.com/img/ss/mods/6233d68f1b023.jpg', path: 'math/fnfanimation.html' },
+    { id: 'bf', name: 'FNF vs BFDI 26', img: 'https://images.gamebanana.com/img/ss/wips/6697d4c1c3dd0.jpg', path: 'math/fnfbfdi26.html' },
+    { id: 'bb', name: 'FNF vs Black Betrayal', img: 'https://i.ytimg.com/vi/xqY5xsGO1VY/maxresdefault.jpg', path: 'math/fnfblackbetrayal.html' },
+    { id: 'ca', name: 'FNF vs Camellia', img: 'https://images.gamebanana.com/img/ss/mods/61130e899ff0a.jpg', path: 'math/fnfcamelliarudeblaster.html' },
+    { id: 'co', name: 'FNF vs Cory', img: 'https://pbs.twimg.com/profile_images/1593454294099001350/JmhDalcR_400x400.png', path: 'math/fnfcory.html' },
+    { id: 'cr', name: 'FNF vs Crunchin', img: 'https://i.ytimg.com/vi/OyfLu-x5Ryc/maxresdefault.jpg', path: 'math/fnfcrunchin.html' },
+    { id: 'de', name: 'FNF Desolation', img: 'https://i1.sndcdn.com/artworks-zMXBoO0Bvf38nE5N-yJ5HAA-t500x500.jpg', path: 'math/fnfdesolation.html' },
+    { id: 'dt', name: 'FNF Doki Takeover', img: 'https://i.ytimg.com/vi/4pB0XtscOhs/maxresdefault.jpg', path: 'math/fnfdokitakeoverplus.html' },
+    { id: 'dr', name: 'FNF Drop and Roll', img: 'https://images.gamebanana.com/img/ss/mods/6654fc5193e7a.jpg', path: 'math/fnfdropandroll.html' },
+    { id: 'du', name: 'FNF vs Dustin', img: 'https://images.gamebanana.com/img/ss/mods/68c5e96da7aca.jpg', path: 'math/fnfdustin.html' },
+    { id: 'fw', name: 'FNF Fleetway', img: 'https://images.steamusercontent.com/ugc/1835779809877904647/22BDAE0EC75DAA5C9E95152211BB05B54AC287D0/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true', path: 'math/fnffleetway.html' },
+    { id: 'f1', name: 'FNF vs FNAF 1', img: 'https://img.itch.zone/aW1hZ2UvMTQ1NDMzMS84NDkxODQzLnBuZw==/original/nyYosD.png', path: 'math/fnffnaf1.html' }
 ];
 
 // --- ESTADO ---
@@ -209,11 +218,40 @@ let coins = parseInt(localStorage.getItem('user_coins')) || 0;
 let hasMultiplier = localStorage.getItem('user_multiplier') === 'true';
 let favorites = JSON.parse(localStorage.getItem('user_favorites')) || [];
 let deuda = parseInt(localStorage.getItem('user_deuda')) || 0;
+let tieneSeguro = localStorage.getItem('user_seguro') === 'true';
 let tieneTicket = localStorage.getItem('user_ticket') === 'true'; 
+let purchasedThemes = JSON.parse(localStorage.getItem('purchased_themes')) || ['default'];
+let rachaSucia = 0;
 let tirosRealizados = parseInt(localStorage.getItem('tiros_desde_compra')) || 0;
-let purchasedThemes = JSON.parse(localStorage.getItem('user_themes')) || [];
-let activeTheme = localStorage.getItem('active_theme') || 'default';
 const TIROS_NECESARIOS = 10;
+
+// --- SISTEMA DE TEMAS ---
+function buyTheme(themeId, cost) {
+    if (purchasedThemes.includes(themeId)) {
+        setTheme(themeId);
+        return;
+    }
+    if (coins >= cost) {
+        coins -= cost;
+        purchasedThemes.push(themeId);
+        localStorage.setItem('user_coins', coins);
+        localStorage.setItem('purchased_themes', JSON.stringify(purchasedThemes));
+        updateCoinDisplay();
+        setTheme(themeId);
+        alert(`¡Tema ${themeId.toUpperCase()} comprado y aplicado!`);
+    } else {
+        alert("No tienes suficientes monedas.");
+    }
+}
+
+function setTheme(themeId) {
+    const body = document.getElementById('body-tag');
+    body.className = ''; // Limpiar temas anteriores
+    if (themeId !== 'default') {
+        body.classList.add('theme-' + themeId);
+    }
+    localStorage.setItem('current_theme', themeId);
+}
 
 // --- SISTEMA DE MONEDAS ---
 function addCoins(amount, isLoan = false) {
@@ -233,42 +271,14 @@ function updateCoinDisplay() {
     checkStatusBadges();
 }
 
-// --- SISTEMA DE TEMAS ---
-function buyTheme(themeName, price) {
-    if (purchasedThemes.includes(themeName)) {
-        setTheme(themeName);
-        return;
-    }
-    if (coins >= price) {
-        coins -= price;
-        purchasedThemes.push(themeName);
-        localStorage.setItem('user_coins', coins);
-        localStorage.setItem('user_themes', JSON.stringify(purchasedThemes));
-        updateCoinDisplay();
-        setTheme(themeName);
-        updateShopUI();
-    } else {
-        alert("No tienes suficientes monedas.");
-    }
-}
-
-function setTheme(themeName) {
-    const body = document.getElementById('main-body');
-    body.className = ''; // Limpia temas previos
-    if (themeName !== 'default') {
-        body.classList.add('theme-' + themeName);
-    }
-    activeTheme = themeName;
-    localStorage.setItem('active_theme', themeName);
-}
-
-// --- RULETA ---
 function playRoulette() {
     let costo = tieneTicket ? 0 : 100; 
     if (coins < costo) return alert("Necesitas 100 monedas.");
+    
     coins -= costo;
     tirosRealizados++;
     localStorage.setItem('tiros_desde_compra', tirosRealizados);
+    
     updateCoinDisplay();
     updateShopUI();
 
@@ -279,7 +289,11 @@ function playRoulette() {
     const interval = setInterval(() => {
         display.innerText = Math.floor(Math.random() * 1000);
         timer += 100;
-        if (timer >= 2000) { clearInterval(interval); calculateResult(); spinBtn.disabled = false; }
+        if (timer >= 2000) {
+            clearInterval(interval);
+            calculateResult();
+            spinBtn.disabled = false;
+        }
     }, 100);
 }
 
@@ -289,38 +303,156 @@ function calculateResult() {
     let win = 0;
 
     if (tieneTicket) {
-        win = 500; display.innerText = "🎫 TICKET: +500"; display.style.color = "gold";
-        tieneTicket = false; localStorage.setItem('user_ticket', 'false');
+        win = 500;
+        display.innerText = "🎫 TICKET: +500";
+        display.style.color = "gold";
+        tieneTicket = false;
+        localStorage.setItem('user_ticket', 'false');
+        updateShopUI();
     } else {
-        if (r < 1) { win = 5000; display.innerText = "🚨 JACKPOT 🚨\n+5000"; display.style.color = "#ff00ff"; } 
-        else if (r < 8) { coins = 0; display.innerText = "💀 BANCARROTA"; display.style.color = "red"; } 
-        else if (r < 18) { win = 1000; display.innerText = "✨ GRAN PREMIO ✨\n+1000"; display.style.color = "gold"; } 
-        else if (r < 45) { win = 300; display.innerText = "+300 🪙"; display.style.color = "var(--accent)"; } 
-        else if (r < 75) { win = 150; display.innerText = "+150 🪙"; display.style.color = "white"; } 
-        else { display.innerText = "❌ NADA"; display.style.color = "#666"; }
+        if (r < 1) { 
+            win = 5000; 
+            display.innerText = "🚨 JACKPOT 🚨\n+5000"; 
+            display.style.color = "#ff00ff";
+        } else if (r < 8) { 
+            if (tieneSeguro) {
+                display.innerText = "🛡️ SALVADO POR SEGURO"; display.style.color = "#00ff00";
+                tieneSeguro = false; localStorage.setItem('user_seguro', 'false'); updateShopUI();
+            } else {
+                coins = 0; rachaSucia = 0; display.innerText = "💀 BANCARROTA"; display.style.color = "red";
+            }
+        } else if (r < 18) { 
+            win = 1000; display.innerText = "✨ GRAN PREMIO ✨\n+1000"; display.style.color = "gold"; rachaSucia++;
+        } else if (r < 45) { 
+            win = 300; display.innerText = "+300 🪙"; display.style.color = "#39C5BB"; rachaSucia++;
+        } else if (r < 75) { 
+            win = 150; display.innerText = "+150 🪙"; display.style.color = "white"; rachaSucia++;
+        } else { 
+            display.innerText = "❌ NADA"; display.style.color = "#666"; rachaSucia = 0;
+        }
     }
     if (win > 0) addCoins(win);
-    updateShopUI();
+    checkPrestamoVis();
     updateCoinDisplay();
 }
 
-// --- TIENDA UI ---
-function updateShopUI() {
-    // Tickets
-    const btnTicket = document.getElementById('buy-ticket');
-    if (tieneTicket) btnTicket.innerText = "LISTO";
-    else if (tirosRealizados < TIROS_NECESARIOS) btnTicket.innerText = `BLOQUEADO (${tirosRealizados}/${TIROS_NECESARIOS})`;
-    else btnTicket.innerText = "COMPRAR (300 🪙)";
+// --- TIENDA ---
+function buyTicket() {
+    if(tieneTicket) return alert("Ya tienes un ticket activo.");
+    if(tirosRealizados < TIROS_NECESARIOS) return alert(`¡Faltan ${TIROS_NECESARIOS - tirosRealizados} tiros de ruleta!`);
+    if(coins >= 300) {
+        coins -= 300; tieneTicket = true; tirosRealizados = 0;
+        localStorage.setItem('user_coins', coins); localStorage.setItem('user_ticket', 'true'); localStorage.setItem('tiros_desde_compra', 0);
+        updateCoinDisplay(); updateShopUI();
+    } else alert("Faltan monedas.");
+}
 
-    // Temas
-    const themes = ['hacker', 'inferno', 'gold'];
-    themes.forEach(t => {
-        const btn = document.getElementById('btn-theme-' + t);
-        if (purchasedThemes.includes(t)) {
-            btn.innerText = (activeTheme === t) ? "EQUIPADO" : "EQUIPAR";
-            btn.style.opacity = (activeTheme === t) ? "0.5" : "1";
+function buySeguro() {
+    if(tieneSeguro) return alert("Ya tienes seguro.");
+    if(coins >= 500) {
+        coins -= 500; tieneSeguro = true;
+        localStorage.setItem('user_coins', coins); localStorage.setItem('user_seguro', 'true');
+        updateCoinDisplay(); updateShopUI();
+    } else alert("Faltan monedas.");
+}
+
+function updateShopUI() {
+    const btnSeguro = document.getElementById('buy-seguro');
+    const boxSeguro = document.getElementById('item-seguro');
+    if (tieneSeguro) { btnSeguro.innerText = "ACTIVO"; boxSeguro.classList.add('seguro-active'); }
+    else { btnSeguro.innerText = "COMPRAR (500 🪙)"; boxSeguro.classList.remove('seguro-active'); }
+
+    const btnTicket = document.getElementById('buy-ticket');
+    const boxTicket = document.getElementById('item-ticket');
+    const costText = document.getElementById('roulette-cost-text');
+
+    if (tieneTicket) { 
+        btnTicket.innerText = "LISTO"; boxTicket.classList.add('ticket-active'); 
+        if(costText) costText.innerText = "Costo: GRATIS (🎫 activo)";
+    } else { 
+        boxTicket.classList.remove('ticket-active'); 
+        if(costText) costText.innerText = "Costo: 100 🪙";
+        if(tirosRealizados < TIROS_NECESARIOS) {
+            btnTicket.innerText = `BLOQUEADO (${tirosRealizados}/${TIROS_NECESARIOS})`;
+            btnTicket.style.background = "#444";
+        } else {
+            btnTicket.innerText = "COMPRAR (300 🪙)"; btnTicket.style.background = "gold";
         }
+    }
+}
+
+function checkPrestamoVis() {
+    document.getElementById('prestamo-section').style.display = (coins < 100) ? 'block' : 'none';
+}
+
+function pedirPrestamo() {
+    if (deuda > 0) return alert("Paga tu deuda primero.");
+    deuda = 300; localStorage.setItem('user_deuda', deuda);
+    addCoins(200, true);
+    checkPrestamoVis();
+    alert("Préstamo de 200 🪙 concedido. Debes 300.");
+}
+
+function checkStatusBadges() {
+    const userStatus = document.getElementById('user-status');
+    const oldRacha = document.getElementById('racha-badge');
+    if (oldRacha) oldRacha.remove();
+    if (rachaSucia >= 3) {
+        const span = document.createElement('span');
+        span.id = 'racha-badge'; span.className = 'status-badge racha-badge';
+        span.innerText = `🔥 RACHA X${rachaSucia}`; userStatus.appendChild(span);
+    }
+    const oldDeuda = document.getElementById('deuda-badge');
+    if (oldDeuda) oldDeuda.remove();
+    if (deuda > 0) {
+        const dSpan = document.createElement('span');
+        dSpan.id = 'deuda-badge'; dSpan.className = 'status-badge deuda-badge';
+        dSpan.innerText = `DEUDA: ${deuda}`; userStatus.appendChild(dSpan);
+    }
+}
+
+function updateLoop() {
+    totalSeconds++;
+    localStorage.setItem('playtime', totalSeconds);
+    if (totalSeconds % 60 === 0) {
+        addCoins(hasMultiplier ? 30 : 15);
+    }
+    const h = Math.floor(totalSeconds / 3600);
+    const m = Math.floor((totalSeconds % 3600) / 60);
+    document.getElementById('time-display').innerText = `${h}h ${m}m`;
+    const now = new Date();
+    document.getElementById('datetime').innerText = now.toLocaleTimeString() + " | " + now.toLocaleDateString();
+}
+setInterval(updateLoop, 1000);
+
+function render() {
+    const grid = document.getElementById('main-grid');
+    const favCont = document.getElementById('favorites-container');
+    const searchInput = document.getElementById('game-search');
+    const searchTerm = searchInput.value.toLowerCase();
+
+    Array.from(grid.children).forEach(c => { if(c.id !== 'favorites-container') c.remove(); });
+    favCont.innerHTML = '<div class="fav-title">⭐ MIS FAVORITOS</div>';
+    let visibleFavs = 0;
+    games.forEach(game => {
+        if (!game.name.toLowerCase().includes(searchTerm)) return;
+        const card = document.createElement('div');
+        card.className = 'game-card';
+        card.innerHTML = `<button class="fav-btn ${favorites.includes(game.id)?'active':''}" onclick="toggleFav('${game.id}', event)">★</button><img src="${game.img}"><span>${game.name}</span>`;
+        card.onclick = () => {
+            document.getElementById('game-title-on-bar').innerText = game.name;
+            if(game.type === 'special') window[game.func]();
+            else launchGhost(game.path);
+        };
+        if(favorites.includes(game.id)) {
+            const clone = card.cloneNode(true);
+            clone.onclick = card.onclick;
+            favCont.appendChild(clone);
+            visibleFavs++;
+        }
+        grid.appendChild(card);
     });
+    favCont.style.display = (visibleFavs > 0) ? 'grid' : 'none';
 }
 
 function buyMultiplier() {
@@ -330,59 +462,7 @@ function buyMultiplier() {
         localStorage.setItem('user_coins', coins); localStorage.setItem('user_multiplier', 'true');
         updateCoinDisplay();
         document.getElementById('buy-x2').innerText = "ADQUIRIDO";
-    } else alert("Faltan 1000 🪙.");
-}
-
-function pedirPrestamo() {
-    if (deuda > 0) return alert("Paga tu deuda primero.");
-    deuda = 300; localStorage.setItem('user_deuda', deuda);
-    addCoins(200, true);
-    alert("Préstamo concedido. Debes 300 🪙.");
-}
-
-function checkStatusBadges() {
-    const userStatus = document.getElementById('user-status');
-    const oldDeuda = document.getElementById('deuda-badge');
-    if (oldDeuda) oldDeuda.remove();
-    if (deuda > 0) {
-        const dSpan = document.createElement('span');
-        dSpan.className = 'status-badge deuda-badge'; dSpan.id = 'deuda-badge';
-        dSpan.innerText = `DEUDA: ${deuda}`; userStatus.appendChild(dSpan);
-    }
-}
-
-// --- CORE ---
-function updateLoop() {
-    totalSeconds++;
-    localStorage.setItem('playtime', totalSeconds);
-    if (totalSeconds % 60 === 0) addCoins(hasMultiplier ? 30 : 15);
-    const h = Math.floor(totalSeconds / 3600);
-    const m = Math.floor((totalSeconds % 3600) / 60);
-    document.getElementById('time-display').innerText = `${h}h ${m}m`;
-    document.getElementById('datetime').innerText = new Date().toLocaleTimeString();
-}
-setInterval(updateLoop, 1000);
-
-function render() {
-    const grid = document.getElementById('main-grid');
-    const favCont = document.getElementById('favorites-container');
-    const searchTerm = document.getElementById('game-search').value.toLowerCase();
-    Array.from(grid.children).forEach(c => { if(c.id !== 'favorites-container') c.remove(); });
-    favCont.innerHTML = '<div class="fav-title">⭐ MIS FAVORITOS</div>';
-    let vFavs = 0;
-    games.forEach(game => {
-        if (!game.name.toLowerCase().includes(searchTerm)) return;
-        const card = document.createElement('div');
-        card.className = 'game-card';
-        card.innerHTML = `<button class="fav-btn ${favorites.includes(game.id)?'active':''}" onclick="toggleFav('${game.id}', event)">★</button><img src="${game.img}"><span>${game.name}</span>`;
-        card.onclick = () => { launchGhost(game.path); };
-        if(favorites.includes(game.id)) {
-            const clone = card.cloneNode(true); clone.onclick = card.onclick;
-            favCont.appendChild(clone); vFavs++;
-        }
-        grid.appendChild(card);
-    });
-    favCont.style.display = (vFavs > 0) ? 'grid' : 'none';
+    } else alert("Faltan monedas (1000 🪙).");
 }
 
 function toggleFav(id, e) {
@@ -394,19 +474,63 @@ function toggleFav(id, e) {
 
 function launchGhost(path) {
     const url = "https://cdn.jsdelivr.net/gh/chistorrita/page@latest/" + path;
-    document.getElementById('content-frame').src = url;
+    fetch(url).then(r => r.text()).then(html => {
+        const blob = new Blob([html], {type: 'text/html'});
+        document.getElementById('content-frame').src = URL.createObjectURL(blob);
+        document.getElementById('overlay-layer').style.display = 'flex';
+    });
+}
+
+function launchTikTok() {
+    document.getElementById('content-frame').src = "https://urlebird.com/trending/";
+    document.getElementById('overlay-layer').style.display = 'flex';
+}
+
+function launchAI() {
+    const aiHTML = `<html><body style="background:#111;color:white;display:flex;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;">AI Pronto...</body></html>`;
+    const blob = new Blob([aiHTML], {type: 'text/html'});
+    document.getElementById('content-frame').src = URL.createObjectURL(blob);
     document.getElementById('overlay-layer').style.display = 'flex';
 }
 
 function openModal(id) { document.getElementById(id).style.display = 'block'; }
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+function toggleFullScreen() {
+    const f = document.getElementById('content-frame');
+    if (f.requestFullscreen) f.requestFullscreen();
+}
 function closeOverlay() { document.getElementById('overlay-layer').style.display = 'none'; document.getElementById('content-frame').src = ''; }
+function applyCamouflage() {
+    const t = document.getElementById('cam-select').value;
+    const data = { docs: ["Working... - Google Docs", "https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico"], drive: ["My Drive - Google Drive", "https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png"], classroom: ["Clases", "https://ssl.gstatic.com/classroom/favicon.png"] };
+    document.getElementById('tab-title').innerText = data[t][0];
+    document.getElementById('tab-icon').href = data[t][1];
+}
+function saveSettings() { localStorage.setItem('panic_link', document.getElementById('panic-link').value); applyCamouflage(); closeModal('settings-modal'); }
+function saveProfile() {
+    const n = document.getElementById('input-name').value;
+    const a = document.getElementById('input-avatar').value;
+    if(n){ localStorage.setItem('user_name', n); document.getElementById('user-name').innerText = n; }
+    if(a){ localStorage.setItem('user_avatar', a); document.getElementById('user-avatar').src = a; }
+    closeModal('edit-profile-modal');
+}
+
+document.addEventListener('keydown', e => {
+    if(e.key === 'Escape') closeOverlay();
+    if(e.key.toLowerCase() === 'q') window.location.href = localStorage.getItem('panic_link') || "https://google.com";
+});
 
 window.onload = () => {
-    setTheme(activeTheme);
     if(localStorage.getItem('user_name')) document.getElementById('user-name').innerText = localStorage.getItem('user_name');
     if(localStorage.getItem('user_avatar')) document.getElementById('user-avatar').src = localStorage.getItem('user_avatar');
+    if(hasMultiplier) document.getElementById('buy-x2').innerText = "ADQUIRIDO";
+    
+    // Cargar Tema Guardado
+    const savedTheme = localStorage.getItem('current_theme') || 'default';
+    setTheme(savedTheme);
+
     updateShopUI();
+    checkPrestamoVis();
     updateCoinDisplay();
     render();
 };
