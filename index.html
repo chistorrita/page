@@ -108,26 +108,19 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
 
 <div id="shop-modal" class="modal">
     <h3 style="color:gold; margin-top:0;">Tienda Chistorrita</h3>
-    
     <div class="shop-item">
         <p style="margin:0; font-weight:bold; color:var(--accent);">🔥 Multiplicador x2</p>
         <button id="buy-x2" onclick="buyMultiplier()" style="background:gold; color:black; margin-top:5px;">COMPRAR (1000 🪙)</button>
     </div>
-
-   <div class="shop-item" id="item-seguro">
+    <div class="shop-item" id="item-seguro">
         <p style="margin:0; font-weight:bold; color:#00ff00;">🛡️ Seguro de Ruleta</p>
         <p style="font-size:0.6rem; color:#888;">Evita 1 Bancarrota en la ruleta.</p>
         <button id="buy-seguro" onclick="buySeguro()" style="background:#00ff00; color:black; margin-top:5px;">COMPRAR (500 🪙)</button>
     </div>
+    <button onclick="closeModal('shop-modal')" style="background:#444; color:white">CERRAR</button>
+</div>
 
-    <div class="shop-item" id="item-ticket">
-        <p style="margin:0; font-weight:bold; color:orange;">🎫 Ticket Dorado</p>
-        <p style="font-size:0.6rem; color:#888;">Tu próximo giro garantiza +500 🪙.</p>
-        <button id="buy-ticket" onclick="buyTicket()" style="background:orange; color:black; margin-top:5px;">COMPRAR (300 🪙)</button>
-    </div>
-
-    <button onclick="closeModal('shop-modal')" style="background:#444; color:white; margin-top:10px;">CERRAR</button>
-</div> <div id="settings-modal" class="modal">
+<div id="settings-modal" class="modal">
     <h3 style="color:var(--accent); margin-top:0;">Camuflaje</h3>
     <select id="cam-select" onchange="applyCamouflage()" style="width:100%; padding:10px; background:#000; color:white; border-radius:8px;">
         <option value="docs">Google Docs</option>
@@ -179,6 +172,7 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
 <script>
 // --- JUEGOS ---
 const games = [
+    { id: 'tk', name: 'TikTok Trends', img: 'https://sf-tb-static.fingerfun.com/images/tiktok.png', type: 'special', func: 'launchTikTok' },
     { id: 'ai', name: 'AI Assistant', img: 'https://avatars.githubusercontent.com/u/86964862?s=200&v=4', type: 'special', func: 'launchAI' },
     { id: 'sf3', name: 'Street Fighter Alpha 3', img: 'https://static.wikia.nocookie.net/nintendo/images/a/a9/Street_Fighter_Alpha_3_Upper_box_art.jpg/revision/latest?cb=20170119005425&path-prefix=en', path: 'math/sf.html' },
     { id: 'pm', name: 'Pepsi Man', img: 'https://images.launchbox-app.com/aa61e452-65f0-4319-ab68-c9bab9678393.jpg', path: 'math/pepsiman.html' },
@@ -210,18 +204,14 @@ let favorites = JSON.parse(localStorage.getItem('user_favorites')) || [];
 let deuda = parseInt(localStorage.getItem('user_deuda')) || 0;
 let tieneSeguro = localStorage.getItem('user_seguro') === 'true';
 let rachaSucia = 0;
-let tieneTicket = localStorage.getItem('user_ticket') === 'true';
 
-function addCoins(amount, esPrestamo = false) {
-    // Si NO es un préstamo y hay deuda, cobramos
-    if (!esPrestamo && deuda > 0) {
+function addCoins(amount) {
+    if (deuda > 0) {
         let pago = Math.min(amount, deuda);
         deuda -= pago;
         amount -= pago;
         localStorage.setItem('user_deuda', deuda);
     }
-    
-    // Sumamos lo que quede (o el préstamo entero)
     coins += amount;
     localStorage.setItem('user_coins', coins);
     updateCoinDisplay();
@@ -235,18 +225,12 @@ function updateCoinDisplay() {
 // --- RULETA LOGIC ---
 function playRoulette() {
     if (coins < 100) return alert("Necesitas 100 monedas.");
-    
-    // Si tiene ticket, no cobramos los 100, ya los pagó en la tienda
-    if (!tieneTicket) {
-        coins -= 100;
-    }
-    
+    coins -= 100;
     updateCoinDisplay();
     const display = document.getElementById('roulette-display');
     const spinBtn = document.getElementById('spin-btn');
     spinBtn.disabled = true;
     let timer = 0;
-    
     const interval = setInterval(() => {
         display.innerText = Math.floor(Math.random() * 1000);
         timer += 100;
@@ -259,21 +243,10 @@ function playRoulette() {
 }
 
 function calculateResult() {
-    const r = Math.random() * 100; 
+    const r = Math.random() * 100;
     const display = document.getElementById('roulette-display');
     let win = 0;
-
-    // Lógica del Ticket Dorado
-    if (tieneTicket) {
-        win = 500;
-        display.innerText = "🎫 TICKET: +500";
-        display.style.color = "orange";
-        tieneTicket = false;
-        localStorage.setItem('user_ticket', 'false');
-        updateShopUI();
-    } 
-    // Si no hay ticket, suerte normal
-    else if (r < 7) { 
+    if (r < 7) {
         if (tieneSeguro) {
             display.innerText = "🛡️ SEGURO ACTIVADO";
             display.style.color = "#00ff00";
@@ -285,23 +258,15 @@ function calculateResult() {
             display.innerText = "BANCARROTA 💀";
             display.style.color = "red";
         }
-    } 
-    else if (r < 8) { 
-        win = 5000; 
-        display.innerText = "🔥 JACKPOT 5000!!"; 
-        display.style.color = "gold"; 
-        rachaSucia++;
-    } 
-    else if (r < 30) { 
+    } else if (r < 15) { 
+        win = 1000; display.innerText = "JACKPOT! 🎰"; display.style.color = "gold"; rachaSucia++;
+    } else if (r < 40) { 
         win = 300; display.innerText = "+300 🪙"; display.style.color = "#39C5BB"; rachaSucia++;
-    } 
-    else if (r < 60) { 
+    } else if (r < 70) { 
         win = 150; display.innerText = "+150 🪙"; display.style.color = "white"; rachaSucia++;
-    } 
-    else { 
+    } else { 
         display.innerText = "0 - NADA"; display.style.color = "#444"; rachaSucia = 0;
     }
-
     if (win > 0) addCoins(win);
     checkPrestamoVis();
     updateCoinDisplay();
@@ -312,13 +277,10 @@ function checkPrestamoVis() {
 }
 
 function pedirPrestamo() {
-    if (deuda > 0) return alert("¡Paga tu deuda primero!");
-    deuda = 400; 
+    if (deuda > 0) return alert("Paga tu deuda primero.");
+    deuda = 400; addCoins(200);
     localStorage.setItem('user_deuda', deuda);
-    addCoins(200, true); 
     checkPrestamoVis();
-    checkStatusBadges();
-    alert("¡Trato hecho! Recibes 200 🪙 pero ahora debes 400.");
 }
 
 function buySeguro() {
@@ -331,34 +293,11 @@ function buySeguro() {
     } else alert("Faltan monedas.");
 }
 
-function buyTicket() {
-    if(tieneTicket) return alert("Ya tienes un ticket activo.");
-    if(coins >= 300) {
-        coins -= 300;
-        tieneTicket = true;
-        localStorage.setItem('user_coins', coins);
-        localStorage.setItem('user_ticket', 'true');
-        updateCoinDisplay();
-        updateShopUI();
-    } else alert("No tienes suficientes monedas.");
-}
-
 function updateShopUI() {
-    // Seguro
-    const btnS = document.getElementById('buy-seguro');
-    const boxS = document.getElementById('item-seguro');
-    if (btnS && boxS) {
-        if (tieneSeguro) { btnS.innerText = "ACTIVO"; boxS.classList.add('seguro-active'); }
-        else { btnS.innerText = "COMPRAR (500 🪙)"; boxS.classList.remove('seguro-active'); }
-    }
-
-    // Ticket
-    const tBtn = document.getElementById('buy-ticket');
-    const tBox = document.getElementById('item-ticket');
-    if (tBtn && tBox) {
-        if (tieneTicket) { tBtn.innerText = "LISTO"; tBox.style.borderColor = "orange"; }
-        else { tBtn.innerText = "COMPRAR (300 🪙)"; tBox.style.borderColor = "#333"; }
-    }
+    const btn = document.getElementById('buy-seguro');
+    const box = document.getElementById('item-seguro');
+    if (tieneSeguro) { btn.innerText = "ACTIVO"; box.classList.add('seguro-active'); }
+    else { btn.innerText = "COMPRAR (500 🪙)"; box.classList.remove('seguro-active'); }
 }
 
 function checkStatusBadges() {
@@ -379,42 +318,21 @@ function checkStatusBadges() {
     }
 }
 
-function buyTicket() {
-    if(tieneTicket) return alert("Ya tienes un ticket activo para tu siguiente giro.");
-    if(coins >= 300) {
-        coins -= 300;
-        tieneTicket = true;
-        localStorage.setItem('user_coins', coins);
-        localStorage.setItem('user_ticket', 'true');
-        updateCoinDisplay();
-        updateShopUI();
-    } else alert("No tienes suficientes monedas para el Ticket.");
-}
-
-function updateShopUI() {
-    // Lógica del SEGURO (Mantenemos lo que ya tenías)
-    const btnSeguro = document.getElementById('buy-seguro');
-    const boxSeguro = document.getElementById('item-seguro');
-    if (tieneSeguro) { 
-        btnSeguro.innerText = "ACTIVO"; 
-        if(boxSeguro) boxSeguro.classList.add('seguro-active'); 
-    } else { 
-        btnSeguro.innerText = "COMPRAR (500 🪙)"; 
-        if(boxSeguro) boxSeguro.classList.remove('seguro-active'); 
+function updateLoop() {
+    totalSeconds++;
+    localStorage.setItem('playtime', totalSeconds);
+    if (totalSeconds % 180 === 0) {
+        addCoins(hasMultiplier ? 10 : 5);
     }
-
-    // Lógica del TICKET
-    const tBtn = document.getElementById('buy-ticket');
-    const tBox = document.getElementById('item-ticket');
-    if (tieneTicket) { 
-        tBtn.innerText = "LISTO PARA USAR"; 
-        tBox.style.borderColor = "orange";
-    } else { 
-        tBtn.innerText = "COMPRAR (300 🪙)"; 
-        tBox.style.borderColor = "#333";
-    }
+    const h = Math.floor(totalSeconds / 3600);
+    const m = Math.floor((totalSeconds % 3600) / 60);
+    document.getElementById('time-display').innerText = `${h}h ${m}m`;
+    const badge = document.getElementById('badge');
+    if(h >= 48) badge.innerText = "[EL SIN CHAMBA]";
+    else if(h >= 10) badge.innerText = "[NO TIENES TAREAS?]";
+    const now = new Date();
+    document.getElementById('datetime').innerText = now.toLocaleTimeString() + " | " + now.toLocaleDateString();
 }
-
 setInterval(updateLoop, 1000);
 
 function render() {
@@ -479,6 +397,12 @@ function launchGhost(path) {
         const blob = new Blob([html], {type: 'text/html'});
         document.getElementById('content-frame').src = URL.createObjectURL(blob);
         document.getElementById('overlay-layer').style.display = 'flex';
+    });
+}
+
+function launchTikTok() {
+    document.getElementById('content-frame').src = "https://urlebird.com/trending/";
+    document.getElementById('overlay-layer').style.display = 'flex';
 }
 
 function launchAI() {
@@ -528,8 +452,3 @@ window.onload = () => {
 </script>
 </body>
 </html>
-
-
-
-
-
