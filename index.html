@@ -17,7 +17,7 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
 #game-search:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(57, 197, 187, 0.3); }
 #profile-section { background: #1a1a1a; padding: 15px; border-bottom: 1px solid #333; display: flex; align-items: center; justify-content: center; gap: 20px; }
 #user-avatar { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--accent); cursor: pointer; object-fit: cover; }
-.coin-display { background: #222; padding: 5px 15px; border-radius: 20px; border: 1px solid gold; color: gold; font-weight: bold; transition: 0.3s; }
+.coin-display { background: #222; padding: 5px 15px; border-radius: 20px; border: 1px solid gold; color: gold; font-weight: bold; }
 .status-badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; margin-left: 5px; font-weight: bold; }
 .deuda-badge { background: #ff4444; color: white; }
 .racha-badge { background: orange; color: black; animation: shake 0.5s infinite; display: inline-block; }
@@ -55,7 +55,7 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
     <div id="datetime">Cargando...</div>
     <div class="top-btns">
         <button class="ruleta-btn" onclick="openModal('roulette-modal')">🎰 SUERTE</button>
-        <div class="coin-display" id="coin-box">🪙 <span id="coin-count">0</span></div>
+        <div class="coin-display">🪙 <span id="coin-count">0</span></div>
         <div style="cursor:pointer;" onclick="openModal('shop-modal')">🛒 Tienda</div>
         <div style="cursor:pointer;" onclick="openModal('settings-modal')">⚙️ Camuflaje</div>
     </div>
@@ -82,7 +82,6 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
     </div>
     <div class="shop-item">
         <p style="margin:0; font-weight:bold; color:var(--accent);">🔥 Multiplicador x2</p>
-        <p style="font-size:0.6rem; color:#888;">Gana 30 🪙 por minuto en lugar de 15.</p>
         <button id="buy-x2" onclick="buyMultiplier()" style="background:gold; color:black; margin-top:5px;">COMPRAR (1000 🪙)</button>
     </div>
     <div class="shop-item" id="item-seguro">
@@ -147,7 +146,7 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
 const games = [
     { id: 'tk', name: 'TikTok Trends', img: 'https://sf-tb-static.fingerfun.com/images/tiktok.png', type: 'special', func: 'launchTikTok' },
     { id: 'ai', name: 'AI Assistant', img: 'https://avatars.githubusercontent.com/u/86964862?s=200&v=4', type: 'special', func: 'launchAI' },
-    { id: 'sf3', name: 'Street Fighter Alpha 3', img: 'https://static.wikia.nocookie.net/nintendo/images/a/a9/Street_Fighter_Alpha_3_Upper_box_art.jpg/revision/latest?cb=20170119005425&path-prefix=en', path: 'math/sf.html' },
+    { id: 'sf3', name: 'Street Fighter Alpha 3', img: 'https://static.wikia.nocookie.net/nintendo/images/a/a9/Street_Fighter_Alpha_3_Upper_box_art.jpg', path: 'math/sf.html' },
     { id: 'pm', name: 'Pepsi Man', img: 'https://images.launchbox-app.com/aa61e452-65f0-4319-ab68-c9bab9678393.jpg', path: 'math/pepsiman.html' },
     { id: 'f3', name: 'FNF vs FNAF 3', img: 'https://images.gamebanana.com/img/ss/mods/65cb87a015247.jpg', path: 'math/english.html' },
     { id: 'br', name: 'The Backrooms', img: 'https://images.sftcdn.net/images/t_app-cover-s-16-9,f_auto/p/f7ecad09-1b61-429f-b42d-0b5f3254be83/3110476367/the-backrooms-game-screenshot', path: 'math/cuartos.html' },
@@ -177,13 +176,11 @@ let favorites = JSON.parse(localStorage.getItem('user_favorites')) || [];
 let deuda = parseInt(localStorage.getItem('user_deuda')) || 0;
 let tieneSeguro = localStorage.getItem('user_seguro') === 'true';
 let tieneTicket = localStorage.getItem('user_ticket') === 'true'; 
-let rachaSucia = 0;
 let tirosRealizados = parseInt(localStorage.getItem('tiros_desde_compra')) || 0;
 const TIROS_NECESARIOS = 10;
 
-// --- SISTEMA DE MONEDAS MEJORADO ---
-function addCoins(amount, isLoan = false) {
-    if (!isLoan && deuda > 0) {
+function addCoins(amount) {
+    if (deuda > 0) {
         let pago = Math.min(amount, deuda);
         deuda -= pago;
         amount -= pago;
@@ -215,7 +212,7 @@ function playRoulette() {
     spinBtn.disabled = true;
     let timer = 0;
     const interval = setInterval(() => {
-        display.innerText = Math.floor(Math.random() * 1000);
+        display.innerText = Math.floor(Math.random() * 5000);
         timer += 100;
         if (timer >= 2000) {
             clearInterval(interval);
@@ -238,46 +235,60 @@ function calculateResult() {
         localStorage.setItem('user_ticket', 'false');
         updateShopUI();
     } else {
-        if (r < 1) { 
-            win = 5000; display.innerText = "⭐ MEGA JACKPOT ⭐"; display.style.color = "#ff00ff";
+        // --- LÓGICA DE PREMIOS ---
+        if (r < 1) { // 1% probabilidad
+            win = 5000; 
+            display.innerText = "⭐ MEGA JACKPOT ⭐"; 
+            display.style.color = "#ff00ff";
         } 
-        else if (r < 8) { 
+        else if (r < 10) { // Bancarrota
             if (tieneSeguro) {
-                display.innerText = "🛡️ SEGURO ACTIVADO"; display.style.color = "#00ff00";
-                tieneSeguro = false; localStorage.setItem('user_seguro', 'false'); updateShopUI();
+                display.innerText = "🛡️ SEGURO ACTIVADO";
+                display.style.color = "#00ff00";
+                tieneSeguro = false;
+                localStorage.setItem('user_seguro', 'false');
+                updateShopUI();
             } else {
-                coins = 0; rachaSucia = 0; display.innerText = "BANCARROTA 💀"; display.style.color = "red";
+                coins = 0; 
+                display.innerText = "BANCARROTA 💀";
+                display.style.color = "red";
             }
         } 
-        else if (r < 18) { 
-            win = 1000; display.innerText = "JACKPOT! 🎰"; display.style.color = "gold"; rachaSucia++;
+        else if (r < 30) { 
+            win = 300; 
+            display.innerText = "+300 🪙"; 
+            display.style.color = "#39C5BB"; 
         } 
-        else if (r < 45) { 
-            win = 300; display.innerText = "+300 🪙"; display.style.color = "#39C5BB"; rachaSucia++;
-        } 
-        else if (r < 75) { 
-            win = 150; display.innerText = "+150 🪙"; display.style.color = "white"; rachaSucia++;
+        else if (r < 60) { 
+            win = 150; 
+            display.innerText = "+150 🪙"; 
+            display.style.color = "white"; 
         } 
         else { 
-            display.innerText = "0 - NADA"; display.style.color = "#444"; rachaSucia = 0;
+            display.innerText = "0 - NADA"; 
+            display.style.color = "#444"; 
         }
     }
+
     if (win > 0) addCoins(win);
     checkPrestamoVis();
     updateCoinDisplay();
 }
 
-// --- TIENDA Y PRÉSTAMOS ---
 function buyTicket() {
     if(tieneTicket) return alert("Ya tienes un ticket activo.");
-    if(tirosRealizados < TIROS_NECESARIOS) return alert(`¡Faltan ${TIROS_NECESARIOS - tirosRealizados} tiros de ruleta para poder comprar otro ticket!`);
-
+    if(tirosRealizados < TIROS_NECESARIOS) {
+        return alert(`Debes realizar ${TIROS_NECESARIOS - tirosRealizados} tiros más para comprar otro ticket.`);
+    }
     if(coins >= 300) {
-        coins -= 300; tieneTicket = true; tirosRealizados = 0;
+        coins -= 300; 
+        tieneTicket = true;
+        tirosRealizados = 0; 
         localStorage.setItem('user_coins', coins);
         localStorage.setItem('user_ticket', 'true');
         localStorage.setItem('tiros_desde_compra', 0);
-        updateCoinDisplay(); updateShopUI();
+        updateCoinDisplay(); 
+        updateShopUI();
     } else alert("Faltan monedas.");
 }
 
@@ -285,7 +296,8 @@ function buySeguro() {
     if(tieneSeguro) return alert("Ya tienes seguro.");
     if(coins >= 500) {
         coins -= 500; tieneSeguro = true;
-        localStorage.setItem('user_coins', coins); localStorage.setItem('user_seguro', 'true');
+        localStorage.setItem('user_coins', coins);
+        localStorage.setItem('user_seguro', 'true');
         updateCoinDisplay(); updateShopUI();
     } else alert("Faltan monedas.");
 }
@@ -301,16 +313,18 @@ function updateShopUI() {
     const costText = document.getElementById('roulette-cost-text');
 
     if (tieneTicket) { 
-        btnTicket.innerText = "LISTO"; boxTicket.classList.add('ticket-active'); 
+        btnTicket.innerText = "LISTO"; 
+        boxTicket.classList.add('ticket-active'); 
         if(costText) costText.innerText = "Costo: GRATIS (🎫 activo)";
     } else { 
         boxTicket.classList.remove('ticket-active'); 
         if(costText) costText.innerText = "Costo: 100 🪙";
         if(tirosRealizados < TIROS_NECESARIOS) {
             btnTicket.innerText = `BLOQUEADO (${tirosRealizados}/${TIROS_NECESARIOS})`;
-            btnTicket.style.background = "#444"; btnTicket.style.cursor = "not-allowed";
+            btnTicket.style.background = "#444";
         } else {
-            btnTicket.innerText = "COMPRAR (300 🪙)"; btnTicket.style.background = "gold"; btnTicket.style.cursor = "pointer";
+            btnTicket.innerText = "COMPRAR (300 🪙)"; 
+            btnTicket.style.background = "gold";
         }
     }
 }
@@ -320,23 +334,14 @@ function checkPrestamoVis() {
 }
 
 function pedirPrestamo() {
-    if (deuda > 0) return alert("Paga tu deuda de " + deuda + " 🪙 primero.");
-    deuda = 300; 
+    if (deuda > 0) return alert("Paga tu deuda primero.");
+    deuda = 400; addCoins(200);
     localStorage.setItem('user_deuda', deuda);
-    addCoins(200, true); // El true permite recibir los 200 sin que se los coma la deuda
     checkPrestamoVis();
-    alert("Préstamo de 200 🪙 concedido. Debes 300 🪙.");
 }
 
 function checkStatusBadges() {
     const userStatus = document.getElementById('user-status');
-    const oldRacha = document.getElementById('racha-badge');
-    if (oldRacha) oldRacha.remove();
-    if (rachaSucia >= 3) {
-        const span = document.createElement('span');
-        span.id = 'racha-badge'; span.className = 'status-badge racha-badge';
-        span.innerText = `🔥 RACHA X${rachaSucia}`; userStatus.appendChild(span);
-    }
     const oldDeuda = document.getElementById('deuda-badge');
     if (oldDeuda) oldDeuda.remove();
     if (deuda > 0) {
@@ -346,39 +351,32 @@ function checkStatusBadges() {
     }
 }
 
-// --- CICLO DE TIEMPO Y ECONOMÍA ---
 function updateLoop() {
     totalSeconds++;
     localStorage.setItem('playtime', totalSeconds);
-    
-    // ECONOMÍA: Cada 60 segundos da 15 monedas (o 30 con x2)
-    if (totalSeconds % 60 === 0) {
-        addCoins(hasMultiplier ? 30 : 15);
-        // Pequeño destello verde al ganar monedas
-        const box = document.getElementById('coin-box');
-        box.style.borderColor = "#00ff00";
-        setTimeout(() => box.style.borderColor = "gold", 1000);
+    if (totalSeconds % 180 === 0) {
+        addCoins(hasMultiplier ? 10 : 5);
     }
-
     const h = Math.floor(totalSeconds / 3600);
     const m = Math.floor((totalSeconds % 3600) / 60);
     document.getElementById('time-display').innerText = `${h}h ${m}m`;
-    const badge = document.getElementById('badge');
-    if(h >= 48) badge.innerText = "[EL SIN CHAMBA]";
-    else if(h >= 10) badge.innerText = "[NO TIENES TAREAS?]";
     const now = new Date();
     document.getElementById('datetime').innerText = now.toLocaleTimeString() + " | " + now.toLocaleDateString();
 }
 setInterval(updateLoop, 1000);
 
-// --- RESTO DE FUNCIONES (Render, Camuflaje, etc) ---
 function render() {
     const grid = document.getElementById('main-grid');
     const favCont = document.getElementById('favorites-container');
     const searchInput = document.getElementById('game-search');
     const searchTerm = searchInput.value.toLowerCase();
 
-    if (searchTerm === "dinero") { addCoins(1000); searchInput.value = ""; render(); return; }
+    if (searchTerm === "dinero") {
+        addCoins(1000);
+        searchInput.value = "";
+        render();
+        return;
+    }
 
     Array.from(grid.children).forEach(c => { if(c.id !== 'favorites-container') c.remove(); });
     favCont.innerHTML = '<div class="fav-title">⭐ MIS FAVORITOS</div>';
@@ -412,7 +410,7 @@ function buyMultiplier() {
         localStorage.setItem('user_coins', coins); localStorage.setItem('user_multiplier', 'true');
         updateCoinDisplay();
         document.getElementById('buy-x2').innerText = "ADQUIRIDO";
-    } else alert("Faltan monedas (1000 🪙).");
+    } else alert("Faltan monedas.");
 }
 
 function toggleFav(id, e) {
@@ -472,8 +470,6 @@ document.addEventListener('keydown', e => {
 });
 
 window.onload = () => {
-    // REGALO DE BIENVENIDA SI ES NUEVO
-    if (coins === 0 && totalSeconds < 5) { addCoins(150, true); }
     if(localStorage.getItem('user_name')) document.getElementById('user-name').innerText = localStorage.getItem('user_name');
     if(localStorage.getItem('user_avatar')) document.getElementById('user-avatar').src = localStorage.getItem('user_avatar');
     if(hasMultiplier) document.getElementById('buy-x2').innerText = "ADQUIRIDO";
