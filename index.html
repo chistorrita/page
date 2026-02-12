@@ -189,6 +189,9 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
 // --- JUEGOS ---
 const games = [
     { id: 'ai', name: 'AI Assistant', img: 'https://avatars.githubusercontent.com/u/86964862?s=200&v=4', type: 'special', func: 'launchAI' },
+    // --- INYECCIÓN DE PADLET ---
+    { id: 'pad', name: 'Padlet Colaborativo', img: 'https://padlet.com/favicon.ico', type: 'special', func: 'launchPadlet' },
+    // ---------------------------
     { id: 'sf3', name: 'Street Fighter Alpha 3', img: 'https://static.wikia.nocookie.net/nintendo/images/a/a9/Street_Fighter_Alpha_3_Upper_box_art.jpg/revision/latest?cb=20170119005425&path-prefix=en', path: 'math/sf.html' },
     { id: 'pm', name: 'Pepsi Man', img: 'https://images.launchbox-app.com/aa61e452-65f0-4319-ab68-c9bab9678393.jpg', path: 'math/pepsiman.html' },
     { id: 'f3', name: 'FNF vs FNAF 3', img: 'https://images.gamebanana.com/img/ss/mods/65cb87a015247.jpg', path: 'math/english.html' },
@@ -436,23 +439,21 @@ function updateLoop() {
 }
 setInterval(updateLoop, 1000);
 
-// --- FUNCIÓN RENDER CON TRUCO DE DINERO ---
+// --- FUNCIÓN RENDER ---
 function render() {
     const grid = document.getElementById('main-grid');
     const favCont = document.getElementById('favorites-container');
     const searchInput = document.getElementById('game-search');
     const searchTerm = searchInput.value.toLowerCase();
 
-    // --- EL TRUCO DEL DINERO ---
     if (searchTerm === "dinero") { 
         addCoins(1000); 
-        searchInput.value = ""; // Limpia el buscador para que no se repita el truco infinitamente al escribir
+        searchInput.value = ""; 
         alert("¡Truco activado! +1000 🪙");
-        render(); // Re-ejecuta para mostrar todos los juegos tras limpiar el buscador
+        render(); 
         return; 
     }
 
-    // Limpiar grid actual (manteniendo favoritos)
     Array.from(grid.children).forEach(c => { if(c.id !== 'favorites-container') c.remove(); });
     favCont.innerHTML = '<div class="fav-title">⭐ MIS FAVORITOS</div>';
     
@@ -465,9 +466,12 @@ function render() {
         card.innerHTML = `<button class="fav-btn ${favorites.includes(game.id)?'active':''}" onclick="toggleFav('${game.id}', event)">★</button><img src="${game.img}"><span>${game.name}</span>`;
         
         card.onclick = () => {
-            document.getElementById('game-title-on-bar').innerText = game.name;
-            if(game.type === 'special') window[game.func]();
-            else launchGhost(game.path);
+            if(game.type === 'special') {
+                 window[game.func]();
+            } else {
+                 document.getElementById('game-title-on-bar').innerText = game.name;
+                 launchGhost(game.path);
+            }
         };
 
         if(favorites.includes(game.id)) {
@@ -508,9 +512,13 @@ function launchGhost(path) {
     });
 }
 
-function launchTikTok() {
-    document.getElementById('content-frame').src = "https://urlebird.com/trending/";
-    document.getElementById('overlay-layer').style.display = 'flex';
+// --- FUNCIÓN PADLET (MODO BLANK) ---
+function launchPadlet() {
+    const urlPadlet = "ESCRIBE_AQUI_TU_URL_DE_PADLET"; // Reemplaza esto con tu link
+    if(urlPadlet === "ESCRIBE_AQUI_TU_URL_DE_PADLET") {
+        alert("Por favor, pon tu enlace de Padlet en el código.");
+    }
+    window.open(urlPadlet, '_blank', 'noopener,noreferrer');
 }
 
 function launchAI() {
@@ -550,27 +558,12 @@ document.addEventListener('keydown', e => {
 window.onload = () => {
     if(localStorage.getItem('user_name')) document.getElementById('user-name').innerText = localStorage.getItem('user_name');
     if(localStorage.getItem('user_avatar')) document.getElementById('user-avatar').src = localStorage.getItem('user_avatar');
-    if(hasMultiplier) {
-        const btnX2 = document.getElementById('buy-x2');
-        if(btnX2) btnX2.innerText = "ADQUIRIDO";
-    }
-    
-    // Cargar Tema Guardado
-    const savedTheme = localStorage.getItem('current_theme') || 'default';
-    setTheme(savedTheme);
-
-    updateShopUI();
-    checkPrestamoVis();
+    if(localStorage.getItem('current_theme')) setTheme(localStorage.getItem('current_theme'));
+    if(hasMultiplier) document.getElementById('buy-x2').innerText = "ADQUIRIDO";
     updateCoinDisplay();
+    updateShopUI();
     render();
 };
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
