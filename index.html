@@ -237,12 +237,18 @@ function updateCoinDisplay() {
 // --- RULETA LOGIC ---
 function playRoulette() {
     if (coins < 100) return alert("Necesitas 100 monedas.");
-    coins -= 100;
+    
+    // Si tiene ticket, no cobramos los 100, ya los pagó en la tienda
+    if (!tieneTicket) {
+        coins -= 100;
+    }
+    
     updateCoinDisplay();
     const display = document.getElementById('roulette-display');
     const spinBtn = document.getElementById('spin-btn');
     spinBtn.disabled = true;
     let timer = 0;
+    
     const interval = setInterval(() => {
         display.innerText = Math.floor(Math.random() * 1000);
         timer += 100;
@@ -255,32 +261,21 @@ function playRoulette() {
 }
 
 function calculateResult() {
-    const r = Math.random() * 100; // Genera un número del 0 al 100
+    const r = Math.random() * 100; 
     const display = document.getElementById('roulette-display');
     let win = 0;
-    function calculateResult() {
-    const r = Math.random() * 100;
-    const display = document.getElementById('roulette-display');
-    let win = 0;
+
+    // Lógica del Ticket Dorado
     if (tieneTicket) {
         win = 500;
-        display.innerText = "🎫 TICKET USADO: +500";
+        display.innerText = "🎫 TICKET: +500";
         display.style.color = "orange";
         tieneTicket = false;
         localStorage.setItem('user_ticket', 'false');
         updateShopUI();
-        addCoins(win);
-        updateCoinDisplay();
-        return; // Salimos de la función para que no ruede la suerte normal
-    }
-    // -------------------------
-
-    // Aquí sigue tu lógica normal de Bancarrota, Jackpot (1%), etc...
-    if (r < 7) { 
-        // ... resto del código que ya pusimos
-
-    if (r < 7) { 
-        // 7% de probabilidad de Bancarrota
+    } 
+    // Si no hay ticket, suerte normal
+    else if (r < 7) { 
         if (tieneSeguro) {
             display.innerText = "🛡️ SEGURO ACTIVADO";
             display.style.color = "#00ff00";
@@ -294,22 +289,18 @@ function calculateResult() {
         }
     } 
     else if (r < 8) { 
-        // 1% de probabilidad (del 7 al 8): JACKPOT
         win = 5000; 
         display.innerText = "🔥 JACKPOT 5000!!"; 
         display.style.color = "gold"; 
         rachaSucia++;
     } 
     else if (r < 30) { 
-        // 22% de probabilidad: Premio de 300
         win = 300; display.innerText = "+300 🪙"; display.style.color = "#39C5BB"; rachaSucia++;
     } 
     else if (r < 60) { 
-        // 30% de probabilidad: Premio de 150
         win = 150; display.innerText = "+150 🪙"; display.style.color = "white"; rachaSucia++;
     } 
     else { 
-        // Resto: Nada
         display.innerText = "0 - NADA"; display.style.color = "#444"; rachaSucia = 0;
     }
 
@@ -324,17 +315,14 @@ function checkPrestamoVis() {
 
 function pedirPrestamo() {
     if (deuda > 0) return alert("¡Paga tu deuda primero!");
-    
     deuda = 400; 
     localStorage.setItem('user_deuda', deuda);
-    
-    // Agregamos el segundo parámetro 'true' para indicar que es préstamo
     addCoins(200, true); 
-    
     checkPrestamoVis();
     checkStatusBadges();
     alert("¡Trato hecho! Recibes 200 🪙 pero ahora debes 400.");
 }
+
 function buySeguro() {
     if(tieneSeguro) return alert("Ya tienes seguro.");
     if(coins >= 500) {
@@ -345,11 +333,34 @@ function buySeguro() {
     } else alert("Faltan monedas.");
 }
 
+function buyTicket() {
+    if(tieneTicket) return alert("Ya tienes un ticket activo.");
+    if(coins >= 300) {
+        coins -= 300;
+        tieneTicket = true;
+        localStorage.setItem('user_coins', coins);
+        localStorage.setItem('user_ticket', 'true');
+        updateCoinDisplay();
+        updateShopUI();
+    } else alert("No tienes suficientes monedas.");
+}
+
 function updateShopUI() {
-    const btn = document.getElementById('buy-seguro');
-    const box = document.getElementById('item-seguro');
-    if (tieneSeguro) { btn.innerText = "ACTIVO"; box.classList.add('seguro-active'); }
-    else { btn.innerText = "COMPRAR (500 🪙)"; box.classList.remove('seguro-active'); }
+    // Seguro
+    const btnS = document.getElementById('buy-seguro');
+    const boxS = document.getElementById('item-seguro');
+    if (btnS && boxS) {
+        if (tieneSeguro) { btnS.innerText = "ACTIVO"; boxS.classList.add('seguro-active'); }
+        else { btnS.innerText = "COMPRAR (500 🪙)"; boxS.classList.remove('seguro-active'); }
+    }
+
+    // Ticket
+    const tBtn = document.getElementById('buy-ticket');
+    const tBox = document.getElementById('item-ticket');
+    if (tBtn && tBox) {
+        if (tieneTicket) { tBtn.innerText = "LISTO"; tBox.style.borderColor = "orange"; }
+        else { tBtn.innerText = "COMPRAR (300 🪙)"; tBox.style.borderColor = "#333"; }
+    }
 }
 
 function checkStatusBadges() {
@@ -520,6 +531,7 @@ window.onload = () => {
 </script>
 </body>
 </html>
+
 
 
 
