@@ -108,16 +108,25 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
 
 <div id="shop-modal" class="modal">
     <h3 style="color:gold; margin-top:0;">Tienda Chistorrita</h3>
+    
     <div class="shop-item">
         <p style="margin:0; font-weight:bold; color:var(--accent);">🔥 Multiplicador x2</p>
         <button id="buy-x2" onclick="buyMultiplier()" style="background:gold; color:black; margin-top:5px;">COMPRAR (1000 🪙)</button>
     </div>
+
     <div class="shop-item" id="item-seguro">
         <p style="margin:0; font-weight:bold; color:#00ff00;">🛡️ Seguro de Ruleta</p>
         <p style="font-size:0.6rem; color:#888;">Evita 1 Bancarrota en la ruleta.</p>
         <button id="buy-seguro" onclick="buySeguro()" style="background:#00ff00; color:black; margin-top:5px;">COMPRAR (500 🪙)</button>
     </div>
-    <button onclick="closeModal('shop-modal')" style="background:#444; color:white">CERRAR</button>
+
+    <div class="shop-item" id="item-ticket">
+        <p style="margin:0; font-weight:bold; color:orange;">🎫 Ticket Dorado</p>
+        <p style="font-size:0.6rem; color:#888;">Tu próximo giro garantiza +500 🪙.</p>
+        <button id="buy-ticket" onclick="buyTicket()" style="background:orange; color:black; margin-top:5px;">COMPRAR (300 🪙)</button>
+    </div>
+
+    <button onclick="closeModal('shop-modal')" style="background:#444; color:white; margin-top:10px;">CERRAR</button>
 </div>
 
 <div id="settings-modal" class="modal">
@@ -203,6 +212,7 @@ let favorites = JSON.parse(localStorage.getItem('user_favorites')) || [];
 let deuda = parseInt(localStorage.getItem('user_deuda')) || 0;
 let tieneSeguro = localStorage.getItem('user_seguro') === 'true';
 let rachaSucia = 0;
+let tieneTicket = localStorage.getItem('user_ticket') === 'true';
 
 function addCoins(amount, esPrestamo = false) {
     // Si NO es un préstamo y hay deuda, cobramos
@@ -248,6 +258,28 @@ function calculateResult() {
     const r = Math.random() * 100; // Genera un número del 0 al 100
     const display = document.getElementById('roulette-display');
     let win = 0;
+    function calculateResult() {
+    const r = Math.random() * 100;
+    const display = document.getElementById('roulette-display');
+    let win = 0;
+
+    // --- LÓGICA DEL TICKET ---
+    if (tieneTicket) {
+        win = 500;
+        display.innerText = "🎫 TICKET USADO: +500";
+        display.style.color = "orange";
+        tieneTicket = false;
+        localStorage.setItem('user_ticket', 'false');
+        updateShopUI();
+        addCoins(win);
+        updateCoinDisplay();
+        return; // Salimos de la función para que no ruede la suerte normal
+    }
+    // -------------------------
+
+    // Aquí sigue tu lógica normal de Bancarrota, Jackpot (1%), etc...
+    if (r < 7) { 
+        // ... resto del código que ya pusimos
 
     if (r < 7) { 
         // 7% de probabilidad de Bancarrota
@@ -340,21 +372,34 @@ function checkStatusBadges() {
     }
 }
 
-function updateLoop() {
-    totalSeconds++;
-    localStorage.setItem('playtime', totalSeconds);
-    if (totalSeconds % 180 === 0) {
-        addCoins(hasMultiplier ? 10 : 5);
-    }
-    const h = Math.floor(totalSeconds / 3600);
-    const m = Math.floor((totalSeconds % 3600) / 60);
-    document.getElementById('time-display').innerText = `${h}h ${m}m`;
-    const badge = document.getElementById('badge');
-    if(h >= 48) badge.innerText = "[EL SIN CHAMBA]";
-    else if(h >= 10) badge.innerText = "[NO TIENES TAREAS?]";
-    const now = new Date();
-    document.getElementById('datetime').innerText = now.toLocaleTimeString() + " | " + now.toLocaleDateString();
 }
+    
+    function buyTicket() {
+    if(tieneTicket) return alert("Ya tienes un ticket activo para tu siguiente giro.");
+    if(coins >= 300) {
+        coins -= 300;
+        tieneTicket = true;
+        localStorage.setItem('user_coins', coins);
+        localStorage.setItem('user_ticket', 'true');
+        updateCoinDisplay();
+        updateShopUI();
+    } else alert("No tienes suficientes monedas para el Ticket.");
+}
+
+// Actualiza esta parte en tu función updateShopUI() para que el botón cambie
+function updateShopUI() {
+    // ... (lo que ya tienes del seguro)
+    const tBtn = document.getElementById('buy-ticket');
+    const tBox = document.getElementById('item-ticket');
+    if (tieneTicket) { 
+        tBtn.innerText = "LISTO PARA USAR"; 
+        tBox.style.borderColor = "orange";
+    } else { 
+        tBtn.innerText = "COMPRAR (300 🪙)"; 
+        tBox.style.borderColor = "#333";
+    }
+}
+
 setInterval(updateLoop, 1000);
 
 function render() {
@@ -469,4 +514,5 @@ window.onload = () => {
 </script>
 </body>
 </html>
+
 
