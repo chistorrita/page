@@ -5,62 +5,48 @@
 <title id="tab-title">Google Docs</title>
 <link id="tab-icon" rel="icon" type="image/x-icon" href="https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico">
 <style>
-/* ... (Tus estilos anteriores se mantienen igual) ... */
+/* ... (Se mantienen tus estilos intactos) ... */
 :root { --accent: #39C5BB; --dark: #121212; --card: #1E1E1E; --turq-bar: #39C5BB; }
 body { background: var(--dark); color: white; font-family: sans-serif; margin: 0; text-align: center; overflow-x: hidden; }
-
 #top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #000; font-size: 0.8rem; border-bottom: 1px solid #333; }
 #datetime { color: var(--accent); font-family: monospace; }
 .top-btns { display: flex; gap: 12px; align-items: center; }
-
 header { padding: 20px; border-bottom: 2px solid var(--accent); background: #222; }
 h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
-
 #search-container { padding: 15px; background: #1a1a1a; }
 #game-search { width: 60%; max-width: 400px; padding: 10px 20px; border-radius: 20px; border: 1px solid #333; background: #000; color: white; outline: none; transition: 0.3s; }
 #game-search:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(57, 197, 187, 0.3); }
-
 #profile-section { background: #1a1a1a; padding: 15px; border-bottom: 1px solid #333; display: flex; align-items: center; justify-content: center; gap: 20px; }
 #user-avatar { width: 60px; height: 60px; border-radius: 50%; border: 2px solid var(--accent); cursor: pointer; object-fit: cover; }
 .coin-display { background: #222; padding: 5px 15px; border-radius: 20px; border: 1px solid gold; color: gold; font-weight: bold; }
-
 .status-badge { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; margin-left: 5px; font-weight: bold; }
 .deuda-badge { background: #ff4444; color: white; }
 .racha-badge { background: orange; color: black; animation: shake 0.5s infinite; display: inline-block; }
 @keyframes shake { 0%, 100% {transform: rotate(0deg);} 50% {transform: rotate(5deg);} }
-
 .ruleta-btn { background: linear-gradient(45deg, #FFD700, #FFA500); color: black; border: none; padding: 5px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; animation: glow 2s infinite; }
 @keyframes glow { 0% { box-shadow: 0 0 5px gold; } 50% { box-shadow: 0 0 20px gold; } 100% { box-shadow: 0 0 5px gold; } }
-
 .container { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; padding: 20px; max-width: 1400px; margin: auto; }
 #favorites-container { border-bottom: 2px dashed #333; padding-bottom: 20px; display: none; margin-bottom: 20px; }
 .fav-title { grid-column: 1 / -1; text-align: left; color: gold; font-size: 0.9rem; margin-bottom: 10px; font-weight: bold; }
-
 .game-card { background: var(--card); border: 2px solid #333; border-radius: 15px; padding: 12px; cursor: pointer; transition: 0.3s; position: relative; height: 180px; display: flex; flex-direction: column; justify-content: space-between; }
 .game-card:hover { border-color: var(--accent); transform: translateY(-5px); }
 .game-card img { width: 100%; height: 100px; border-radius: 10px; object-fit: cover; }
 .game-card span { font-size: 0.75rem; font-weight: bold; margin-top: 5px; }
 .fav-btn { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.7); border: none; color: white; border-radius: 50%; cursor: pointer; padding: 5px; z-index: 5; }
 .fav-btn.active { color: gold; }
-
 .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1e1e1e; padding: 25px; border-radius: 20px; border: 2px solid var(--accent); z-index: 10001; width: 320px; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
 .modal button { width: 100%; padding: 10px; margin: 5px 0; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; }
 .shop-item { background: #000; padding: 10px; border-radius: 10px; border: 1px solid #333; margin-bottom: 10px; text-align: left; }
 .seguro-active { border-color: #00ff00 !important; box-shadow: 0 0 10px #00ff00; }
-
-/* Nuevo estilo para item dorado */
 .ticket-active { border-color: gold !important; box-shadow: 0 0 10px gold; }
-
 #overlay-layer { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 9999; flex-direction: column; }
 #game-bar { display: flex; justify-content: space-between; align-items: center; background: #222; padding: 8px 20px; border-bottom: 2px solid var(--accent); color: white; }
 #game-title-on-bar { font-family: 'Courier New', Courier, monospace; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; color: var(--accent); }
-
 .game-bar-btns { display: flex; gap: 10px; }
 .bar-btn { background: #333; color: white; border: 1px solid #444; padding: 6px 15px; border-radius: 8px; cursor: pointer; font-size: 0.75rem; font-weight: bold; transition: all 0.2s; display: flex; align-items: center; gap: 5px; }
 .bar-btn:hover { background: #444; border-color: var(--accent); transform: scale(1.05); }
 .btn-close { background: #8b0000 !important; border-color: #ff4444 !important; }
 .btn-close:hover { background: #ff0000 !important; box-shadow: 0 0 10px rgba(255, 0, 0, 0.4); }
-
 #roulette-display { font-size: 2rem; font-weight: bold; margin: 20px 0; color: var(--accent); min-height: 50px; }
 </style>
 </head>
@@ -90,13 +76,11 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
 
 <div id="shop-modal" class="modal">
     <h3 style="color:gold; margin-top:0;">Tienda Chistorrita</h3>
-    
     <div class="shop-item" id="item-ticket">
         <p style="margin:0; font-weight:bold; color:gold;">🎫 Ticket Dorado</p>
         <p style="font-size:0.6rem; color:#888;">Giro gratis + 500 monedas garantizadas.</p>
         <button id="buy-ticket" onclick="buyTicket()" style="background:gold; color:black; margin-top:5px;">COMPRAR (300 🪙)</button>
     </div>
-
     <div class="shop-item">
         <p style="margin:0; font-weight:bold; color:var(--accent);">🔥 Multiplicador x2</p>
         <button id="buy-x2" onclick="buyMultiplier()" style="background:gold; color:black; margin-top:5px;">COMPRAR (1000 🪙)</button>
@@ -195,6 +179,10 @@ let tieneSeguro = localStorage.getItem('user_seguro') === 'true';
 let tieneTicket = localStorage.getItem('user_ticket') === 'true'; 
 let rachaSucia = 0;
 
+// NUEVO: Sistema de cooldown para el ticket
+let tirosRealizados = parseInt(localStorage.getItem('tiros_desde_compra')) || 0;
+const TIROS_NECESARIOS = 10;
+
 function addCoins(amount) {
     if (deuda > 0) {
         let pago = Math.min(amount, deuda);
@@ -217,7 +205,13 @@ function playRoulette() {
     if (coins < costo) return alert("Necesitas 100 monedas.");
     
     coins -= costo;
+    
+    // SUMAR TIRO AL CONTADOR SI NO TIENE TICKET ACTIVO (o siempre, según prefieras)
+    tirosRealizados++;
+    localStorage.setItem('tiros_desde_compra', tirosRealizados);
+    
     updateCoinDisplay();
+    updateShopUI(); // Actualizar botones de la tienda mientras giras
 
     const display = document.getElementById('roulette-display');
     const spinBtn = document.getElementById('spin-btn');
@@ -234,7 +228,6 @@ function playRoulette() {
     }, 100);
 }
 
-// --- FUNCIÓN MODIFICADA SEGÚN SOLICITUD ---
 function calculateResult() {
     const r = Math.random() * 100;
     const display = document.getElementById('roulette-display');
@@ -248,15 +241,12 @@ function calculateResult() {
         localStorage.setItem('user_ticket', 'false');
         updateShopUI();
     } else {
-        // Orden de probabilidad correcto para evitar solapamientos
         if (r < 1) { 
-            // 1% Probabilidad
             win = 5000; 
             display.innerText = "⭐ MEGA JACKPOT ⭐"; 
             display.style.color = "#ff00ff";
         } 
         else if (r < 8) { 
-            // 7% Probabilidad (1 a 8)
             if (tieneSeguro) {
                 display.innerText = "🛡️ SEGURO ACTIVADO";
                 display.style.color = "#00ff00";
@@ -271,28 +261,24 @@ function calculateResult() {
             }
         } 
         else if (r < 18) { 
-            // 10% Probabilidad (8 a 18)
             win = 1000; 
             display.innerText = "JACKPOT! 🎰"; 
             display.style.color = "gold"; 
             rachaSucia++;
         } 
         else if (r < 45) { 
-            // 27% Probabilidad (18 a 45)
             win = 300; 
             display.innerText = "+300 🪙"; 
             display.style.color = "#39C5BB"; 
             rachaSucia++;
         } 
         else if (r < 75) { 
-            // 30% Probabilidad (45 a 75)
             win = 150; 
             display.innerText = "+150 🪙"; 
             display.style.color = "white"; 
             rachaSucia++;
         } 
         else { 
-            // El resto (25%)
             display.innerText = "0 - NADA"; 
             display.style.color = "#444"; 
             rachaSucia = 0;
@@ -306,11 +292,19 @@ function calculateResult() {
 
 function buyTicket() {
     if(tieneTicket) return alert("Ya tienes un ticket activo.");
+    
+    // BLOQUEO POR TIROS
+    if(tirosRealizados < TIROS_NECESARIOS) {
+        return alert(`Debes realizar ${TIROS_NECESARIOS - tirosRealizados} tiros más para volver a comprar.`);
+    }
+
     if(coins >= 300) {
         coins -= 300; 
         tieneTicket = true;
+        tirosRealizados = 0; // Reiniciar contador al comprar
         localStorage.setItem('user_coins', coins);
         localStorage.setItem('user_ticket', 'true');
+        localStorage.setItem('tiros_desde_compra', 0);
         updateCoinDisplay(); 
         updateShopUI();
     } else alert("Faltan monedas.");
@@ -338,12 +332,25 @@ function updateShopUI() {
 
     if (tieneTicket) { 
         btnTicket.innerText = "LISTO"; 
+        btnTicket.style.opacity = "1";
         boxTicket.classList.add('ticket-active'); 
         if(costText) costText.innerText = "Costo: GRATIS (🎫 activo)";
     } else { 
-        btnTicket.innerText = "COMPRAR (300 🪙)"; 
         boxTicket.classList.remove('ticket-active'); 
         if(costText) costText.innerText = "Costo: 100 🪙";
+
+        // LÓGICA DE BLOQUEO VISUAL
+        if(tirosRealizados < TIROS_NECESARIOS) {
+            btnTicket.innerText = `BLOQUEADO (${tirosRealizados}/${TIROS_NECESARIOS})`;
+            btnTicket.style.background = "#444";
+            btnTicket.style.color = "#888";
+            btnTicket.style.cursor = "not-allowed";
+        } else {
+            btnTicket.innerText = "COMPRAR (300 🪙)"; 
+            btnTicket.style.background = "gold";
+            btnTicket.style.color = "black";
+            btnTicket.style.cursor = "pointer";
+        }
     }
 }
 
