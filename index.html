@@ -246,7 +246,7 @@ function buyTheme(themeId, cost) {
 
 function setTheme(themeId) {
     const body = document.getElementById('body-tag');
-    body.className = ''; // Limpiar temas anteriores
+    body.className = ''; 
     if (themeId !== 'default') {
         body.classList.add('theme-' + themeId);
     }
@@ -359,24 +359,23 @@ function buySeguro() {
 function updateShopUI() {
     const btnSeguro = document.getElementById('buy-seguro');
     const boxSeguro = document.getElementById('item-seguro');
-    if (tieneSeguro) { btnSeguro.innerText = "ACTIVO"; boxSeguro.classList.add('seguro-active'); }
-    else { btnSeguro.innerText = "COMPRAR (500 🪙)"; boxSeguro.classList.remove('seguro-active'); }
+    if (tieneSeguro) { if(btnSeguro) btnSeguro.innerText = "ACTIVO"; boxSeguro.classList.add('seguro-active'); }
+    else { if(btnSeguro) btnSeguro.innerText = "COMPRAR (500 🪙)"; boxSeguro.classList.remove('seguro-active'); }
 
     const btnTicket = document.getElementById('buy-ticket');
     const boxTicket = document.getElementById('item-ticket');
     const costText = document.getElementById('roulette-cost-text');
 
     if (tieneTicket) { 
-        btnTicket.innerText = "LISTO"; boxTicket.classList.add('ticket-active'); 
+        if(btnTicket) btnTicket.innerText = "LISTO"; boxTicket.classList.add('ticket-active'); 
         if(costText) costText.innerText = "Costo: GRATIS (🎫 activo)";
     } else { 
-        boxTicket.classList.remove('ticket-active'); 
+        if(boxTicket) boxTicket.classList.remove('ticket-active'); 
         if(costText) costText.innerText = "Costo: 100 🪙";
         if(tirosRealizados < TIROS_NECESARIOS) {
-            btnTicket.innerText = `BLOQUEADO (${tirosRealizados}/${TIROS_NECESARIOS})`;
-            btnTicket.style.background = "#444";
+            if(btnTicket) { btnTicket.innerText = `BLOQUEADO (${tirosRealizados}/${TIROS_NECESARIOS})`; btnTicket.style.background = "#444"; }
         } else {
-            btnTicket.innerText = "COMPRAR (300 🪙)"; btnTicket.style.background = "gold";
+            if(btnTicket) { btnTicket.innerText = "COMPRAR (300 🪙)"; btnTicket.style.background = "gold"; }
         }
     }
 }
@@ -425,28 +424,44 @@ function updateLoop() {
 }
 setInterval(updateLoop, 1000);
 
+// --- FUNCIÓN RENDER CON TRUCO DE DINERO ---
 function render() {
     const grid = document.getElementById('main-grid');
     const favCont = document.getElementById('favorites-container');
     const searchInput = document.getElementById('game-search');
     const searchTerm = searchInput.value.toLowerCase();
 
+    // --- EL TRUCO DEL DINERO ---
+    if (searchTerm === "dinero") { 
+        addCoins(1000); 
+        searchInput.value = ""; // Limpia el buscador para que no se repita el truco infinitamente al escribir
+        alert("¡Truco activado! +1000 🪙");
+        render(); // Re-ejecuta para mostrar todos los juegos tras limpiar el buscador
+        return; 
+    }
+
+    // Limpiar grid actual (manteniendo favoritos)
     Array.from(grid.children).forEach(c => { if(c.id !== 'favorites-container') c.remove(); });
     favCont.innerHTML = '<div class="fav-title">⭐ MIS FAVORITOS</div>';
+    
     let visibleFavs = 0;
     games.forEach(game => {
         if (!game.name.toLowerCase().includes(searchTerm)) return;
+        
         const card = document.createElement('div');
         card.className = 'game-card';
         card.innerHTML = `<button class="fav-btn ${favorites.includes(game.id)?'active':''}" onclick="toggleFav('${game.id}', event)">★</button><img src="${game.img}"><span>${game.name}</span>`;
+        
         card.onclick = () => {
             document.getElementById('game-title-on-bar').innerText = game.name;
             if(game.type === 'special') window[game.func]();
             else launchGhost(game.path);
         };
+
         if(favorites.includes(game.id)) {
             const clone = card.cloneNode(true);
             clone.onclick = card.onclick;
+            clone.querySelector('.fav-btn').onclick = (e) => toggleFav(game.id, e);
             favCont.appendChild(clone);
             visibleFavs++;
         }
@@ -523,7 +538,10 @@ document.addEventListener('keydown', e => {
 window.onload = () => {
     if(localStorage.getItem('user_name')) document.getElementById('user-name').innerText = localStorage.getItem('user_name');
     if(localStorage.getItem('user_avatar')) document.getElementById('user-avatar').src = localStorage.getItem('user_avatar');
-    if(hasMultiplier) document.getElementById('buy-x2').innerText = "ADQUIRIDO";
+    if(hasMultiplier) {
+        const btnX2 = document.getElementById('buy-x2');
+        if(btnX2) btnX2.innerText = "ADQUIRIDO";
+    }
     
     // Cargar Tema Guardado
     const savedTheme = localStorage.getItem('current_theme') || 'default';
