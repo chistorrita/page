@@ -262,8 +262,6 @@ function calculateResult() {
     const r = Math.random() * 100;
     const display = document.getElementById('roulette-display');
     let win = 0;
-
-    // --- LÓGICA DEL TICKET ---
     if (tieneTicket) {
         win = 500;
         display.innerText = "🎫 TICKET USADO: +500";
@@ -372,9 +370,7 @@ function checkStatusBadges() {
     }
 }
 
-}
-    
-    function buyTicket() {
+function buyTicket() {
     if(tieneTicket) return alert("Ya tienes un ticket activo para tu siguiente giro.");
     if(coins >= 300) {
         coins -= 300;
@@ -386,9 +382,19 @@ function checkStatusBadges() {
     } else alert("No tienes suficientes monedas para el Ticket.");
 }
 
-// Actualiza esta parte en tu función updateShopUI() para que el botón cambie
 function updateShopUI() {
-    // ... (lo que ya tienes del seguro)
+    // Lógica del SEGURO (Mantenemos lo que ya tenías)
+    const btnSeguro = document.getElementById('buy-seguro');
+    const boxSeguro = document.getElementById('item-seguro');
+    if (tieneSeguro) { 
+        btnSeguro.innerText = "ACTIVO"; 
+        if(boxSeguro) boxSeguro.classList.add('seguro-active'); 
+    } else { 
+        btnSeguro.innerText = "COMPRAR (500 🪙)"; 
+        if(boxSeguro) boxSeguro.classList.remove('seguro-active'); 
+    }
+
+    // Lógica del TICKET
     const tBtn = document.getElementById('buy-ticket');
     const tBox = document.getElementById('item-ticket');
     if (tieneTicket) { 
@@ -514,5 +520,6 @@ window.onload = () => {
 </script>
 </body>
 </html>
+
 
 
