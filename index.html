@@ -189,9 +189,9 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
 // --- JUEGOS ---
 const games = [
     { id: 'ai', name: 'AI Assistant', img: 'https://avatars.githubusercontent.com/u/86964862?s=200&v=4', type: 'special', func: 'launchAI' },
-    // --- INYECCIÓN DE PADLET ---
-    { id: 'pad', name: 'Padlet Colaborativo', img: 'https://padlet.com/favicon.ico', type: 'special', func: 'launchPadlet' },
-    // ---------------------------
+    // --- NUEVO: PADLET ---
+    { id: 'padlet', name: 'Padlet Muro', img: 'https://padlet.net/emails/padlet_email_logo_2026_text-dark-200.png', type: 'special', func: 'launchPadlet' },
+    
     { id: 'sf3', name: 'Street Fighter Alpha 3', img: 'https://static.wikia.nocookie.net/nintendo/images/a/a9/Street_Fighter_Alpha_3_Upper_box_art.jpg/revision/latest?cb=20170119005425&path-prefix=en', path: 'math/sf.html' },
     { id: 'pm', name: 'Pepsi Man', img: 'https://images.launchbox-app.com/aa61e452-65f0-4319-ab68-c9bab9678393.jpg', path: 'math/pepsiman.html' },
     { id: 'f3', name: 'FNF vs FNAF 3', img: 'https://images.gamebanana.com/img/ss/mods/65cb87a015247.jpg', path: 'math/english.html' },
@@ -227,7 +227,13 @@ const games = [
     { id: 'cm', name: 'Cat Mario', img: 'https://www3.minijuegosgratis.com/v3/games/thumbnails/24691_7_sq.jpg', path: 'math/catmario.html' }
 ];
 
-// --- ESTADO ---
+// --- FUNCIONALIDAD PADLET ---
+function launchPadlet() {
+    // Se abre en una pestaña nueva (blank)
+    window.open("https://padlet.com/5v817vr456uyj44l", "_blank");
+}
+
+// --- RESTO DEL SCRIPT ---
 let totalSeconds = parseInt(localStorage.getItem('playtime')) || 0;
 let coins = parseInt(localStorage.getItem('user_coins')) || 0;
 let hasMultiplier = localStorage.getItem('user_multiplier') === 'true';
@@ -240,45 +246,30 @@ let rachaSucia = 0;
 let tirosRealizados = parseInt(localStorage.getItem('tiros_desde_compra')) || 0;
 const TIROS_NECESARIOS = 10;
 
-// --- SISTEMA DE TEMAS ---
 function buyTheme(themeId, cost) {
-    if (purchasedThemes.includes(themeId)) {
-        setTheme(themeId);
-        return;
-    }
+    if (purchasedThemes.includes(themeId)) { setTheme(themeId); return; }
     if (coins >= cost) {
-        coins -= cost;
-        purchasedThemes.push(themeId);
+        coins -= cost; purchasedThemes.push(themeId);
         localStorage.setItem('user_coins', coins);
         localStorage.setItem('purchased_themes', JSON.stringify(purchasedThemes));
-        updateCoinDisplay();
-        setTheme(themeId);
-        alert(`¡Tema ${themeId.toUpperCase()} comprado y aplicado!`);
-    } else {
-        alert("No tienes suficientes monedas.");
-    }
+        updateCoinDisplay(); setTheme(themeId);
+        alert(`¡Tema ${themeId.toUpperCase()} aplicado!`);
+    } else alert("No tienes suficientes monedas.");
 }
 
 function setTheme(themeId) {
     const body = document.getElementById('body-tag');
     body.className = ''; 
-    if (themeId !== 'default') {
-        body.classList.add('theme-' + themeId);
-    }
+    if (themeId !== 'default') body.classList.add('theme-' + themeId);
     localStorage.setItem('current_theme', themeId);
 }
 
-// --- SISTEMA DE MONEDAS ---
 function addCoins(amount, isLoan = false) {
     if (!isLoan && deuda > 0) {
-        let pago = Math.min(amount, deuda);
-        deuda -= pago;
-        amount -= pago;
+        let pago = Math.min(amount, deuda); deuda -= pago; amount -= pago;
         localStorage.setItem('user_deuda', deuda);
     }
-    coins += amount;
-    localStorage.setItem('user_coins', coins);
-    updateCoinDisplay();
+    coins += amount; localStorage.setItem('user_coins', coins); updateCoinDisplay();
 }
 
 function updateCoinDisplay() {
@@ -289,13 +280,9 @@ function updateCoinDisplay() {
 function playRoulette() {
     let costo = tieneTicket ? 0 : 100; 
     if (coins < costo) return alert("Necesitas 100 monedas.");
-    
-    coins -= costo;
-    tirosRealizados++;
+    coins -= costo; tirosRealizados++;
     localStorage.setItem('tiros_desde_compra', tirosRealizados);
-    
-    updateCoinDisplay();
-    updateShopUI();
+    updateCoinDisplay(); updateShopUI();
 
     const display = document.getElementById('roulette-display');
     const spinBtn = document.getElementById('spin-btn');
@@ -304,11 +291,7 @@ function playRoulette() {
     const interval = setInterval(() => {
         display.innerText = Math.floor(Math.random() * 1000);
         timer += 100;
-        if (timer >= 2000) {
-            clearInterval(interval);
-            calculateResult();
-            spinBtn.disabled = false;
-        }
+        if (timer >= 2000) { clearInterval(interval); calculateResult(); spinBtn.disabled = false; }
     }, 100);
 }
 
@@ -318,43 +301,25 @@ function calculateResult() {
     let win = 0;
 
     if (tieneTicket) {
-        win = 500;
-        display.innerText = "🎫 TICKET: +500";
-        display.style.color = "gold";
-        tieneTicket = false;
-        localStorage.setItem('user_ticket', 'false');
-        updateShopUI();
+        win = 500; display.innerText = "🎫 TICKET: +500"; display.style.color = "gold";
+        tieneTicket = false; localStorage.setItem('user_ticket', 'false'); updateShopUI();
     } else {
-        if (r < 1) { 
-            win = 5000; 
-            display.innerText = "🚨 JACKPOT 🚨\n+5000"; 
-            display.style.color = "#ff00ff";
+        if (r < 1) { win = 5000; display.innerText = "🚨 JACKPOT 🚨\n+5000"; display.style.color = "#ff00ff";
         } else if (r < 8) { 
-            if (tieneSeguro) {
-                display.innerText = "🛡️ SALVADO POR SEGURO"; display.style.color = "#00ff00";
-                tieneSeguro = false; localStorage.setItem('user_seguro', 'false'); updateShopUI();
-            } else {
-                coins = 0; rachaSucia = 0; display.innerText = "💀 BANCARROTA"; display.style.color = "red";
-            }
-        } else if (r < 18) { 
-            win = 1000; display.innerText = "✨ GRAN PREMIO ✨\n+1000"; display.style.color = "gold"; rachaSucia++;
-        } else if (r < 45) { 
-            win = 300; display.innerText = "+300 🪙"; display.style.color = "#39C5BB"; rachaSucia++;
-        } else if (r < 75) { 
-            win = 150; display.innerText = "+150 🪙"; display.style.color = "white"; rachaSucia++;
-        } else { 
-            display.innerText = "❌ NADA"; display.style.color = "#666"; rachaSucia = 0;
-        }
+            if (tieneSeguro) { display.innerText = "🛡️ SALVADO"; display.style.color = "#00ff00"; tieneSeguro = false; localStorage.setItem('user_seguro', 'false'); updateShopUI();
+            } else { coins = 0; rachaSucia = 0; display.innerText = "💀 BANCARROTA"; display.style.color = "red"; }
+        } else if (r < 18) { win = 1000; display.innerText = "✨ GRAN PREMIO ✨"; display.style.color = "gold"; rachaSucia++;
+        } else if (r < 45) { win = 300; display.innerText = "+300 🪙"; rachaSucia++;
+        } else if (r < 75) { win = 150; display.innerText = "+150 🪙"; rachaSucia++;
+        } else { display.innerText = "❌ NADA"; rachaSucia = 0; }
     }
     if (win > 0) addCoins(win);
-    checkPrestamoVis();
-    updateCoinDisplay();
+    checkPrestamoVis(); updateCoinDisplay();
 }
 
-// --- TIENDA ---
 function buyTicket() {
-    if(tieneTicket) return alert("Ya tienes un ticket activo.");
-    if(tirosRealizados < TIROS_NECESARIOS) return alert(`¡Faltan ${TIROS_NECESARIOS - tirosRealizados} tiros de ruleta!`);
+    if(tieneTicket) return alert("Ya tienes un ticket.");
+    if(tirosRealizados < TIROS_NECESARIOS) return alert(`¡Faltan ${TIROS_NECESARIOS - tirosRealizados} tiros!`);
     if(coins >= 300) {
         coins -= 300; tieneTicket = true; tirosRealizados = 0;
         localStorage.setItem('user_coins', coins); localStorage.setItem('user_ticket', 'true'); localStorage.setItem('tiros_desde_compra', 0);
@@ -380,79 +345,48 @@ function updateShopUI() {
     const btnTicket = document.getElementById('buy-ticket');
     const boxTicket = document.getElementById('item-ticket');
     const costText = document.getElementById('roulette-cost-text');
-
-    if (tieneTicket) { 
-        if(btnTicket) btnTicket.innerText = "LISTO"; boxTicket.classList.add('ticket-active'); 
-        if(costText) costText.innerText = "Costo: GRATIS (🎫 activo)";
-    } else { 
-        if(boxTicket) boxTicket.classList.remove('ticket-active'); 
-        if(costText) costText.innerText = "Costo: 100 🪙";
-        if(tirosRealizados < TIROS_NECESARIOS) {
-            if(btnTicket) { btnTicket.innerText = `BLOQUEADO (${tirosRealizados}/${TIROS_NECESARIOS})`; btnTicket.style.background = "#444"; }
-        } else {
-            if(btnTicket) { btnTicket.innerText = "COMPRAR (300 🪙)"; btnTicket.style.background = "gold"; }
-        }
+    if (tieneTicket) { if(btnTicket) btnTicket.innerText = "LISTO"; boxTicket.classList.add('ticket-active'); if(costText) costText.innerText = "Costo: GRATIS";
+    } else { if(boxTicket) boxTicket.classList.remove('ticket-active'); if(costText) costText.innerText = "Costo: 100 🪙";
+        if(tirosRealizados < TIROS_NECESARIOS) { if(btnTicket) btnTicket.innerText = `BLOQUEADO (${tirosRealizados}/${TIROS_NECESARIOS})`; }
+        else { if(btnTicket) btnTicket.innerText = "COMPRAR (300 🪙)"; }
     }
 }
 
-function checkPrestamoVis() {
-    document.getElementById('prestamo-section').style.display = (coins < 100) ? 'block' : 'none';
-}
+function checkPrestamoVis() { document.getElementById('prestamo-section').style.display = (coins < 100) ? 'block' : 'none'; }
 
 function pedirPrestamo() {
     if (deuda > 0) return alert("Paga tu deuda primero.");
-    deuda = 300; localStorage.setItem('user_deuda', deuda);
-    addCoins(200, true);
-    checkPrestamoVis();
-    alert("Préstamo de 200 🪙 concedido. Debes 300.");
+    deuda = 300; localStorage.setItem('user_deuda', deuda); addCoins(200, true); checkPrestamoVis();
 }
 
 function checkStatusBadges() {
     const userStatus = document.getElementById('user-status');
-    const oldRacha = document.getElementById('racha-badge');
-    if (oldRacha) oldRacha.remove();
+    const oldRacha = document.getElementById('racha-badge'); if (oldRacha) oldRacha.remove();
     if (rachaSucia >= 3) {
-        const span = document.createElement('span');
-        span.id = 'racha-badge'; span.className = 'status-badge racha-badge';
-        span.innerText = `🔥 RACHA X${rachaSucia}`; userStatus.appendChild(span);
+        const span = document.createElement('span'); span.id = 'racha-badge'; span.className = 'status-badge racha-badge'; span.innerText = `🔥 X${rachaSucia}`; userStatus.appendChild(span);
     }
-    const oldDeuda = document.getElementById('deuda-badge');
-    if (oldDeuda) oldDeuda.remove();
+    const oldDeuda = document.getElementById('deuda-badge'); if (oldDeuda) oldDeuda.remove();
     if (deuda > 0) {
-        const dSpan = document.createElement('span');
-        dSpan.id = 'deuda-badge'; dSpan.className = 'status-badge deuda-badge';
-        dSpan.innerText = `DEUDA: ${deuda}`; userStatus.appendChild(dSpan);
+        const dSpan = document.createElement('span'); dSpan.id = 'deuda-badge'; dSpan.className = 'status-badge deuda-badge'; dSpan.innerText = `DEUDA: ${deuda}`; userStatus.appendChild(dSpan);
     }
 }
 
 function updateLoop() {
-    totalSeconds++;
-    localStorage.setItem('playtime', totalSeconds);
-    if (totalSeconds % 60 === 0) {
-        addCoins(hasMultiplier ? 30 : 15);
-    }
-    const h = Math.floor(totalSeconds / 3600);
-    const m = Math.floor((totalSeconds % 3600) / 60);
+    totalSeconds++; localStorage.setItem('playtime', totalSeconds);
+    if (totalSeconds % 60 === 0) addCoins(hasMultiplier ? 30 : 15);
+    const h = Math.floor(totalSeconds / 3600); const m = Math.floor((totalSeconds % 3600) / 60);
     document.getElementById('time-display').innerText = `${h}h ${m}m`;
-    const now = new Date();
-    document.getElementById('datetime').innerText = now.toLocaleTimeString() + " | " + now.toLocaleDateString();
+    const now = new Date(); document.getElementById('datetime').innerText = now.toLocaleTimeString() + " | " + now.toLocaleDateString();
 }
 setInterval(updateLoop, 1000);
 
-// --- FUNCIÓN RENDER ---
 function render() {
     const grid = document.getElementById('main-grid');
     const favCont = document.getElementById('favorites-container');
     const searchInput = document.getElementById('game-search');
     const searchTerm = searchInput.value.toLowerCase();
 
-    if (searchTerm === "dinero") { 
-        addCoins(1000); 
-        searchInput.value = ""; 
-        alert("¡Truco activado! +1000 🪙");
-        render(); 
-        return; 
-    }
+    if (searchTerm === "dinero") { addCoins(1000); searchInput.value = ""; alert("¡Truco! +1000 🪙"); render(); return; }
 
     Array.from(grid.children).forEach(c => { if(c.id !== 'favorites-container') c.remove(); });
     favCont.innerHTML = '<div class="fav-title">⭐ MIS FAVORITOS</div>';
@@ -460,26 +394,18 @@ function render() {
     let visibleFavs = 0;
     games.forEach(game => {
         if (!game.name.toLowerCase().includes(searchTerm)) return;
-        
-        const card = document.createElement('div');
-        card.className = 'game-card';
+        const card = document.createElement('div'); card.className = 'game-card';
         card.innerHTML = `<button class="fav-btn ${favorites.includes(game.id)?'active':''}" onclick="toggleFav('${game.id}', event)">★</button><img src="${game.img}"><span>${game.name}</span>`;
         
         card.onclick = () => {
-            if(game.type === 'special') {
-                 window[game.func]();
-            } else {
-                 document.getElementById('game-title-on-bar').innerText = game.name;
-                 launchGhost(game.path);
-            }
+            if(game.type === 'special') window[game.func]();
+            else { document.getElementById('game-title-on-bar').innerText = game.name; launchGhost(game.path); }
         };
 
         if(favorites.includes(game.id)) {
-            const clone = card.cloneNode(true);
-            clone.onclick = card.onclick;
+            const clone = card.cloneNode(true); clone.onclick = card.onclick;
             clone.querySelector('.fav-btn').onclick = (e) => toggleFav(game.id, e);
-            favCont.appendChild(clone);
-            visibleFavs++;
+            favCont.appendChild(clone); visibleFavs++;
         }
         grid.appendChild(card);
     });
@@ -491,16 +417,14 @@ function buyMultiplier() {
     if(coins >= 1000) {
         coins -= 1000; hasMultiplier = true;
         localStorage.setItem('user_coins', coins); localStorage.setItem('user_multiplier', 'true');
-        updateCoinDisplay();
-        document.getElementById('buy-x2').innerText = "ADQUIRIDO";
-    } else alert("Faltan monedas (1000 🪙).");
+        updateCoinDisplay(); document.getElementById('buy-x2').innerText = "ADQUIRIDO";
+    } else alert("Faltan monedas.");
 }
 
 function toggleFav(id, e) {
     e.stopPropagation();
     favorites = favorites.includes(id) ? favorites.filter(i => i !== id) : [...favorites, id];
-    localStorage.setItem('user_favorites', JSON.stringify(favorites));
-    render();
+    localStorage.setItem('user_favorites', JSON.stringify(favorites)); render();
 }
 
 function launchGhost(path) {
@@ -510,15 +434,6 @@ function launchGhost(path) {
         document.getElementById('content-frame').src = URL.createObjectURL(blob);
         document.getElementById('overlay-layer').style.display = 'flex';
     });
-}
-
-// --- FUNCIÓN PADLET (MODO BLANK) ---
-function launchPadlet() {
-    const urlPadlet = "ESCRIBE_AQUI_TU_URL_DE_PADLET"; // Reemplaza esto con tu link
-    if(urlPadlet === "ESCRIBE_AQUI_TU_URL_DE_PADLET") {
-        alert("Por favor, pon tu enlace de Padlet en el código.");
-    }
-    window.open(urlPadlet, '_blank', 'noopener,noreferrer');
 }
 
 function launchAI() {
@@ -531,17 +446,18 @@ function launchAI() {
 function openModal(id) { document.getElementById(id).style.display = 'block'; }
 function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 function toggleFullScreen() {
-    const f = document.getElementById('content-frame');
-    if (f.requestFullscreen) f.requestFullscreen();
+    const f = document.getElementById('content-frame'); if (f.requestFullscreen) f.requestFullscreen();
 }
 function closeOverlay() { document.getElementById('overlay-layer').style.display = 'none'; document.getElementById('content-frame').src = ''; }
+
 function applyCamouflage() {
     const t = document.getElementById('cam-select').value;
     const data = { docs: ["Working... - Google Docs", "https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico"], drive: ["My Drive - Google Drive", "https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png"], classroom: ["Clases", "https://ssl.gstatic.com/classroom/favicon.png"] };
-    document.getElementById('tab-title').innerText = data[t][0];
-    document.getElementById('tab-icon').href = data[t][1];
+    document.getElementById('tab-title').innerText = data[t][0]; document.getElementById('tab-icon').href = data[t][1];
 }
+
 function saveSettings() { localStorage.setItem('panic_link', document.getElementById('panic-link').value); applyCamouflage(); closeModal('settings-modal'); }
+
 function saveProfile() {
     const n = document.getElementById('input-name').value;
     const a = document.getElementById('input-avatar').value;
@@ -560,9 +476,7 @@ window.onload = () => {
     if(localStorage.getItem('user_avatar')) document.getElementById('user-avatar').src = localStorage.getItem('user_avatar');
     if(localStorage.getItem('current_theme')) setTheme(localStorage.getItem('current_theme'));
     if(hasMultiplier) document.getElementById('buy-x2').innerText = "ADQUIRIDO";
-    updateCoinDisplay();
-    updateShopUI();
-    render();
+    updateCoinDisplay(); updateShopUI(); render();
 };
 </script>
 </body>
