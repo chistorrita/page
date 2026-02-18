@@ -207,7 +207,7 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
 <script>
 // --- JUEGOS ---
 const games = [
-    { id: 'sug', name: 'Sugerencias', img: 'https://w7.pngwing.com/pngs/506/490/png-transparent-suggestion-box-computer-icons-box-thumbnail.png', type: 'external', path: 'https://padlet.com/isnbigdeal01/sugerencias-5v817vr456uyj44l' },
+    { id: 'sug', name: 'Sugerencias', img: 'https://w7.pngwing.com/pngs/506/490/png-transparent-suggestion-box-computer-icons-box-thumbnail.png', type: 'padlet', path: 'https://padlet.com/isnbigdeal01/sugerencias-5v817vr456uyj44l' },
     { id: 'ai', name: 'AI Assistant', img: 'https://avatars.githubusercontent.com/u/86964862?s=200&v=4', type: 'special', func: 'launchAI' },
     { id: 'sf3', name: 'Street Fighter Alpha 3', img: 'https://static.wikia.nocookie.net/nintendo/images/a/a9/Street_Fighter_Alpha_3_Upper_box_art.jpg/revision/latest?cb=20170119005425&path-prefix=en', path: 'math/sf.html' },
     { id: 'pm', name: 'Pepsi Man', img: 'https://images.launchbox-app.com/aa61e452-65f0-4319-ab68-c9bab9678393.jpg', path: 'math/pepsiman.html' },
@@ -377,7 +377,7 @@ function render() {
         card.onclick = () => { 
             document.getElementById('game-title-on-bar').innerText = game.name; 
             if(game.type === 'special') window[game.func](); 
-            else if(game.type === 'external') window.open(game.path, '_blank'); // Abre Padlet en nueva pestaña
+            else if(game.type === 'padlet') launchGhostPadlet(game.path); // Ahora abre en la misma página
             else launchGhost(game.path); 
         };
 
@@ -389,6 +389,12 @@ function render() {
 
 function buyMultiplier() { if(hasMultiplier) return alert("¡Ya lo tienes!"); if(coins >= 1000) { coins -= 1000; hasMultiplier = true; localStorage.setItem('user_coins', coins); localStorage.setItem('user_multiplier', 'true'); updateCoinDisplay(); document.getElementById('buy-x2').innerText = "ADQUIRIDO"; } else alert("Faltan monedas."); }
 function toggleFav(id, e) { e.stopPropagation(); favorites = favorites.includes(id) ? favorites.filter(i => i !== id) : [...favorites, id]; localStorage.setItem('user_favorites', JSON.stringify(favorites)); render(); }
+
+// FUNCIÓN PARA ABRIR PADLET COMO LOS JUEGOS
+function launchGhostPadlet(path) {
+    document.getElementById('content-frame').src = path; 
+    document.getElementById('overlay-layer').style.display = 'flex';
+}
 
 function launchGhost(path) {
     const url = "https://cdn.jsdelivr.net/gh/chistorrita/page@latest/" + path;
@@ -420,8 +426,7 @@ window.onload = () => {
     if(localStorage.getItem('user_avatar')) document.getElementById('user-avatar').src = localStorage.getItem('user_avatar');
     if(localStorage.getItem('current_theme')) setTheme(localStorage.getItem('current_theme'));
     updateCoinDisplay(); updateShopUI(); render();
-};
+}
 </script>
 </body>
 </html>
-
