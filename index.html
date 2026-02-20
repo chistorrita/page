@@ -144,6 +144,14 @@ body.theme-dexter .game-card:hover {
     transform: scale(1.1) rotate(3deg);
     filter: drop-shadow(0 0 15px red);
 }
+    body.theme-dexter h1 {
+    font-family: 'Courier New', Courier, monospace; /* Fuente tipo máquina de escribir */
+    letter-spacing: 12px; /* Letras más separadas */
+    color: #ff0000 !important;
+    text-shadow: 0 0 15px rgba(255, 0, 0, 0.7), 2px 2px 4px #000;
+    font-weight: bold;
+    text-transform: uppercase;
+}
 /* --- RESTO DEL CSS --- */
 #top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #000; font-size: 0.8rem; border-bottom: 1px solid #333; }
 #datetime { color: var(--accent); font-family: monospace; }
@@ -368,11 +376,20 @@ function buyTheme(themeId, cost) {
 
 function setTheme(themeId) {
     const body = document.getElementById('body-tag');
+    const titleH1 = document.querySelector('header h1'); // Seleccionamos el título
+    
     body.className = ''; 
     if (themeId !== 'default') body.classList.add('theme-' + themeId);
+    
+    // CAMBIO DE NOMBRE DINÁMICO
+    if (themeId === 'dexter') {
+        titleH1.innerText = 'DEXTER';
+    } else {
+        titleH1.innerText = 'CHISTORRITA';
+    }
+    
     localStorage.setItem('current_theme', themeId);
 }
-
 function addCoins(amount, isLoan = false) {
     if (!isLoan && deuda > 0) { let pago = Math.min(amount, deuda); deuda -= pago; amount -= pago; localStorage.setItem('user_deuda', deuda); }
     coins += amount; localStorage.setItem('user_coins', coins); updateCoinDisplay();
@@ -567,6 +584,7 @@ window.onload = () => {
 
 </body>
 </html>
+
 
 
 
