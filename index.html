@@ -71,28 +71,35 @@ body.theme-vip h1 {
     filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
     font-size: 2.2rem;
     font-weight: 900; }
-/* --- TEMA DEXTER: EDICIÓN COLECCIONISTA --- */
-/* --- TEMA DEXTER SOLICITADO --- */
+/* --- TEMA DEXTER FINAL: REPARADO --- */
 body.theme-dexter {
     --accent: #ff0000; 
     --dark: #000000; 
-    --card: rgba(0, 0, 0, 0.8);
-    --text: #ffffff;
+    --card: rgba(0, 0, 0, 0.85);
     
-    /* Fondo con capa negra (0.7) para que no se vea tan blanco */
+    /* He oscurecido más el linear-gradient (0.8) para tapar las líneas de la imagen */
     background: 
-        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+        linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), 
         url('https://c4.wallpaperflare.com/wallpaper/442/26/547/tv-show-dexter-blood-dexter-tv-show-wallpaper-preview.jpg') no-repeat center center fixed;
     background-size: cover;
-
-    /* CURSOR DE HUESO Y SANGRE */
-    cursor: url('https://i.redd.it/a-handy-little-custom-mouse-cursor-blood-bone-warning-v0-6tsqsxpb0p5c1.png?width=32&format=png&auto=webp&s=52028f0e4164d9cec03d164ce4b97d4b1afeda5c') 16 16, auto !important;
+    cursor: url('https://www.cursor.cc/cursor3d/36686.png') 16 16, auto !important;
 }
 
-/* GIF DE SANGRE SOLO ARRIBA (Desaparece al bajar) */
+/* CAPA ANTI-LÍNEAS (Overlay) */
+body.theme-dexter::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    /* Creamos una "viñeta" que oscurece las zonas donde están las líneas */
+    background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.8) 100%);
+    z-index: -1; 
+    pointer-events: none;
+}
+
+/* REPETIR EL RESTO DEL CÓDIGO IGUAL... */
 body.theme-dexter::before {
     content: "";
-    position: absolute; /* Se queda al inicio de la página */
+    position: fixed;
     top: 0; left: 0; width: 100%; height: 120px;
     z-index: 10002;
     pointer-events: none;
@@ -100,39 +107,26 @@ body.theme-dexter::before {
     background-size: contain;
 }
 
-/* BOTÓN DE SUERTE ROJO */
-body.theme-dexter button#lucky-button, 
-body.theme-dexter .luck-btn { 
-    background: #ff0000 !important; 
-    color: white !important; 
-    box-shadow: 0 0 10px #ff0000;
-}
-
-/* BILLETE DE UN DÓLAR CON SANGRE (Reemplaza la moneda) */
-body.theme-dexter .coin-icon {
-    content: url('https://png.pngtree.com/png-clipart/20240128/original/pngtree-us-one-dollar-billclose-upblood-blood-photo-png-image_14171443.png');
-    width: 35px;
-    height: auto;
-}
-
-/* TÍTULO "DEXTER" SANGRIENTO */
-body.theme-dexter h1 {
-    font-family: 'Georgia', serif;
-    color: #ff0000;
-    text-shadow: 2px 2px 10px #000, 0 0 20px red;
-    letter-spacing: 15px;
-    font-weight: bold;
-}
-
-/* Forzar el nuevo cursor en todo */
-body.theme-dexter * {
-    cursor: url('https://i.redd.it/a-handy-little-custom-mouse-cursor-blood-bone-warning-v0-6tsqsxpb0p5c1.png?width=32&format=png&auto=webp&s=52028f0e4164d9cec03d164ce4b97d4b1afeda5c') 16 16, auto !important;
-}
-
-/* Transparencia para ver el fondo */
+/* Transparencias (Mantenlas igual) */
 body.theme-dexter #top-bar, 
-body.theme-dexter header {
+body.theme-dexter header,
+body.theme-dexter #profile-section,
+body.theme-dexter #search-container {
     background: transparent !important;
+    border-bottom: 1px solid rgba(255, 0, 0, 0.3);
+}
+
+/* Animación de juegos (Mantenla igual) */
+body.theme-dexter .game-card {
+    border: 12px solid transparent !important;
+    border-image: url('https://i.imgur.com/uTiEWm3.gif') 40 round;
+    background-clip: padding-box;
+    transition: all 0.3s ease;
+}
+
+body.theme-dexter .game-card:hover {
+    transform: scale(1.1) rotate(3deg);
+    filter: drop-shadow(0 0 15px red);
 }
 /* --- RESTO DEL CSS --- */
 #top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #000; font-size: 0.8rem; border-bottom: 1px solid #333; }
@@ -557,6 +551,7 @@ window.onload = () => {
 
 </body>
 </html>
+
 
 
 
