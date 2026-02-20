@@ -63,6 +63,65 @@ body.theme-teto .game-card:hover {
     border-color: #ff1a4d !important;
 }
 
+    /* --- TEMA TETO: ESTILO GLITCH & NEÓN --- */
+
+/* Texto del perfil y nombre */
+body.theme-teto #user-name, 
+body.theme-teto #user-status,
+body.theme-teto .profile-info p,
+body.theme-teto #time-display {
+    color: #ffffff !important;
+    text-shadow: 0 0 10px #ff1a4d, 0 0 20px #ff1a4d, 2px 2px 2px #000;
+    font-family: 'Courier New', Courier, monospace; /* Estilo retro-tech */
+    font-weight: bold;
+}
+
+/* Título principal con efecto de vibración */
+body.theme-teto h1 {
+    color: #ffffff !important;
+    text-shadow: 3px 3px 0px #ff1a4d, -3px -3px 0px #2b0005;
+    letter-spacing: 10px;
+    animation: tetoGlitch 3s infinite;
+}
+
+@keyframes tetoGlitch {
+    0% { transform: skew(0deg); }
+    1% { transform: skew(10deg); }
+    2% { transform: skew(-10deg); }
+    3% { transform: skew(0deg); }
+    100% { transform: skew(0deg); }
+}
+
+/* Buscador transparente y rosado */
+body.theme-teto #game-search {
+    background: rgba(43, 0, 5, 0.6) !important;
+    border: 2px solid #ff1a4d !important;
+    color: white !important;
+    box-shadow: 0 0 15px rgba(255, 26, 77, 0.4);
+}
+
+/* Tarjetas de juego estilo Teto */
+body.theme-teto .game-card {
+    background: rgba(60, 0, 10, 0.8) !important;
+    border: 1px solid #ff1a4d !important;
+    transition: 0.4s;
+}
+
+/* Animación de las cartas al pasar el cursor */
+body.theme-teto .game-card:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 0 20px #ff1a4d;
+    border-color: #ffffff !important;
+}
+
+/* Botones de la barra superior */
+body.theme-teto .top-btns div, 
+body.theme-teto .coin-display {
+    background: rgba(255, 26, 77, 0.2) !important;
+    border: 1px solid #ff1a4d !important;
+    color: #ffffff !important;
+}
+
 /* --- TEMA MIKU (Transparente + Animación) --- */
 body.theme-miku { 
     --accent: #39C5BB; --dark: #001a1a; --card: rgba(0, 40, 40, 0.7); 
@@ -695,6 +754,7 @@ document.addEventListener('mousemove', function(e) {
 
 </body>
 </html>
+
 
 
 
