@@ -134,6 +134,59 @@ body.theme-miku .game-card:hover {
     filter: brightness(1.1);
 }
 
+    /* --- TEMA MIKU: CYBER-VOCALOID --- */
+
+/* Texto del perfil: Blanco con aura Cian */
+body.theme-miku #user-name, 
+body.theme-miku #user-status,
+body.theme-miku .profile-info p,
+body.theme-miku #time-display {
+    color: #ffffff !important;
+    text-shadow: 0 0 10px #39C5BB, 0 0 20px rgba(57, 197, 187, 0.5);
+    font-family: 'Trebuchet MS', sans-serif;
+    font-weight: bold;
+}
+
+/* Título principal con brillo de neón */
+body.theme-miku h1 {
+    color: #39C5BB !important;
+    text-shadow: 0 0 15px #39C5BB, 0 0 30px rgba(255, 255, 255, 0.8);
+    letter-spacing: 12px;
+    font-weight: 900;
+}
+
+/* Buscador: Estilo cristal tecnológico */
+body.theme-miku #game-search {
+    background: rgba(0, 26, 26, 0.5) !important;
+    border: 1px solid #39C5BB !important;
+    backdrop-filter: blur(8px);
+    color: #ffffff !important;
+    box-shadow: inset 0 0 10px rgba(57, 197, 187, 0.3);
+}
+
+/* Tarjetas: Fondo azul profundo traslúcido */
+body.theme-miku .game-card {
+    background: rgba(0, 30, 30, 0.7) !important;
+    border: 1px solid rgba(57, 197, 187, 0.4) !important;
+    backdrop-filter: blur(4px);
+}
+
+/* Hover: El juego brilla intensamente */
+body.theme-miku .game-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    border-color: #ffffff !important;
+    box-shadow: 0 0 30px #39C5BB;
+}
+
+/* Botones superiores */
+body.theme-miku .ruleta-btn, 
+body.theme-miku .coin-display {
+    background: linear-gradient(135deg, #39C5BB, #008080) !important;
+    color: white !important;
+    border: none !important;
+    box-shadow: 0 0 10px rgba(57, 197, 187, 0.6);
+}
+
 /* --- TEMA GOJO (Transparente + Animación) --- */
 body.theme-gojo { 
     --accent: #b0c4de; --dark: #000000; --card: rgba(20, 20, 35, 0.8); 
@@ -754,6 +807,7 @@ document.addEventListener('mousemove', function(e) {
 
 </body>
 </html>
+
 
 
 
