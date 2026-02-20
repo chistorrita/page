@@ -40,7 +40,24 @@ body.theme-vip {
     background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
     border: 8px double gold;
     box-sizing: border-box;
-    min-height: 100vh;
+    min-height: 100vh; }
+    /* --- TEMAS NUEVOS (TETO, MIKU, GOJO) --- */
+body.theme-teto { 
+    --accent: #ff1a4d; --dark: #2b0005; --card: rgba(60, 0, 10, 0.85); 
+    background: url('https://media.tenor.com/v_InP_W_578AAAAd/kasane-teto-teto-territory.gif') no-repeat center center fixed; 
+    background-size: cover;
+}
+body.theme-miku { 
+    --accent: #39C5BB; --dark: #001a1a; --card: rgba(0, 40, 40, 0.85); 
+    background: url('https://i.makeagif.com/media/1-08-2017/BdyxmZ.gif') no-repeat center center fixed; 
+    background-size: cover;
+}
+body.theme-gojo { 
+    --accent: #b0c4de; --dark: #000000; --card: rgba(20, 20, 35, 0.9); 
+    background: url('https://www.gifcen.com/wp-content/uploads/2024/07/satoru-gojo-gif-2.gif') no-repeat center center fixed; 
+    background-size: cover;
+}
+body.theme-gojo h1 { color: #ffffff; text-shadow: 0 0 15px #7da9ff; }
 }
 body.theme-vip::before {
     content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -135,6 +152,9 @@ h1 { color: var(--accent); font-size: 1.8rem; letter-spacing: 5px; margin: 0; }
             <button onclick="buyTheme('infierno', 1000)" style="background:#330000; color:#f44; font-size:0.7rem;">Infierno (1k)</button>
             <button onclick="buyTheme('cielo', 1000)" style="background:#00ccff; color:white; font-size:0.7rem;">Cielo (1k)</button>
             <button onclick="buyTheme('vip', 5000)" style="background:gold; color:black; font-size:0.7rem; box-shadow:0 0 10px gold;">⭐ VIP (5k)</button>
+            <button onclick="buyTheme('teto', 10000)" style="background:#ff1a4d; color:white; font-size:0.7rem;">🥖 Teto (10k)</button>
+<button onclick="buyTheme('miku', 10000)" style="background:#39C5BB; color:white; font-size:0.7rem;">🎤 Miku (10k)</button>
+<button onclick="buyTheme('gojo', 10000)" style="background:#ffffff; color:#000; font-size:0.7rem; font-weight:bold;">🤞 Gojo (10k)</button>
         </div>
         <button onclick="setTheme('default')" style="background:#444; color:white; font-size:0.6rem; margin-top:5px;">Restablecer</button>
     </div>
@@ -477,3 +497,4 @@ window.onload = () => {
 
 </body>
 </html>
+
