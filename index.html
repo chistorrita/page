@@ -158,6 +158,20 @@ body.theme-dexter .game-card:hover {
     text-shadow: 2px 2px 5px #000;
     font-family: 'Courier New', Courier, monospace;
 }
+
+    .blood-trail {
+    position: absolute;
+    background: #8b0000;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99999;
+    animation: drip 1s ease-out forwards;
+}
+
+@keyframes drip {
+    0% { transform: translateY(0) scale(1); opacity: 0.8; }
+    100% { transform: translateY(20px) scale(0); opacity: 0; }
+}
 /* --- RESTO DEL CSS --- */
 #top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #000; font-size: 0.8rem; border-bottom: 1px solid #333; }
 #datetime { color: var(--accent); font-family: monospace; }
@@ -586,11 +600,33 @@ window.onload = () => {
     updateShopUI();
     render();
 };
+
+// --- EL RASTRO DE SANGRE VA AQUÍ ---
+document.addEventListener('mousemove', function(e) {
+    if (document.body.classList.contains('theme-dexter')) {
+        const drop = document.createElement('div');
+        drop.className = 'blood-trail';
+        
+        drop.style.left = e.pageX + 'px';
+        drop.style.top = e.pageY + 'px';
+        
+        const size = Math.random() * 8 + 2 + 'px';
+        drop.style.width = size;
+        drop.style.height = size;
+
+        document.body.appendChild(drop);
+
+        setTimeout(() => {
+            drop.remove();
+        }, 1000);
+    }
+});
+// --- FIN DEL RASTRO ---
+
 </script>
 
 </body>
 </html>
-
 
 
 
