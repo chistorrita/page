@@ -127,7 +127,12 @@ body.theme-dexter h1 {
 body.theme-dexter button, 
 body.theme-dexter .game-card, 
 body.theme-dexter a {
-    cursor: url('https://www.cursor.cc/cursor3d/36686.png'), pointer !important;
+    cursor: url('https://www.cursor.cc/cursor3d/36686.png') 16 16, auto !important;
+}
+
+/* Forzar el cursor en todos los elementos interactivos */
+body.theme-dexter * {
+    cursor: url('https://www.cursor.cc/cursor3d/36686.png') 16 16, auto !important;
 }
 body.theme-vip .game-card { border: 1px solid gold; box-shadow: 0 0 15px rgba(212, 175, 55, 0.2); }
 body.theme-vip .game-card:hover { transform: scale(1.05); box-shadow: 0 0 25px gold; }
@@ -555,6 +560,7 @@ window.onload = () => {
 
 </body>
 </html>
+
 
 
 
