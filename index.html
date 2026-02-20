@@ -73,6 +73,7 @@ body.theme-vip h1 {
     font-weight: 900; }
     /* --- TEMA DEXTER (SANGRIENTO) --- */
 /* --- TEMA DEXTER SANGRIENTO CON BORDE --- */
+/* --- TEMA DEXTER CLEAN (GOTEO SUPERIOR) --- */
 body.theme-dexter {
     --accent: #ff0000; 
     --dark: #000000; 
@@ -82,39 +83,45 @@ body.theme-dexter {
     min-height: 100vh;
 }
 
-/* MARCO DE SANGRE EN TODA LA PANTALLA */
+/* EL GOTEO DE SANGRE SUPERIOR */
 body.theme-dexter::before {
     content: "";
     position: fixed;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 9999; /* Por encima de todo */
-    pointer-events: none; /* Permite hacer clic a través de la sangre */
-    
-    /* Aplicamos tu imagen como borde */
-    border: 35px solid transparent;
-    border-image-source: url('https://png.pngtree.com/png-clipart/20220330/ourmid/pngtree-puffed-blood-border-png-image_4520043.png');
-    border-image-slice: 100; /* Ajusta qué tanto de la imagen se ve */
-    border-image-repeat: stretch;
-    
-    /* Un pequeño brillo rojo para que se fusione con el fondo */
-    filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.5));
+    width: 100%;
+    height: 150px; /* Ajusta la altura según qué tanto quieres que cuelgue */
+    z-index: 10002; /* Por encima de la barra de navegación */
+    pointer-events: none;
+    background: url('https://img1.picmix.com/output/stamp/normal/4/9/8/8/628894_5ce99.gif') repeat-x;
+    background-size: contain;
+    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.8));
 }
 
-/* Limpieza de barras para que el borde luzca */
-body.theme-dexter #top-bar, 
+/* Transparencia total en la parte superior para que luzca el fondo y el GIF */
+body.theme-dexter #top-bar {
+    background: rgba(0, 0, 0, 0.4) !important;
+    backdrop-filter: blur(5px);
+    border-bottom: 1px solid rgba(255, 0, 0, 0.2);
+}
+
 body.theme-dexter header {
-    background: rgba(0, 0, 0, 0.3) !important;
-    backdrop-filter: blur(2px);
-    border-bottom: 1px solid #ff0000;
+    background: transparent !important;
+    border: none !important;
 }
 
-/* Ajuste de las tarjetas para que combinen con la sangre */
+body.theme-dexter h1 {
+    color: #ff0000;
+    text-shadow: 0 0 20px black, 0 0 10px red;
+    font-weight: bold;
+    letter-spacing: 10px;
+}
+
+/* Estilo de tarjetas simple (sin bordes de imagen) */
 body.theme-dexter .game-card {
-    border: 2px solid #600;
-    box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+    border: 1px solid #400;
+    background: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
 }
 /* --- RESTO DEL CSS --- */
 #top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #000; font-size: 0.8rem; border-bottom: 1px solid #333; }
@@ -539,6 +546,7 @@ window.onload = () => {
 
 </body>
 </html>
+
 
 
 
