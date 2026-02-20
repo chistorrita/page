@@ -72,12 +72,12 @@ body.theme-vip h1 {
     font-size: 2.2rem;
     font-weight: 900; }
 /* --- TEMA DEXTER FINAL: REPARADO --- */
+/* --- TEMA DEXTER FINAL: REPARADO --- */
 body.theme-dexter {
     --accent: #ff0000; 
     --dark: #000000; 
     --card: rgba(0, 0, 0, 0.85);
     
-    /* He oscurecido más el linear-gradient (0.8) para tapar las líneas de la imagen */
     background: 
         linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), 
         url('https://c4.wallpaperflare.com/wallpaper/442/26/547/tv-show-dexter-blood-dexter-tv-show-wallpaper-preview.jpg') no-repeat center center fixed;
@@ -85,18 +85,43 @@ body.theme-dexter {
     cursor: url('https://www.cursor.cc/cursor3d/36686.png') 16 16, auto !important;
 }
 
-/* CAPA ANTI-LÍNEAS (Overlay) */
+/* 1. QUITAR LÍNEAS ROJAS DE LA CABECERA */
+body.theme-dexter #top-bar, 
+body.theme-dexter header,
+body.theme-dexter #profile-section,
+body.theme-dexter #search-container {
+    background: transparent !important;
+    border-bottom: none !important; /* Esto elimina las líneas rojas horizontales */
+    box-shadow: none !important;
+}
+
+/* 2. BOTÓN DE SUERTE EN ROJO */
+body.theme-dexter .ruleta-btn {
+    background: linear-gradient(45deg, #8b0000, #ff0000) !important;
+    color: white !important;
+    border: 1px solid #ff4444 !important;
+    box-shadow: 0 0 15px rgba(255, 0, 0, 0.6) !important;
+    text-shadow: 1px 1px 2px black;
+    animation: pulseRed 2s infinite !important; /* Animación de latido rojo */
+}
+
+@keyframes pulseRed {
+    0% { box-shadow: 0 0 5px #ff0000; }
+    50% { box-shadow: 0 0 20px #ff0000; }
+    100% { box-shadow: 0 0 5px #ff0000; }
+}
+
+/* CAPA ANTI-LÍNEAS (Fondo) */
 body.theme-dexter::after {
     content: "";
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    /* Creamos una "viñeta" que oscurece las zonas donde están las líneas */
     background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.8) 100%);
     z-index: -1; 
     pointer-events: none;
 }
 
-/* REPETIR EL RESTO DEL CÓDIGO IGUAL... */
+/* GIF DE SANGRE SUPERIOR */
 body.theme-dexter::before {
     content: "";
     position: fixed;
@@ -107,16 +132,7 @@ body.theme-dexter::before {
     background-size: contain;
 }
 
-/* Transparencias (Mantenlas igual) */
-body.theme-dexter #top-bar, 
-body.theme-dexter header,
-body.theme-dexter #profile-section,
-body.theme-dexter #search-container {
-    background: transparent !important;
-    border-bottom: 1px solid rgba(255, 0, 0, 0.3);
-}
-
-/* Animación de juegos (Mantenla igual) */
+/* ANIMACIÓN DE CARTAS */
 body.theme-dexter .game-card {
     border: 12px solid transparent !important;
     border-image: url('https://i.imgur.com/uTiEWm3.gif') 40 round;
@@ -551,6 +567,7 @@ window.onload = () => {
 
 </body>
 </html>
+
 
 
 
