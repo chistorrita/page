@@ -122,6 +122,14 @@ body.theme-teto .coin-display {
     color: #ffffff !important;
 }
 
+    body.theme-teto { 
+    --accent: #ff1a4d; --dark: #2b0005; --card: rgba(60, 0, 10, 0.7); 
+    /* Capa negra al 50% de opacidad para resaltar el rojo */
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                url('https://64.media.tumblr.com/e4c561e47945b89aa722329abbb2f556/71b9fe4ebf6fdeee-52/s1280x1920/8f1faa15e226777af44b24397e2e3820a20ad92c.gifv') no-repeat center center fixed; 
+    background-size: cover;
+}
+
 /* --- TEMA MIKU (Transparente + Animación) --- */
 body.theme-miku { 
     --accent: #39C5BB; --dark: #001a1a; --card: rgba(0, 40, 40, 0.7); 
@@ -187,6 +195,29 @@ body.theme-miku .coin-display {
     box-shadow: 0 0 10px rgba(57, 197, 187, 0.6);
 }
 
+    /* --- TEMA MIKU OSCURECIDO (MODO NOCHE) --- */
+body.theme-miku { 
+    --accent: #39C5BB; --dark: #001a1a; --card: rgba(0, 40, 40, 0.75); 
+    /* Añadimos un degradado lineal antes de la URL para oscurecer el GIF */
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                url('https://i.makeagif.com/media/1-08-2017/BdyxmZ.gif') no-repeat center center fixed; 
+    background-size: cover;
+}
+
+/* Mejoramos el brillo de los textos para que contrasten con el fondo oscuro */
+body.theme-miku #user-name, 
+body.theme-miku #time-display {
+    color: #ffffff !important;
+    text-shadow: 0 0 15px #39C5BB, 0 0 5px #000;
+}
+
+/* El título principal ahora brillará como un monitor real */
+body.theme-miku h1 {
+    color: #39C5BB !important;
+    text-shadow: 0 0 20px #39C5BB, 0 0 40px rgba(57, 197, 187, 0.4);
+    filter: brightness(1.5);
+}
+
 /* --- TEMA GOJO (Transparente + Animación) --- */
 body.theme-gojo { 
     --accent: #b0c4de; --dark: #000000; --card: rgba(20, 20, 35, 0.8); 
@@ -208,6 +239,14 @@ body.theme-gojo #time-display {
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 1), 0 0 10px #7da9ff;
     font-family: 'Segoe UI', sans-serif;
     letter-spacing: 1px;
+}
+
+    body.theme-gojo { 
+    --accent: #b0c4de; --dark: #000000; --card: rgba(20, 20, 35, 0.8); 
+    /* Capa negra un poco más fuerte (60%) para un look más serio */
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                url('https://www.gifcen.com/wp-content/uploads/2024/07/satoru-gojo-gif-2.gif') no-repeat center center fixed; 
+    background-size: cover;
 }
 
 /* El título principal en un azul eléctrico que resalte */
@@ -807,6 +846,7 @@ document.addEventListener('mousemove', function(e) {
 
 </body>
 </html>
+
 
 
 
