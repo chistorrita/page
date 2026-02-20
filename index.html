@@ -152,6 +152,20 @@ body.theme-dexter .game-card:hover {
     font-weight: bold;
     text-transform: uppercase;
 }
+
+    body.theme-dexter #search-container, 
+body.theme-dexter #profile-section {
+    backdrop-filter: blur(10px); /* Desenfoque de fondo */
+    background: rgba(20, 0, 0, 0.4) !important; /* Rojo muy oscuro traslúcido */
+    border-radius: 15px;
+    margin: 10px 20px;
+}
+
+    body.theme-dexter #user-name {
+    color: #ff0000 !important;
+    text-shadow: 2px 2px 5px #000;
+    font-family: 'Courier New', Courier, monospace;
+}
 /* --- RESTO DEL CSS --- */
 #top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #000; font-size: 0.8rem; border-bottom: 1px solid #333; }
 #datetime { color: var(--accent); font-family: monospace; }
@@ -584,6 +598,7 @@ window.onload = () => {
 
 </body>
 </html>
+
 
 
 
