@@ -71,37 +71,24 @@ body.theme-vip h1 {
     filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
     font-size: 2.2rem;
     font-weight: 900; }
-/* --- TEMA DEXTER: OSCURO, SANGRIENTO E INTERACTIVO --- */
-/* --- TEMA DEXTER FINAL: SIN LÍNEAS, OSCURO E INTERACTIVO --- */
-/* --- TEMA DEXTER FINAL: REPARADO --- */
+/* --- TEMA DEXTER: EDICIÓN COLECCIONISTA --- */
 body.theme-dexter {
     --accent: #ff0000; 
     --dark: #000000; 
     --card: rgba(0, 0, 0, 0.85);
-    
-    /* He oscurecido más el linear-gradient (0.8) para tapar las líneas de la imagen */
     background: 
-        linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.8)), 
+        linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
         url('https://c4.wallpaperflare.com/wallpaper/442/26/547/tv-show-dexter-blood-dexter-tv-show-wallpaper-preview.jpg') no-repeat center center fixed;
     background-size: cover;
-    cursor: url('https://www.cursor.cc/cursor3d/36686.png') 16 16, auto !important;
+    
+    /* NUEVO CURSOR (Hueso y Sangre) */
+    cursor: url('https://i.redd.it/a-handy-little-custom-mouse-cursor-blood-bone-warning-v0-6tsqsxpb0p5c1.png?width=32&format=png&auto=webp&s=52028f0e4164d9cec03d164ce4b97d4b1afeda5c') 16 16, auto !important;
 }
 
-/* CAPA ANTI-LÍNEAS (Overlay) */
-body.theme-dexter::after {
-    content: "";
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    /* Creamos una "viñeta" que oscurece las zonas donde están las líneas */
-    background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.8) 100%);
-    z-index: -1; 
-    pointer-events: none;
-}
-
-/* REPETIR EL RESTO DEL CÓDIGO IGUAL... */
+/* 1. GIF SUPERIOR (Se queda arriba al bajar) */
 body.theme-dexter::before {
     content: "";
-    position: fixed;
+    position: absolute; /* Cambiado de fixed a absolute */
     top: 0; left: 0; width: 100%; height: 120px;
     z-index: 10002;
     pointer-events: none;
@@ -109,26 +96,52 @@ body.theme-dexter::before {
     background-size: contain;
 }
 
-/* Transparencias (Mantenlas igual) */
+/* 2. BOTÓN DE SUERTE ROJO */
+body.theme-dexter .luck-btn, 
+body.theme-dexter button[onclick*="suerte"] {
+    background: linear-gradient(#ff0000, #600) !important;
+    color: white !important;
+    border: 2px solid #fff;
+    box-shadow: 0 0 15px #ff0000;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+/* 3. BILLETE ENSANGRENTADO (En lugar de moneda) */
+body.theme-dexter .coin-icon, 
+body.theme-dexter .money-display::before {
+    content: "";
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+    background: url('https://png.pngtree.com/png-clipart/20240128/original/pngtree-us-one-dollar-billclose-upblood-blood-photo-png-image_14171443.png') no-repeat center;
+    background-size: contain;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+/* 4. TÍTULO DEXTER SANGRIENTO */
+body.theme-dexter h1 {
+    font-family: 'Georgia', serif;
+    color: #ff0000;
+    text-shadow: 3px 3px 0px #000, 0 0 20px rgba(255, 0, 0, 0.8);
+    font-size: 4rem;
+    letter-spacing: 20px;
+    text-transform: uppercase;
+    /* Efecto goteo simulado en texto */
+    filter: drop-shadow(2px 4px 2px #300);
+}
+
+/* Forzar cursor en todo */
+body.theme-dexter * {
+    cursor: url('https://i.redd.it/a-handy-little-custom-mouse-cursor-blood-bone-warning-v0-6tsqsxpb0p5c1.png?width=32&format=png&auto=webp&s=52028f0e4164d9cec03d164ce4b97d4b1afeda5c') 16 16, auto !important;
+}
+
+/* Quitar el gris de las barras */
 body.theme-dexter #top-bar, 
-body.theme-dexter header,
-body.theme-dexter #profile-section,
-body.theme-dexter #search-container {
+body.theme-dexter header {
     background: transparent !important;
-    border-bottom: 1px solid rgba(255, 0, 0, 0.3);
-}
-
-/* Animación de juegos (Mantenla igual) */
-body.theme-dexter .game-card {
-    border: 12px solid transparent !important;
-    border-image: url('https://png.pngtree.com/png-clipart/20211017/original/pngtree-liquid-blood-halloween-frame-png-image_6851602.png') 40 round;
-    background-clip: padding-box;
-    transition: all 0.3s ease;
-}
-
-body.theme-dexter .game-card:hover {
-    transform: scale(1.1) rotate(3deg);
-    filter: drop-shadow(0 0 15px red);
+    border: none !important;
 }
 /* --- RESTO DEL CSS --- */
 #top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #000; font-size: 0.8rem; border-bottom: 1px solid #333; }
@@ -553,6 +566,7 @@ window.onload = () => {
 
 </body>
 </html>
+
 
 
 
