@@ -72,23 +72,27 @@ body.theme-vip h1 {
     font-size: 2.2rem;
     font-weight: 900; }
 /* --- TEMA DEXTER: EDICIÓN COLECCIONISTA --- */
+/* --- TEMA DEXTER SOLICITADO --- */
 body.theme-dexter {
     --accent: #ff0000; 
     --dark: #000000; 
-    --card: rgba(0, 0, 0, 0.85);
+    --card: rgba(0, 0, 0, 0.8);
+    --text: #ffffff;
+    
+    /* Fondo con capa negra (0.7) para que no se vea tan blanco */
     background: 
         linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
         url('https://c4.wallpaperflare.com/wallpaper/442/26/547/tv-show-dexter-blood-dexter-tv-show-wallpaper-preview.jpg') no-repeat center center fixed;
     background-size: cover;
-    
-    /* NUEVO CURSOR (Hueso y Sangre) */
+
+    /* CURSOR DE HUESO Y SANGRE */
     cursor: url('https://i.redd.it/a-handy-little-custom-mouse-cursor-blood-bone-warning-v0-6tsqsxpb0p5c1.png?width=32&format=png&auto=webp&s=52028f0e4164d9cec03d164ce4b97d4b1afeda5c') 16 16, auto !important;
 }
 
-/* 1. GIF SUPERIOR (Se queda arriba al bajar) */
+/* GIF DE SANGRE SOLO ARRIBA (Desaparece al bajar) */
 body.theme-dexter::before {
     content: "";
-    position: absolute; /* Cambiado de fixed a absolute */
+    position: absolute; /* Se queda al inicio de la página */
     top: 0; left: 0; width: 100%; height: 120px;
     z-index: 10002;
     pointer-events: none;
@@ -96,52 +100,39 @@ body.theme-dexter::before {
     background-size: contain;
 }
 
-/* 2. BOTÓN DE SUERTE ROJO */
-body.theme-dexter .luck-btn, 
-body.theme-dexter button[onclick*="suerte"] {
-    background: linear-gradient(#ff0000, #600) !important;
-    color: white !important;
-    border: 2px solid #fff;
-    box-shadow: 0 0 15px #ff0000;
-    text-transform: uppercase;
-    font-weight: bold;
+/* BOTÓN DE SUERTE ROJO */
+body.theme-dexter button#lucky-button, 
+body.theme-dexter .luck-btn { 
+    background: #ff0000 !important; 
+    color: white !important; 
+    box-shadow: 0 0 10px #ff0000;
 }
 
-/* 3. BILLETE ENSANGRENTADO (En lugar de moneda) */
-body.theme-dexter .coin-icon, 
-body.theme-dexter .money-display::before {
-    content: "";
-    display: inline-block;
-    width: 40px;
-    height: 20px;
-    background: url('https://png.pngtree.com/png-clipart/20240128/original/pngtree-us-one-dollar-billclose-upblood-blood-photo-png-image_14171443.png') no-repeat center;
-    background-size: contain;
-    vertical-align: middle;
-    margin-right: 5px;
+/* BILLETE DE UN DÓLAR CON SANGRE (Reemplaza la moneda) */
+body.theme-dexter .coin-icon {
+    content: url('https://png.pngtree.com/png-clipart/20240128/original/pngtree-us-one-dollar-billclose-upblood-blood-photo-png-image_14171443.png');
+    width: 35px;
+    height: auto;
 }
 
-/* 4. TÍTULO DEXTER SANGRIENTO */
+/* TÍTULO "DEXTER" SANGRIENTO */
 body.theme-dexter h1 {
     font-family: 'Georgia', serif;
     color: #ff0000;
-    text-shadow: 3px 3px 0px #000, 0 0 20px rgba(255, 0, 0, 0.8);
-    font-size: 4rem;
-    letter-spacing: 20px;
-    text-transform: uppercase;
-    /* Efecto goteo simulado en texto */
-    filter: drop-shadow(2px 4px 2px #300);
+    text-shadow: 2px 2px 10px #000, 0 0 20px red;
+    letter-spacing: 15px;
+    font-weight: bold;
 }
 
-/* Forzar cursor en todo */
+/* Forzar el nuevo cursor en todo */
 body.theme-dexter * {
     cursor: url('https://i.redd.it/a-handy-little-custom-mouse-cursor-blood-bone-warning-v0-6tsqsxpb0p5c1.png?width=32&format=png&auto=webp&s=52028f0e4164d9cec03d164ce4b97d4b1afeda5c') 16 16, auto !important;
 }
 
-/* Quitar el gris de las barras */
+/* Transparencia para ver el fondo */
 body.theme-dexter #top-bar, 
 body.theme-dexter header {
     background: transparent !important;
-    border: none !important;
 }
 /* --- RESTO DEL CSS --- */
 #top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #000; font-size: 0.8rem; border-bottom: 1px solid #333; }
@@ -566,6 +557,7 @@ window.onload = () => {
 
 </body>
 </html>
+
 
 
 
