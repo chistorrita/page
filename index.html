@@ -78,7 +78,12 @@ body.theme-dexter {
     --card: rgba(0, 0, 0, 0.6);
     background: url('https://wallpapercave.com/wp/wp15598502.png') no-repeat center center fixed;
     background-size: cover;
-    cursor: url('https://www.cursor.cc/cursor3d/36686.png'), auto; /* Cursor de Cuchillo */
+    cursor: url('https://www.cursor.cc/cursor3d/36686.png') 16 16, auto !important;
+}
+
+/* Forzar el cursor en todos los elementos interactivos */
+body.theme-dexter * {
+    cursor: url('https://www.cursor.cc/cursor3d/36686.png') 16 16, auto !important;
 }
 
 /* Borde de sangre en toda la página */
@@ -560,6 +565,7 @@ window.onload = () => {
 
 </body>
 </html>
+
 
 
 
